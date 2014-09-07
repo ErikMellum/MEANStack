@@ -1,4 +1,4 @@
-# ### Welcome to Mean API. ### #
+# Welcome to Mean API.#
 
 ## Getting Started on Linux - A list of commands used to create project: ##
 curl -sL https://deb.nodesource.com/setup | sudo bash -
@@ -24,8 +24,7 @@ request is http://localhost:3000/api/sandwiches.
   tabs instead of spaces
   avoid typing lines longer than 80 characters
 
-### I have a set of user preferences for sublime text that really aid development if 
-anyone is interested they are below: ###
+### I have a set of user preferences for sublime text that really aid development if anyone is interested they are below: ###
 {
   "draw_white_space": "all",
   "font_size": 9,
