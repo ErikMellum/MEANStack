@@ -1,5 +1,5 @@
 # Welcome to Mean API.#
-
+The one stop shop for recipes and ingredients before you compose your edible art.
 ## Getting Started on Linux - A list of commands used to create project: ##
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 sudo apt-get install nodejs  //Installs Nodejs
