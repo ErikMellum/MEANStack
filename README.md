@@ -1,13 +1,13 @@
 # Welcome to Mean API.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 ## Getting Started on Linux - A list of commands used to create project: ##
-curl -sL https://deb.nodesource.com/setup | sudo bash -
-sudo apt-get install nodejs  //Installs Nodejs
-sudo apt-get install npm //Install Node Package Manager
-sudo npm install -g express express-generator mongoose
-express -e mean_api
-cd mean_api && sudo npm_install
-sudo npm install --save mongoose passport
+* curl -sL https://deb.nodesource.com/setup | sudo bash -
+* sudo apt-get install nodejs  //Installs Nodejs
+* sudo apt-get install npm //Install Node Package Manager
+* sudo npm install -g express express-generator mongoose
+* express -e mean_api
+* cd mean_api && sudo npm_install
+* sudo npm install --save mongoose passport
 **Setup Complete.**
 
 ## Important Information: ##
@@ -20,9 +20,9 @@ a **sample schema object** I created and defined named sandwich. The url for thi
 request is http://localhost:3000/api/sandwiches.
 
 ## Syntax and style rules: ##
-  2 spaces for tabs
-  tabs instead of spaces
-  avoid typing lines longer than 80 characters
+* 2 spaces for tabs
+*   tabs instead of spaces
+*   avoid typing lines longer than 80 characters
 
 ## Sample Sublime Text Preferences: ##
 {
