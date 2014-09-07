@@ -30,7 +30,7 @@ request is http://localhost:3000/api/sandwiches.
 
 ## Syntax and style rules: ##
 * 2 spaces for tabs
-*   tabs instead of spaces
+*   spaces instead of tabs
 *   avoid typing lines longer than 80 characters
 
 ## Sample Sublime Text Preferences: ##
