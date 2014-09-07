@@ -2,20 +2,20 @@
 The one stop shop for recipes and ingredients before you compose your edible art.
 
 ## Getting Started: ##
-Clone the repo
+**Clone the repo**
 ```
 #!bash
 git init
 git clone https://ErikMellum@bitbucket.org/meanapi/mean-api.git
 ```
-Install the plugins
+**Install the plugins**
 ```
 #!bash
 cd mean_api
 sudo npm install
 ```
 
-To run the server use 
+**To run the server**
 ```
 #!bash
 
