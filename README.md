@@ -1,13 +1,19 @@
 # Welcome to Mean API.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 ## Getting Started on Linux - A list of commands used to create project: ##
-* curl -sL https://deb.nodesource.com/setup | sudo bash -
-* sudo apt-get install nodejs  //Installs Nodejs
-* sudo apt-get install npm //Install Node Package Manager
-* sudo npm install -g express express-generator mongoose
-* express -e mean_api
-* cd mean_api && sudo npm_install
-* sudo npm install --save mongoose passport
+
+```
+#!bash
+
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get install nodejs  //Installs Nodejs
+sudo apt-get install npm //Install Node Package Manager
+sudo npm install -g express express-generator mongoose
+express -e mean_api
+cd mean_api && sudo npm_install
+sudo npm install --save mongoose passport
+```
+
 **Setup Complete.**
 
 ## Important Information: ##
