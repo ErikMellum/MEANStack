@@ -38,6 +38,6 @@ request is http://localhost:3000/api/sandwiches.
 
 
 ## Developers: ##
-Jayd Saucedo
-Cameron Brownfield
-Erik Mellum
+* Jayd Saucedo
+* Cameron Brownfield
+* Erik Mellum
