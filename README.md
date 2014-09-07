@@ -1,24 +1,21 @@
 # Welcome to Mean API.#
 The one stop shop for recipes and ingredients before you compose your edible art.
-## Getting Started on Linux - A list of commands used to create project: ##
 
+## Getting Started: ##
+After you clone the repo run 
 ```
 #!bash
 
-curl -sL https://deb.nodesource.com/setup | sudo bash -
-sudo apt-get install nodejs  //Installs Nodejs
-sudo apt-get install npm //Install Node Package Manager
-sudo npm install -g express express-generator mongoose
-express -e mean_api
-cd mean_api && sudo npm_install
-sudo npm install --save mongoose passport
+sudo npm install
 ```
 
-**Setup Complete.**
+To run the server use 
+```
+#!bash
 
-## Important Information: ##
-After you clone the repo run sudo npm install
-To run the server use DEBUG=mean_api ./bin/www
+DEBUG=mean_api ./bin/www
+```
+
 To test api calls you can use Postman. Install the plugin for your browser
 and test by launching the server. Postman's plugin has an address input and 
 an http request type. I provided a **sample api call** that is built in to return
@@ -42,6 +39,21 @@ request is http://localhost:3000/api/sandwiches.
   "translate_tabs_to_spaces": true
 }
 
+## A list of commands used to create the project: ##
+
+```
+#!bash
+
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get install nodejs  //Installs Nodejs
+sudo apt-get install npm //Install Node Package Manager
+sudo npm install -g express express-generator mongoose
+express -e mean_api
+cd mean_api && sudo npm_install
+sudo npm install --save mongoose passport
+```
+
+**Setup Complete.**
 
 ## Developers: ##
 * Jayd Saucedo
