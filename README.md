@@ -61,6 +61,12 @@ sudo npm install --save mongoose passport
 
 **Setup Complete.**
 
+## Database Info: ##
+### MONGO URI ###
+mongodb://sandwich:composer@proximus.modulusmongo.net:27017/orab7aDi
+### MONGO CONSOLE ###
+mongo proximus.modulusmongo.net:27017/orab7aDi -u sandwich -p composer
+
 ## Developers: ##
 * Jayd Saucedo
 * Cameron Brownfield
