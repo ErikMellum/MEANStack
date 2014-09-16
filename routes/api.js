@@ -46,10 +46,10 @@ router.post('/sandwiches', function(req, res){
 });
 
 router.get('/composition/:id', function(req, res, next) {
-  console.log(req.params.id)
-  Composition.findById(req.params.id).populate('IngredientChildren').exec(function(err, composition){
+  Composition.findById(req.params.id).exec(function(err, composition){
+
     if(err){ return next(err); }
-    AbstractIngredient.populate(composition.IngredientChildren, {path: 'AbstractIngredient'}, function(err, abstractIngredient){
+    AbstractIngredient.populate(composition.IngredientChildren, {path: 'AbstractIngredient'}, function(err, abst){
       if(err){ return next(err);}
       res.json(composition);
       // Composition.populate(composition.IngredientChildren, {path: 'AbstractIngredient.CompositionChildren'}, function(err, compositionChildren){
@@ -76,7 +76,7 @@ router.post('/composition', function(req, res, next) {
   pizzaDough.name = "Pizza Dough";
   pizzaDough.CompositionParents.push(pizza);
 
-  var pizzaDoughIngredient = new Ingredient();
+  var pizzaDoughIngredient = {};
   pizzaDoughIngredient.AbstractIngredient = pizzaDough;
   pizzaDoughIngredient.quantity = 1;
   pizzaDoughIngredient.units = "lb"
@@ -86,7 +86,7 @@ router.post('/composition', function(req, res, next) {
   pizzaSauce.name = "Pizza Sauce";
   pizzaSauce.CompositionParents.push(pizza);
 
-  var pizzaSauceIngredient = new Ingredient();
+  var pizzaSauceIngredient = {};
   pizzaSauceIngredient.AbstractIngredient = pizzaSauce;
   pizzaSauceIngredient.quantity = 16;
   pizzaSauceIngredient.units = "fl oz"
@@ -103,7 +103,7 @@ router.post('/composition', function(req, res, next) {
   vinegar.name = "Vinegar"
   vinegar.CompositionParents.push(jackCheese);
 
-  var vinegarIngredient = new Ingredient();
+  var vinegarIngredient = {};
   vinegarIngredient.PrimitiveIngredient = vinegar;
   vinegarIngredient.quantity = 16;
   vinegarIngredient.units = "fl oz";
@@ -112,7 +112,7 @@ router.post('/composition', function(req, res, next) {
   var milk = new PrimitiveIngredient();
   milk.name = "Milk"
 
-  var milkIngredient = new Ingredient();
+  var milkIngredient = {};
   milkIngredient.PrimitiveIngredient = milk;
   milkIngredient.quantity = 16;
   milkIngredient.units = "fl oz";
@@ -122,7 +122,7 @@ router.post('/composition', function(req, res, next) {
   jackCheese.AbstractIngredientParents.push(cheese);
   cheese.CompositionChildren.push(jackCheese);
 
-  var cheeseIngredient = new Ingredient();
+  var cheeseIngredient = {};
   cheeseIngredient.AbstractIngredient = cheese;
   cheeseIngredient.quantity = 0.5;
   cheeseIngredient.units = "lb"
@@ -130,16 +130,11 @@ router.post('/composition', function(req, res, next) {
 
 
   cheese.save();
-  cheeseIngredient.save();
   pizzaDough.save();
-  pizzaDoughIngredient.save();
   pizzaSauce.save();
-  pizzaSauceIngredient.save()
   jackCheese.save();
   vinegar.save();
-  vinegarIngredient.save();
   milk.save();
-  milkIngredient.save();
   pizza.save(function(err, pizza){
     res.json(pizza);
   });

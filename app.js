@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-mongoose.connect('mongodb://sandwich:composer@proximus.modulusmongo.net:27017/orab7aDi'); 
+mongoose.connect('mongodb://sandwich:delicious@ds035290.mongolab.com:35290/sandwich'); 
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
