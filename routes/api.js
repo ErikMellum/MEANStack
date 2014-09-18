@@ -2,71 +2,40 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var Sandwich = require('../models/sandwich');
 
+//require our models
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
-require('../models/Ingredient');
 
+// define our objects
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
-var Ingredient = mongoose.model('Ingredient');
 
 router.use(function(req, res, next) {
   console.log('API Request is happening.');
   next(); // make sure we go to the next routes and don't stop here
 });
 
-router.get('/sandwiches', function(req, res){
-    Sandwich.find(function(err, sandwiches) {
-      if (err)
-        res.send(err);
-
-      res.json(sandwiches);
-    });
-})
-
-router.post('/sandwiches', function(req, res){
-  var sandwich = new Sandwich();
-  sandwich.name = "sandwich";
-
-  sandwich.save(function(err) {
-    if (err)
-      res.send(err);
-
-    Sandwich.find(function(err, sandwiches) {
-      if (err)
-        res.send(err);
-
-      res.json(sandwiches);
-    });
-  });
-});
-
+//this route is for a specific composition. Thus an ID is provided
 router.get('/composition/:id', function(req, res, next) {
+  // use the Composition object (defined above) to look for our object by ID
   Composition.findById(req.params.id).exec(function(err, composition){
-
     if(err){ return next(err); }
+    // populate the "AbstractIngredient" field in our "IngredientChildren" field in our composition
+    // this shit is complicated and I'm not really sure I understand it.
     AbstractIngredient.populate(composition.IngredientChildren, {path: 'AbstractIngredient'}, function(err, abst){
       if(err){ return next(err);}
       res.json(composition);
-      // Composition.populate(composition.IngredientChildren, {path: 'AbstractIngredient.CompositionChildren'}, function(err, compositionChildren){
-      //   if(err){ return next(err);}
-      //   Ingredient.populate(composition.IngredientChildren, {path: 'AbstractIngredient.CompositionChildren.IngredientChildren'}, function(err, ingredients){
-      //     //console.log(composition);
-      //     //console.log(compositionChildren);
-      //     //composition.IngredientChildren = AbstractIngredient;
-          
-      //   });
-      // });
     });
     
   });
 });
 
-router.post('/composition', function(req, res, next) {
+//this route is just for testing purposes, it sets up a simple "pizza" recipe for testing
+router.post('/composition/omgwtfbbq', function(req, res, next) {
+  
   // This is just to put some data in the database, obviously this will have to be removed
   // Also this should only be ran once so we don't muck up our database
   var pizza = new Composition()
@@ -128,7 +97,7 @@ router.post('/composition', function(req, res, next) {
   cheeseIngredient.units = "lb"
   pizza.IngredientChildren.push(cheeseIngredient);
 
-
+  // omg wtf bbq not asynchronous but whatevs
   cheese.save();
   pizzaDough.save();
   pizzaSauce.save();

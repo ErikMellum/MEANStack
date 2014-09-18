@@ -6,4 +6,5 @@ var PrimitiveIngredientSchema = new mongoose.Schema({
 	CompositionParents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}]
 });
 
+// save this as a model so we can access it
 mongoose.model('PrimitiveIngredient', PrimitiveIngredientSchema);
