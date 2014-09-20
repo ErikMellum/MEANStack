@@ -17,8 +17,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
-mongoose.connect('mongodb://sandwich:delicious@ds035290.mongolab.com:35290/sandwich'); 
+//NOTICE: MUST CHANGE FOLLOWING LINE TO CONNECT TO A DIFFERENT DB
+mongoose.connect('mongodb://cbrownfield:1password@ds037990.mongolab.com:37990/test2'); 
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

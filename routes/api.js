@@ -7,11 +7,17 @@ var mongoose = require('mongoose');
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
+require('../models/User');
+require('../models/Review');
+require('../models/Unit');
 
 // define our objects
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
+var User = mongoose.model('User');
+var Review = mongoose.model('Review');
+var Unit = mongoose.model('Unit');
 
 router.use(function(req, res, next) {
   console.log('API Request is happening.');
