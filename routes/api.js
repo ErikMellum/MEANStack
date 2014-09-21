@@ -81,10 +81,11 @@ router.get(/^\/composition\/ingredients\/(.*)/, function(req, res, next) {
 router.get('/composition/:id', function(req, res, next) {
   // use the Composition object (defined above) to look for our object by ID
   Composition.findById(req.params.id).exec(function(err, composition){
-    if(err){ return next(err); }
+    // catch the null before it causes a null exception on the next line
+    if(composition == null || err){ return next(err); }
     // populate the "AbstractIngredient" field in our "IngredientChildren" field in our composition
     // this shit is complicated and I'm not really sure I understand it.
-    AbstractIngredient.populate(composition.IngredientChildren, {path: 'AbstractIngredient'}, function(err, abst){
+    AbstractIngredient.populate(composition.recipe, {path: 'AbstractIngredient'}, function(err, abst){
       if(err){ return next(err);}
       res.json(composition);
     });
