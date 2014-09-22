@@ -8,7 +8,7 @@ Learn about [Mean Stack Testing](/TESTING.md)
 Learn about the [Mean Api Backend](/BACKEND.md)
 
 ## Agile && Project Burndown ##
-https://docs.google.com/spreadsheets/d/1FxShAYUSjWYVNQfSO7JeopXbgj_I-71U2tNQfEKZpeE/edit?usp=sharing
+[Agile, Project Burndown, and Project Backlog](https://docs.google.com/spreadsheets/d/1FxShAYUSjWYVNQfSO7JeopXbgj_I-71U2tNQfEKZpeE/edit?usp=sharing)
 
 ## Resources Folder ##
-https://drive.google.com/folderview?id=0B4SIxe1-sxvsS1ZXdURFa3FPWTQ&usp=sharing
+[Shared Folder](https://drive.google.com/folderview?id=0B4SIxe1-sxvsS1ZXdURFa3FPWTQ&usp=sharing)
