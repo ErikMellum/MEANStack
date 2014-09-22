@@ -170,5 +170,30 @@ router.post('/composition/omgwtfbbq', function(req, res, next) {
 
 });
 
+router.post('/composition/new', function(req, res) {
+  
+  var composition = new Composition();
+  composition.name = req.body.name;
+  composition.save(function(err, composition){
+    if (err)
+      res.send(err);
+    console.log("NEWNAME: " + req.body.name);
+    res.json(composition);
+  });
+
+
+
+});
+
+router.get('/compositions', function(req,res) {
+  Composition.find(function(err, compositions) {
+    if (err)
+      res.send(err);
+
+    res.json(compositions);
+  });
+
+});
+
 
 module.exports = router;
