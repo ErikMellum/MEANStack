@@ -1,28 +1,27 @@
-# Welcome to Mean API.#
+# Welcome to Mean Stack.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 
+## Testing: ##
+Learn how to conduct [testing](/TESTING.md)
 
+
+# Mean API.#
 ## Getting Started: ##
 **Clone the repo**
 ```
-#!bash
 git init
 git clone https://ErikMellum@bitbucket.org/meanapi/mean-api.git
 ```
 **Install the plugins**
 ```
-#!bash
 cd mean_api
 sudo npm install
 ```
 
 **To run the server**
 ```
-#!bash
-
 DEBUG=mean_api ./bin/www
 ```
-
 To test api calls you can use Postman. Install the plugin for your browser
 and test by launching the server. Postman's plugin has an address input and 
 an http request type. I provided a **sample api call** that is built in to return
@@ -49,12 +48,10 @@ request is http://localhost:3000/api/sandwiches.
 ## A list of commands used to create the project: ##
 
 ```
-#!bash
-
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 sudo apt-get install nodejs  //Installs Nodejs
 sudo apt-get install npm //Install Node Package Manager
-sudo npm install -g express express-generator mongoose
+sudo npm install -g express express-generator mongoose socket.io socket.io-client cookgie-signature bytes send
 express -e mean_api
 cd mean_api && sudo npm_install
 sudo npm install --save mongoose passport
