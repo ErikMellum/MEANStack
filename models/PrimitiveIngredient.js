@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 
 var PrimitiveIngredientSchema = new mongoose.Schema({
         //_id: { type:Number, min:100000000, max:199999999 },
-	name: { type:String, unique:true },
+    name: { type:String, unique:true },
     AbstractIngredientSchema_id: { type:mongoose.Schema.Types.ObjectId, ref:'AbstractIngredient'},
+    brand: { type:String, unique:true},
     instanceValue: { type:Number, default: 0}
 });
 
