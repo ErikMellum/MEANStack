@@ -17,7 +17,7 @@
 -->
 <!-- Plain HTML page that kicks us into the app -->
 
-<html ng-app="app">
+<html ng-app="myApp">
 <head>
 	<meta charset="UTF-8"> 
 	<!-- IMPORTS -->
@@ -33,22 +33,23 @@
 			<script src="https://code.angularjs.org/1.2.24/angular-animate.min.js"></script>
 			
 			<!-- Controllers -->
-			<script src="angular/controllers/mainController.js"></script>
-			<script src="angular/controllers/aboutController.js"></script>
-			<script src="angular/controllers/recipeController.js"></script>		
+			<!-- // <script src="angular/controllers/mainController.js"></script> -->
+			<!-- // <script src="angular/controllers/aboutController.js"></script> -->
+			<!-- // <script src="angular/controllers/recipeController.js"></script>	 -->
+			<script src="angular/controllers/controllers.js"></script>	
 			
 			<!-- Routing -->
+			<!-- // <script src="angular/routing/router.js"></script> -->
 			<script src="angular/routing/router.js"></script>
 			
 			<!-- Custom CSS -->
 			<link href="styles/main.css" rel="stylesheet">
 
 			<!-- jQuery -->
-			<script src="angular/js/recipe.js"></script>	
 
 	
 </head>
-	<body ng-controller="mainController as main">
+	<body>
 		<div style=" height: 100%; margin: 10 10 10 10;">
 			<div style="height:250px;" class="banner">
 					<!-- IMAGE BANNER -->		
