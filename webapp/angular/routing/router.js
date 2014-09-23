@@ -1,20 +1,23 @@
-app.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/home', {
-        templateUrl: 'partials/landing.html',
-      }).
-      when('/about', {
-        templateUrl: 'partials/about.html',
-       controller:"aboutController",
-       controllerAs:"abc"
-      }).
-       when('/recipes', {
-       templateUrl: 'partials/recipe.html',
-       controller:"recipeController",
-       controllerAs:"recipes"
-      }).
-      otherwise({
-        redirectTo: '/home'
-      });
-  }]);
+var myApp = angular.module('myApp', [
+  'ngRoute',
+  'TheControllers'
+]);
+
+myApp.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.
+  when('/recipes', {
+    templateUrl: 'partials/recipe.html',
+    controller: 'RecipeController'
+  }).
+    when('/home', {
+    templateUrl: 'partials/landing.html',
+    controller: 'LandingController'
+  }).
+    when('/about', {
+    templateUrl: 'partials/about.html',
+    controller: 'AboutController'
+  }).
+  otherwise({
+    redirectTo: '/home'
+  });
+}]);
