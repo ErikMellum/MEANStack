@@ -10,17 +10,16 @@ module.exports = function(config) {
 
   // frameworks to use
   // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-  frameworks: ['ng-scenario', 'jasmine'],
+  frameworks: ['jasmine'],
 
 
   // list of files / patterns to load in the browser
   files: [
-    'webapp/lib/angular/angular.js',
-    'webapp/lib/angular-route/angular-route.js',
-    'webapp/lib/angular-mocks/angular-mocks.js',
-    'webapp/lib/angular-scenario/angular-scenario.js',
-    'webapp/angular/**/*.js',
-    'webapp/tests/**/*.js'
+    'public/lib/angular/angular.js',
+    'public/lib/angular-route/angular-route.js',
+    'public/lib/angular-mocks/angular-mocks.js',
+    'public/angular/**/*.js',
+    'public/tests/**/*.js'
   ],
 
 
