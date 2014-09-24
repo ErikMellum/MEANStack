@@ -8,5 +8,10 @@ var AbstractIngredientSchema = new mongoose.Schema({
     instanceValue: { type:Number, default: 0}
 });
 
+AbstractIngredientSchema.methods.incInstanceValue = function(AI){
+    this.instanceValue += 1;
+    this.save(AI);
+}
+
 // save this as a model so we can access it
 mongoose.model('AbstractIngredient', AbstractIngredientSchema);
