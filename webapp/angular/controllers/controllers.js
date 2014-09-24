@@ -40,7 +40,11 @@ $scope.removeIngredient = function(container, index){
 
 }]);
 
-TheControllers.controller('LandingController', ['$scope', function($scope, $http) {
+TheControllers.controller('LandingController', ['$scope', function($scope) {
+  $scope.name = "Tester";
+  $scope.testFunction = function() {
+    $scope.greeting = "Hello " + $scope.name;
+  }
 }]);
 
 TheControllers.controller('AboutController', ['$scope', function($scope, $http) {

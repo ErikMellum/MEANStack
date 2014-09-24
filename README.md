@@ -2,10 +2,10 @@
 The one stop shop for recipes and ingredients before you compose your edible art.
 
 ## Testing: ##
-Learn about [Mean Stack Testing](/TESTING.md)
+Learn about [Mean Stack Testing](/webapp/tests/TESTING.md)
 
 ## Back End: ##
-Learn about the [Mean Api Backend](/BACKEND.md)
+Learn about the [Mean Api Backend](/routes/BACKEND.md)
 
 ## Agile && Project Burndown ##
 [Agile, Project Burndown, and Project Backlog](https://docs.google.com/spreadsheets/d/1FxShAYUSjWYVNQfSO7JeopXbgj_I-71U2tNQfEKZpeE/edit?usp=sharing)
