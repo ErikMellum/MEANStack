@@ -10,7 +10,7 @@ module.exports = function(config) {
 
   // frameworks to use
   // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-  frameworks: ['jasmine'],
+  frameworks: ['ng-scenario', 'jasmine'],
 
 
   // list of files / patterns to load in the browser
@@ -18,6 +18,7 @@ module.exports = function(config) {
     'webapp/lib/angular/angular.js',
     'webapp/lib/angular-route/angular-route.js',
     'webapp/lib/angular-mocks/angular-mocks.js',
+    'webapp/lib/angular-scenario/angular-scenario.js',
     'webapp/angular/**/*.js',
     'webapp/tests/**/*.js'
   ],
@@ -65,5 +66,6 @@ module.exports = function(config) {
   // Continuous Integration mode
   // if true, Karma captures browsers, runs the tests and exits
   singleRun: false
+
   });
 };
