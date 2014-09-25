@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var http = require('http');
 
 
 //require our models
@@ -23,6 +24,29 @@ router.use(function(req, res, next) {
   console.log('API Request is happening.');
   next(); // make sure we go to the next routes and don't stop here
 });
+
+
+router.get('/composition/withIngredients/', function(req, res, next){
+
+  var ingredients = ['cognac', 'garlic'];
+  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
+  url += ingredients.join('&allowedIngredient[]=');
+  console.log(url);
+
+  http.get(url, function(remoteRes) {
+    console.log("Got response: " + remoteRes.statusCode);
+    var body = ""
+    remoteRes.on('data', function(data) {
+      body += data;
+    });
+    remoteRes.on('end', function() {
+      res.json(JSON.parse(body).matches); 
+    });
+  }).on('error', function(e) {
+      console.log("Got error: " + e.message);
+  });
+});
+
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
 // Will return a list of recipes
