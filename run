@@ -1,0 +1,1 @@
+DEBUG=mean_api ./bin/www

@@ -1,15 +1,12 @@
-
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var http = require('http');
 
 
 //require our models
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
-require('../models/TmpIngredient');
 require('../models/User');
 require('../models/Review');
 require('../models/Unit');
@@ -18,7 +15,6 @@ require('../models/Unit');
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
-var TmpIngredient = mongoose.model('TmpIngredient');
 var User = mongoose.model('User');
 var Review = mongoose.model('Review');
 var Unit = mongoose.model('Unit');
@@ -28,56 +24,20 @@ router.use(function(req, res, next) {
   next(); // make sure we go to the next routes and don't stop here
 });
 
-// fetch ingredients from the remote API and tunnel through me
-/**
- * Fetch Ingredients from the remote API and tunnel through this route
- * @param  {post}   ingredients  list of ingredients to search for
- * @return {res.json} yummly object API (at the moment)
- */
-router.get('/composition/withIngredients/', function(req, res, next){
-  
-  // test array of ingredients for now
+
+router.post('/composition/withIngredients/', function(req, res, next){
+
   var ingredients = ['cognac', 'garlic'];
-
-  // the yummly API key embedded URL
-  // suffixed with start of ingredients syntax
-  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
-
-  // combine url and ingredients
-  url += ingredients.join('&allowedIngredient[]=');
-  // for testing
-  console.log(url);
-
-  // gets remote data
-  http.get(url, function(remoteRes) {
-    // testing
-    console.log("Got response: " + remoteRes.statusCode);
-      
-    var recipesResponse;
-    var body = ""
-    remoteRes.on('data', function(data) {
-      // collect the data stream
-      body += data;
-    });
-    remoteRes.on('end', function() {
-      // TODO: maybe this can be made recursive?
-      recipesResponse = JSON.parse(body).matches;
-      // loop through recipes and extract and create ingredients
-      recipesResponse.forEach(function(recipe){
-        recipe.ingredients.forEach(function(ingredient){
-          console.log(ingredient)
-            var tmpIngredient = new TmpIngredient();
-            tmpIngredient.name = ingredient;
-            tmpIngredient.save();
-        });
-      })
-      
-      // send our response
-      res.json(recipesResponse); 
-    });
-  }).on('error', function(e) {
-      console.log("Got error: " + e.message);
-  });
+  var ingString = '&allowedIngredient[]='
+  ingString += ingredients.join('&allowedIngredient[]');
+  console.log(ingString);
+  // An object of options to indicate where to post to
+  
+  http.get('http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd'+ingString, function(res) {
+  console.log("Got response: " + res.statusCode);
+}).on('error', function(e) {
+  console.log("Got error: " + e.message);
+});
 });
 
 
@@ -179,7 +139,7 @@ router.post('/composition/omgwtfbbq', function(req, res, next) {
   var cheese = new AbstractIngredient();
   cheese.name = "Cheese";
 
-  var jackCheese =c
+  var jackCheese = new Composition();
   jackCheese.name = "Jack Cheese";
 
   var vinegar = new AbstractIngredient({name: "Vinegar"})
