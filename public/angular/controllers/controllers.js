@@ -3,11 +3,8 @@ var TheControllers = angular.module('TheControllers', []);
 TheControllers.controller('RecipeController', ['$scope', '$http', function($scope, $http) {
  $scope.query_result = [
   { 
-    name: "steak"
-  },
-  { 
     name: "eggs"
-  },
+  }
   {
     name: "buttermilk"
   },
@@ -28,6 +25,9 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
   },
   {
     name:"pizza"
+  },
+  { 
+    name: "steak"
   }
 ]
 $scope.chosen_ingredients=[]
@@ -54,8 +54,8 @@ $scope.displayRecipes = function() {
   var url = 'http://api.yummly.com/v1/api/recipes?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa'
   //if there are chosen ingredients present, execute the api call
   if ($scope.chosen_ingredients.length) {
-      $scope.chosen_ingredients.forEach(function(element){
-        url += '&allowedIngredient[]='+element.name
+      $scope.chosen_ingredients.forEach(function(ingredient){
+        url += '&allowedIngredient[]='+ingredient.name
       });
       $http.get(url).success(function(data) {
           data.matches.forEach(function(recipe){

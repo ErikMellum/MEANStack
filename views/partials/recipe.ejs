@@ -5,7 +5,6 @@
     <label>search: </label>
 
     <input ng-model="match" placeholder="Search for foods" autofocus>
-    <button ng-click="displayRecipes()">Display Recipes</button>
   </div>
   <ul class="foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in query_result | filter: match">
