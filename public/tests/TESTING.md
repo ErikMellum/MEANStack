@@ -16,18 +16,5 @@ karma start my.conf.js
 webapp/tests/unit/myTestNameTest.js (Test names must end in 'Test.js')
 ```
 
-## Example Test: ##
-
-mainControllerTest.js
-```
-describe('mainController', function(){
-
-it('should receive a variable that says "This is an angular test".', function() {
-  var scope = {},
-      ctrl = new mainController(scope);
-
-  expect(scope.test).toBe("This is an angular test");
-});
-
-});
-```
+## Best Resource: ##
+[Learn to write Tests for MEANstack](http://andyshora.com/unit-testing-best-practices-angularjs.html)

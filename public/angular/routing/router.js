@@ -6,18 +6,18 @@ var myApp = angular.module('myApp', [
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
   when('/recipes', {
-    templateUrl: 'partials/recipe.html',
+    templateUrl: 'recipe',
     controller: 'RecipeController'
   }).
-    when('/home', {
-    templateUrl: 'partials/landing.html',
+    when('/landing', {
+    templateUrl: 'landing',
     controller: 'LandingController'
   }).
     when('/about', {
-    templateUrl: 'partials/about.html',
+    templateUrl: 'about',
     controller: 'AboutController'
   }).
   otherwise({
-    redirectTo: '/home'
+    redirectTo: '/landing'
   });
 }]);

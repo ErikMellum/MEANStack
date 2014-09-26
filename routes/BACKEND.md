@@ -1,4 +1,3 @@
-
 # Mean API.#
 ## Getting Started: ##
 **Clone the repo**
@@ -21,23 +20,6 @@ and test by launching the server. Postman's plugin has an address input and
 an http request type. I provided a **sample api call** that is built in to return
 a **sample schema object** I created and defined named sandwich. The url for this post 
 request is http://localhost:3000/api/sandwiches.
-
-## Syntax and style rules: ##
-* 2 spaces for tabs
-*   spaces instead of tabs
-*   avoid typing lines longer than 80 characters
-
-## Sample Sublime Text Preferences: ##
-{
-  "draw_white_space": "all",
-  "font_size": 9,
-  "rulers":
-  [
-    80
-  ],
-  "tab_size": 2,
-  "translate_tabs_to_spaces": true
-}
 
 ## A list of commands used to create the project: ##
 
@@ -63,3 +45,5 @@ mongo proximus.modulusmongo.net:27017/orab7aDi -u sandwich -p composer
 * Jayd Saucedo
 * Cameron Brownfield
 * Erik Mellum
+
+[Code Style](../STYLE.md)
