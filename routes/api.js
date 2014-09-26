@@ -34,10 +34,10 @@ router.use(function(req, res, next) {
  * @param  {post}   ingredients  list of ingredients to search for
  * @return {res.json} yummly object API (at the moment)
  */
-router.get('/composition/withIngredients/', function(req, res, next){
-  
-  // test array of ingredients for now
-  var ingredients = ['cognac', 'garlic'];
+router.post('/composition/withIngredients/', function(req, res, next){
+  console.log(req.body)
+  // test array of ingredients for now 
+  var ingredients = req.body.ingredients;
 
   // the yummly API key embedded URL
   // suffixed with start of ingredients syntax
@@ -65,7 +65,7 @@ router.get('/composition/withIngredients/', function(req, res, next){
       // loop through recipes and extract and create ingredients
       recipesResponse.forEach(function(recipe){
         recipe.ingredients.forEach(function(ingredient){
-          console.log(ingredient)
+            console.log(ingredient)
             var tmpIngredient = new TmpIngredient();
             tmpIngredient.name = ingredient;
             tmpIngredient.save();
