@@ -16,6 +16,14 @@
 </section>
 <div id="recipe-list" class="middle">
   <h1>Recipes</h1>
+  <ul class="chosen-foodlist">
+    <li class="food cf" ng-animate="animate" ng-repeat="name in recipes">
+      <a href="#/recipes" ng-click="displayRecipes()"><div >
+      <div class="info inline">
+        <h2 class="text-align-left">{{name.name}}</h2>
+      </div></a>
+    </li>
+  </ul>  
 </div>
 <div id="results-list" class="middle">
   <h1>Chosen Ingredients</h1>
@@ -28,14 +36,5 @@
     </li>
   </ul> 
 </div>
-<!-- 
-  <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="name in recipes.query_result | filter: match">
-      <a href="#/recipes" ng-model="Namer.name" ng-click="removeIngredientAndAdd(name, recipes.query_result, $index)"><div >
-      <div class="info inline">
-        <h2>{{name.name}}</h2>
-      </div></a>
-    </li>
-  </ul>  --> 
 
 
