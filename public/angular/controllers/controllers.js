@@ -4,7 +4,7 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
  $scope.query_result = [
   { 
     name: "eggs"
-  }
+  },
   {
     name: "buttermilk"
   },
