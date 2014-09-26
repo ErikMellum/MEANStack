@@ -65,12 +65,11 @@ $scope.removeIngredient = function(container, index){
 $scope.displayRecipes = function() {
 //    http://api.yummly.com/v1/api/recipes?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY&q=onion+soup
 // &allowedIngredient[]=garlic&allowedIngredient[]=cognac
-      $http.get('http://api.yummly.com/v1/api/recipe/Avocado-cream-pasta-sauce-recipe-306039?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa&allowedIngredient[]=garlic&allowedIngredient[]=cognac',
+      $http.get('http://api.yummly.com/v1/api/recipes?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa&allowedIngredient[]=garlic&allowedIngredient[]=cognac',
         {'X-Yummly-App-ID' : '885488fb', 'X-Yummly-App-Key' : '453ae9fd4d29a72598c6368d9734d3fa', 'dataType': 'jsonp', headers:{
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET',
-                'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
-                'X-Random-Shit':'123123123'
+                // 'Access-Control-Allow-Origin': '*',
+                // 'Access-Control-Allow-Methods': 'GET',
+                // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
             }})
       //   , { headers: {
       //     'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
