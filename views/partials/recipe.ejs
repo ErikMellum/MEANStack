@@ -3,7 +3,9 @@
   <div class="search">
     <h1 class="middle">Recipe Search</h1>
     <label>search: </label>
+
     <input ng-model="match" placeholder="Search for foods" autofocus>
+    <button ng-click="displayRecipes()">Display Recipes</button>
   </div>
   <ul class="foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in query_result | filter: match">
@@ -20,7 +22,7 @@
     <li class="food cf" ng-animate="animate" ng-repeat="name in recipes">
       <a href="#/recipes" ng-click="displayRecipes()"><div >
       <div class="info inline">
-        <h2 class="text-align-left">{{name.name}}</h2>
+        <h2 class="text-align-left">{{name}}</h2>
       </div></a>
     </li>
   </ul>  
@@ -35,6 +37,7 @@
       </div></a>
     </li>
   </ul> 
+  
 </div>
 
 

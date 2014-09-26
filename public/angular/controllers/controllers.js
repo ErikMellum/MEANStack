@@ -21,7 +21,7 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
     name:"Pizza",
   },
   {
-    name:"Bacon",
+    name:"Cake",
   },
   {
     name:"Beef",
@@ -37,13 +37,10 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
 // $scope.chosen_ingredients=[]
 $scope.chosen_ingredients=[
   {
-    name:"Cake"
+    name:"bacon"
   }
 ]
 $scope.recipes=[
-  {
-    name:"Roast Beef Sandwhich"
-  }
 ]
 
 $scope.removeIngredientAndAdd = function(name, container, index){
@@ -65,32 +62,28 @@ $scope.removeIngredient = function(container, index){
 $scope.displayRecipes = function() {
 //    http://api.yummly.com/v1/api/recipes?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY&q=onion+soup
 // &allowedIngredient[]=garlic&allowedIngredient[]=cognac
-      $http.get('http://api.yummly.com/v1/api/recipes?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa&allowedIngredient[]=garlic&allowedIngredient[]=cognac',
-        {'X-Yummly-App-ID' : '885488fb', 'X-Yummly-App-Key' : '453ae9fd4d29a72598c6368d9734d3fa', 'dataType': 'jsonp', headers:{
-                // 'Access-Control-Allow-Origin': '*',
-                // 'Access-Control-Allow-Methods': 'GET',
-                // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            }})
-      //   , { headers: {
-      //     'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
-      //   }
-      // });
-    //   , {
-    //   'name' : $scope.formName, 
-    //   'author' : $scope.formAuthor, 
-    //   'quote' : $scope.formQuote
-    // })
-    .success(function(data) {
-      // $scope.quotes = data;
-      // $scope.formAuthor = ''; // clear the form so our user is ready to enter another
-      // $scope.formName = ''; // clear the form so our user is ready to enter another
-      // $scope.formQuote = ''; // clear the form so our user is ready to enter another
-      console.log(data);
-    })
-    .error(function(data) {
-      console.log('Error: ' + data);
-    });
+ 
+  var searchParams = "";
+  var i;
+   
+  for(i = 0; i < $scope.chosen_ingredients.length; i++) {
+    
+    searchParams += "&allowedIngredient[]=" + $scope.chosen_ingredients[i].name;
   }
+  
+  var url = "http://api.yummly.com/v1/api/recipes?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa" + searchParams;
+  
+  $http.get(url).success(function(data) {
+    
+    for(i = 0; i < 10; i++)
+    {
+      $scope.recipes.push(data.matches[i].recipeName);
+    }
+    
+  }).error(function(data) {
+  log('Error: ' + data);
+  });
+}
 //   ;
 }]);
 
