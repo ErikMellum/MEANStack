@@ -1,3 +1,4 @@
+
 <section class="foodpage">
   <div class="search">
     <h1 class="middle">Recipe Search</h1>
@@ -7,7 +8,7 @@
   </div>
   <ul class="foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in query_result | filter: match">
-      <a href="#/recipes" ng-click="switchAndDisplay(name, query_result, $index)"><div >
+      <a href="#/search" ng-click="switchAndDisplay(name, query_result, $index)"><div >
       <div class="info inline">
         <h2>{{name.name}}</h2>
       </div></a>
@@ -18,7 +19,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in recipes">
-      <a href="#/details/{{name}}" ng-click="details(name, $index)"><div >
+      <a href="#/recipes" ng-click="remove(recipes, $index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{name.name}}</h2>
       </div></a>
@@ -37,3 +38,5 @@
   </ul> 
   
 </div>
+
+

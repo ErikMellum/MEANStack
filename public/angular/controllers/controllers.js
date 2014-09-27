@@ -1,6 +1,6 @@
 var TheControllers = angular.module('TheControllers', []);
 
-TheControllers.controller('RecipeController', ['$scope', '$http', function($scope, $http) {
+TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
  $scope.query_result = [
   { 
     name: "eggs"
@@ -30,6 +30,7 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
     name: "steak"
   }
 ]
+
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
 $scope.dataArray=[]
@@ -73,7 +74,7 @@ $scope.displayRecipes = function() {
 }
 }]);
 
-TheControllers.controller('LandingController', ['$scope', function($scope) {
+TheControllers.controller('RecipeController', ['$scope', function($scope) {
   $scope.name = "Tester";
   $scope.testFunction = function() {
     $scope.greeting = "Hello " + $scope.name;
@@ -82,4 +83,14 @@ TheControllers.controller('LandingController', ['$scope', function($scope) {
 
 TheControllers.controller('AboutController', ['$scope', function($scope, $http) {
   $scope.names=["Name 1, Name 2, Name3"];
+}]);
+TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $http) {
+  $http.get('/api/tmpIngredients').success(function(data) {
+       $scope.tmpIngredients=data;
+    });
+  
+  $scope.abstractIngredients=[];
+  $scope.primitiveIngredients=[];
+  $scope.tmpIds=[];
+
 }]);

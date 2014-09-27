@@ -2,7 +2,7 @@
 The one stop shop for recipes and ingredients before you compose your edible art.
 
 ## Testing: ##
-Learn about [Mean Stack Testing](/webapp/tests/TESTING.md)
+Learn about [Mean Stack Testing](/public/tests/TESTING.md)
 
 ## Front End: ##
 Learn about the [Mean Api Frontend](/views/FRONTEND.md)
@@ -22,6 +22,12 @@ Learn about the [Mean Api Backend](/routes/BACKEND.md)
 ## Yummly Info ##
 **App ID**
 af791dca
+
+## Modulus Info ##
+** Username **
+mellum.erik@gmail.com
+** Password ** 
+meanstack
 
 **App Key**
 f28b1240c0ab4435b41d6505f0278cfd

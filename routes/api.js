@@ -52,7 +52,6 @@ router.post('/composition/withIngredients/', function(req, res, next){
   http.get(url, function(remoteRes) {
     // testing
     console.log("Got response: " + remoteRes.statusCode);
-      
     var recipesResponse;
     var body = ""
     remoteRes.on('data', function(data) {
@@ -79,6 +78,22 @@ router.post('/composition/withIngredients/', function(req, res, next){
       console.log("Got error: " + e.message);
   });
 });
+
+/**
+ * Adds a recipe to CompositionSchema -- tunnel through this route
+ * @param  {recipeObject}   
+ * @return {res.json} yummly object API (at the moment)
+ * 
+ * Should recieve a json recipe object formulated on the front end using a form 
+ */
+ /*
+router.post('/composition/new/', function(req, res, next){
+
+  var recipe = req.body.recipe;
+  recipe.name
+
+}
+*/
 
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
@@ -250,6 +265,31 @@ router.get('/compositions', function(req,res) {
     res.json(compositions);
   });
 
+});
+
+router.get('/tmpIngredients', function(req,res) {
+  TmpIngredient.find(function(err, tmpIngredients) {
+    if (err)
+      res.send(err);
+
+    res.json(tmpIngredients);
+  });
+
+});
+
+router.delete('/compositions/:composition_id', function(req, res){
+  Composition.remove({
+    _id : req.params.composition_id
+  }, function(err, composition){
+    if(err)
+      res.send(err);
+
+    Composition.find(function(err,compositions){
+      if(err)
+        res.send(err)
+      res.json(compositions);
+    });
+  });
 });
 
 
