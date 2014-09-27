@@ -17,6 +17,10 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'about',
     controller: 'AboutController'
   }).
+    when('/create', {
+    templateUrl: 'create',
+    controller: 'InputController'
+  }).
   otherwise({
     redirectTo: '/landing'
   });

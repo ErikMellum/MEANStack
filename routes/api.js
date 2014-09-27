@@ -90,12 +90,11 @@ router.post('/composition/withIngredients/', function(req, res, next){
  /*
 router.post('/composition/new/', function(req, res, next){
 
-  var recipe = req.body.recipe;
-  recipe.name
+  var name = req.body.name;
+
 
 }
 */
-
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
 // Will return a list of recipes

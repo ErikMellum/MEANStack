@@ -68,11 +68,6 @@ $scope.displayRecipes = function() {
 }
 }]);
 
-/*
-$scope.submitRecipe = function(name, ingredient[]){
-    
-}
-*/
 
 TheControllers.controller('LandingController', ['$scope', function($scope) {
   $scope.name = "Tester";
@@ -84,3 +79,15 @@ TheControllers.controller('LandingController', ['$scope', function($scope) {
 TheControllers.controller('AboutController', ['$scope', function($scope, $http) {
   $scope.names=["Name 1, Name 2, Name3"];
 }]);
+
+TheControllers.controller('InputController', ['$scope', function($scope, $http) {
+
+$scope.inputRecipe = function(comp) {
+      var url = '/api/composition/new/'
+      $http.post(url, postObject).success(function(comp) {
+      });
+}
+
+}]);
+
+
