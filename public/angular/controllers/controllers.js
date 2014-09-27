@@ -36,14 +36,14 @@ $scope.recipes=[]
 $scope.switchAndDisplay = function(name, container, index){
     container.splice(index,1);
      $scope.chosen_ingredients.push(name);
-     $scope.recipes.length = 0;
+     $scope.recipes.length = 0; //removing all recipe results 
      $scope.displayRecipes();
 }
 $scope.remove = function(container, index){
     container.splice(index,1);
-    //remove all recipes because we have no ingredients chosen or we have removen an ingredient and we need to empty the recipe array to render a new recipe array later
+    //remove all recipes because we have no ingredients chosen || we have removen an 'ingredient' and we need to empty the recipe array to render a new recipe array later
    if($scope.chosen_ingredients.length == 0 || container != $scope.recipes) 
-     $scope.recipes.length = 0;
+     $scope.recipes.length = 0; //removing all recipe results 
 
    //if we arent removing a recipe, display the new recipe list
    if (container != $scope.recipes) { 
@@ -51,14 +51,16 @@ $scope.remove = function(container, index){
    }
 }
 $scope.displayRecipes = function() {
-  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=885488fb&_app_key=453ae9fd4d29a72598c6368d9734d3fa'
-  //if there are chosen ingredients present, execute the api call
+
   if ($scope.chosen_ingredients.length) {
-      $scope.chosen_ingredients.forEach(function(ingredient){
-        url += '&allowedIngredient[]='+ingredient.name
-      });
-      $http.get(url).success(function(data) {
-          data.matches.forEach(function(recipe){
+    var url = '/api/composition/withIngredients/'
+    var ingredientsArray = new Array();
+    $scope.chosen_ingredients.forEach(function(ingredient){
+        ingredientsArray.push(ingredient.name);
+    });
+    var postObject = {"ingredients" : ingredientsArray};
+      $http.post(url, postObject).success(function(data) {
+          data.forEach(function(recipe){
             $scope.recipes.push({name:recipe.recipeName});
         });
       });
