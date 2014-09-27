@@ -66,6 +66,12 @@ $scope.displayRecipes = function() {
 }
 }]);
 
+/*
+$scope.submitRecipe = function(name, ingredient[]){
+    
+}
+*/
+
 TheControllers.controller('LandingController', ['$scope', function($scope) {
   $scope.name = "Tester";
   $scope.testFunction = function() {
