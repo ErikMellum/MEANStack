@@ -79,6 +79,22 @@ router.post('/composition/withIngredients/', function(req, res, next){
   });
 });
 
+/**
+ * Adds a recipe to CompositionSchema -- tunnel through this route
+ * @param  {recipeObject}   
+ * @return {res.json} yummly object API (at the moment)
+ * 
+ * Should recieve a json recipe object formulated on the front end using a form 
+ */
+ /*
+router.post('/composition/new/', function(req, res, next){
+
+  var recipe = req.body.recipe;
+  recipe.name
+
+}
+*/
+
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
 // Will return a list of recipes
