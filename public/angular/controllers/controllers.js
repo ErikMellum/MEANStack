@@ -73,13 +73,7 @@ $scope.displayRecipes = function() {
     }
 }
 }]);
-
-<<<<<<< HEAD
-
-TheControllers.controller('LandingController', ['$scope', function($scope) {
-=======
 TheControllers.controller('RecipeController', ['$scope', function($scope) {
->>>>>>> 0fc0fce0ede5a8c743c1aec69ad4b5ffe2e9441f
   $scope.name = "Tester";
   $scope.testFunction = function() {
     $scope.greeting = "Hello " + $scope.name;
@@ -89,8 +83,6 @@ TheControllers.controller('RecipeController', ['$scope', function($scope) {
 TheControllers.controller('AboutController', ['$scope', function($scope, $http) {
   $scope.names=["Name 1, Name 2, Name3"];
 }]);
-<<<<<<< HEAD
-
 TheControllers.controller('InputController', ['$scope', function($scope, $http) {
 
 $scope.inputRecipe = function(comp) {
@@ -101,8 +93,6 @@ $scope.inputRecipe = function(comp) {
 
 }]);
 
-
-=======
 TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $http) {
   $http.get('/api/tmpIngredients').success(function(data) {
        $scope.tmpIngredients=data;
@@ -113,4 +103,3 @@ TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $ht
   $scope.tmpIds=[];
 
 }]);
->>>>>>> 0fc0fce0ede5a8c743c1aec69ad4b5ffe2e9441f
