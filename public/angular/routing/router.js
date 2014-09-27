@@ -9,15 +9,19 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'recipe',
     controller: 'RecipeController'
   }).
-    when('/landing', {
-    templateUrl: 'landing',
-    controller: 'LandingController'
+  when('/search', {
+    templateUrl: 'search',
+    controller: 'SearchController'
   }).
     when('/about', {
     templateUrl: 'about',
     controller: 'AboutController'
   }).
+    when('/tmpIngredient', {
+    templateUrl: 'tmpIngredient',
+    controller: 'ApiScrapeController'
+  }).
   otherwise({
-    redirectTo: '/landing'
+    redirectTo: '/search'
   });
 }]);

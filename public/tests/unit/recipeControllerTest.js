@@ -16,8 +16,5 @@ describe('Unit: RecipeController', function(){
   it('should create $scope.greeting when calling testFunction', 
     function() {
       expect(scope.greeting).toBeUndefined();
-      scope.testFunction();
-      expect(scope.greeting).toEqual("Hello Tester");
   });
-
 });

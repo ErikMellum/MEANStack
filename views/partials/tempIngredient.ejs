@@ -1,0 +1,12 @@
+<form action="/api/api-scrape" method="POST" >
+  <select ng-repeat="ingredient in tmpIngredients" ng-model="currentIngredient">
+    <option value="{{ingredient.name}}">{{ingredient.name}}</option>
+  </select>
+  <input id="id_field" type="hidden" name="id" value="{{currentIngredient.name}}">
+  <label for="name">Name: <input type="text" id="name_field" name="name"  value="{{currentIngredient.name}}"></label><br>
+  <label for="brand">Brand: <input type="text" id="brand_field" name="brand"  value="{{currentIngredient.name}}"></label><br>
+  <label for="unique">Unique: <input type="checkbox" id="unique_field" name="unique" checked="true"></label><br>
+  <label for="processed">Processed: <input type="checkbox" id="processed_field" name="processed"  checked="true"></label><br>
+  <label for="abstract-parent">Abstract Parent: <input type="text" id="abstract_parent_field" name="abstract-parent"  value="{{currentIngredient.name}}"></label>
+  <button type="submit">Submit</button>
+</form>
