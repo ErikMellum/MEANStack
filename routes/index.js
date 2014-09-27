@@ -13,6 +13,9 @@ router.get('/about', function(req, res) {
 router.get('/recipe', function(req, res) {
   res.render('partials/recipe');
 });
+router.get('/details/:name', function(req, res) {
+  res.render('partials/details');
+});
 router.get('/', function(req, res) {
   res.render('index');
 });

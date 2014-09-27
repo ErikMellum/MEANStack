@@ -32,6 +32,7 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
 ]
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
+$scope.dataArray=[]
 
 $scope.switchAndDisplay = function(name, container, index){
     container.splice(index,1);
@@ -50,6 +51,9 @@ $scope.remove = function(container, index){
      $scope.displayRecipes();
    }
 }
+$scope.details = function(name, index){
+  console.log($scope.dataArray[index]);
+}
 $scope.displayRecipes = function() {
 
   if ($scope.chosen_ingredients.length) {
@@ -60,6 +64,7 @@ $scope.displayRecipes = function() {
     });
     var postObject = {"ingredients" : ingredientsArray};
       $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
           data.forEach(function(recipe){
             $scope.recipes.push({name:recipe.recipeName});
         });
