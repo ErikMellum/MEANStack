@@ -1,4 +1,3 @@
-
 <section class="foodpage">
   <div class="search">
     <h1 class="middle">Recipe Search</h1>
@@ -19,7 +18,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in recipes">
-      <a href="#/recipes" ng-click="remove(recipes, $index)"><div >
+      <a href="#/details/{{name}}" ng-click="details(name, $index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{name.name}}</h2>
       </div></a>
@@ -38,5 +37,3 @@
   </ul> 
   
 </div>
-
-

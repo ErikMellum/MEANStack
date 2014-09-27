@@ -1,6 +1,6 @@
 var TheControllers = angular.module('TheControllers', []);
 
-TheControllers.controller('RecipeController', ['$scope', '$http', function($scope, $http) {
+TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
  $scope.query_result = [
   { 
     name: "eggs"
@@ -30,8 +30,10 @@ TheControllers.controller('RecipeController', ['$scope', '$http', function($scop
     name: "steak"
   }
 ]
+
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
+$scope.dataArray=[]
 
 $scope.switchAndDisplay = function(name, container, index){
     container.splice(index,1);
@@ -50,6 +52,9 @@ $scope.remove = function(container, index){
      $scope.displayRecipes();
    }
 }
+$scope.details = function(name, index){
+  console.log($scope.dataArray[index]);
+}
 $scope.displayRecipes = function() {
 
   if ($scope.chosen_ingredients.length) {
@@ -60,6 +65,7 @@ $scope.displayRecipes = function() {
     });
     var postObject = {"ingredients" : ingredientsArray};
       $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
           data.forEach(function(recipe){
             $scope.recipes.push({name:recipe.recipeName});
         });
@@ -68,8 +74,12 @@ $scope.displayRecipes = function() {
 }
 }]);
 
+<<<<<<< HEAD
 
 TheControllers.controller('LandingController', ['$scope', function($scope) {
+=======
+TheControllers.controller('RecipeController', ['$scope', function($scope) {
+>>>>>>> 0fc0fce0ede5a8c743c1aec69ad4b5ffe2e9441f
   $scope.name = "Tester";
   $scope.testFunction = function() {
     $scope.greeting = "Hello " + $scope.name;
@@ -79,6 +89,7 @@ TheControllers.controller('LandingController', ['$scope', function($scope) {
 TheControllers.controller('AboutController', ['$scope', function($scope, $http) {
   $scope.names=["Name 1, Name 2, Name3"];
 }]);
+<<<<<<< HEAD
 
 TheControllers.controller('InputController', ['$scope', function($scope, $http) {
 
@@ -91,3 +102,15 @@ $scope.inputRecipe = function(comp) {
 }]);
 
 
+=======
+TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $http) {
+  $http.get('/api/tmpIngredients').success(function(data) {
+       $scope.tmpIngredients=data;
+    });
+  
+  $scope.abstractIngredients=[];
+  $scope.primitiveIngredients=[];
+  $scope.tmpIds=[];
+
+}]);
+>>>>>>> 0fc0fce0ede5a8c743c1aec69ad4b5ffe2e9441f

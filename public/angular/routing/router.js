@@ -9,19 +9,29 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'recipe',
     controller: 'RecipeController'
   }).
-    when('/landing', {
-    templateUrl: 'landing',
-    controller: 'LandingController'
+  when('/search', {
+    templateUrl: 'search',
+    controller: 'SearchController'
   }).
     when('/about', {
     templateUrl: 'about',
     controller: 'AboutController'
   }).
+<<<<<<< HEAD
     when('/create', {
     templateUrl: 'create',
     controller: 'InputController'
+=======
+    when('/details/:name', {
+    templateUrl: 'details/:name',
+    controller: 'RecipeController'
+  }).
+    when('/tmpIngredient', {
+    templateUrl: 'tmpIngredient',
+    controller: 'ApiScrapeController'
+>>>>>>> 0fc0fce0ede5a8c743c1aec69ad4b5ffe2e9441f
   }).
   otherwise({
-    redirectTo: '/landing'
+    redirectTo: '/search'
   });
 }]);

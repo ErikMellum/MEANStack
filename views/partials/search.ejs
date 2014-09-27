@@ -8,7 +8,7 @@
   </div>
   <ul class="foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="name in query_result | filter: match">
-      <a href="#/recipes" ng-click="switchAndDisplay(name, query_result, $index)"><div >
+      <a href="#/search" ng-click="switchAndDisplay(name, query_result, $index)"><div >
       <div class="info inline">
         <h2>{{name.name}}</h2>
       </div></a>

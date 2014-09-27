@@ -52,7 +52,6 @@ router.post('/composition/withIngredients/', function(req, res, next){
   http.get(url, function(remoteRes) {
     // testing
     console.log("Got response: " + remoteRes.statusCode);
-      
     var recipesResponse;
     var body = ""
     remoteRes.on('data', function(data) {
@@ -265,6 +264,31 @@ router.get('/compositions', function(req,res) {
     res.json(compositions);
   });
 
+});
+
+router.get('/tmpIngredients', function(req,res) {
+  TmpIngredient.find(function(err, tmpIngredients) {
+    if (err)
+      res.send(err);
+
+    res.json(tmpIngredients);
+  });
+
+});
+
+router.delete('/compositions/:composition_id', function(req, res){
+  Composition.remove({
+    _id : req.params.composition_id
+  }, function(err, composition){
+    if(err)
+      res.send(err);
+
+    Composition.find(function(err,compositions){
+      if(err)
+        res.send(err)
+      res.json(compositions);
+    });
+  });
 });
 
 
