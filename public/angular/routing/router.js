@@ -5,10 +5,6 @@ var myApp = angular.module('myApp', [
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-  when('/recipes', {
-    templateUrl: 'recipe',
-    controller: 'RecipeController'
-  }).
   when('/search', {
     templateUrl: 'search',
     controller: 'SearchController'
@@ -19,7 +15,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
   }).
     when('/details/:name', {
     templateUrl: 'details/:name',
-    controller: 'RecipeController'
+    controller: 'DetailsController'
   }).
     when('/tmpIngredient', {
     templateUrl: 'tmpIngredient',
