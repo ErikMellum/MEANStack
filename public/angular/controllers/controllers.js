@@ -1,5 +1,4 @@
 var TheControllers = angular.module('TheControllers', []);
-
 TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
  $scope.query_result = [
   { 
@@ -52,9 +51,12 @@ $scope.remove = function(container, index){
      $scope.displayRecipes();
    }
 }
-$scope.details = function(name, index){
-  console.log($scope.dataArray[index]);
-}
+  $scope.details = function(name, index){
+    console.log("ASdasd");
+    console.log(name);
+    console.log(index);
+    console.log($scope.dataArray[index]);
+  }
 $scope.displayRecipes = function() {
 
   if ($scope.chosen_ingredients.length) {
@@ -73,10 +75,11 @@ $scope.displayRecipes = function() {
     }
 }
 }]);
-TheControllers.controller('RecipeController', ['$scope', function($scope) {
-  $scope.name = "Tester";
-  $scope.testFunction = function() {
-    $scope.greeting = "Hello " + $scope.name;
+
+TheControllers.controller('DetailsController', ['$scope', function($scope) {
+  $scope.details = function(name, index){
+    console.log("ASdaasdasdasdasdsdsasd");
+    console.log($scope.dataArray[index]);
   }
 }]);
 

@@ -86,14 +86,9 @@ router.post('/composition/withIngredients/', function(req, res, next){
  * 
  * Should recieve a json recipe object formulated on the front end using a form 
  */
- /*
 router.post('/composition/new/', function(req, res, next){
-
-  var name = req.body.name;
-
-
-}
-*/
+    console.log(req.body);
+});
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
 // Will return a list of recipes

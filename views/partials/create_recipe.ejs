@@ -1,22 +1,13 @@
   <div ng-controller="InputController">
     <form novalidate class="simple-form">
-    <label>Recipe: </label>
+    
+    <input ng-model="comp.name" placeholder="recipe name" autofocus>
+    <input ng-model="comp.ingredient" placeholder="ingredient" autofocus>
+    <input ng-model="comp.unit" placeholder="unit" autofocus>
+    <input ng-model="comp.quantity" placeholder="quantity" autofocus>
+    <button ng-click="inputRecipe(comp)">SUBMIT</button>
 
-    <input ng-model="name" placeholder="recipe name" autofocus>
-    <input ng-model="ingredient" placeholder="ingredient" autofocus>
-    <input ng-model="unit" placeholder="unit" autofocus>
-    <input ng-model="quantity" placeholder="quantity" autofocus>
-    <input ng-model="ingredient" placeholder="ingredient" autofocus>
-    <input ng-model="unit" placeholder="unit" autofocus>
-    <input ng-model="quantity" placeholder="quantity" autofocus>
-    <input ng-model="ingredient" placeholder="ingredient" autofocus>
-    <input ng-model="unit" placeholder="unit" autofocus>
-    <input ng-model="quantity" placeholder="quantity" autofocus>
-    <input ng-model="ingredient" placeholder="ingredient" autofocus>
-    <input ng-model="unit" placeholder="unit" autofocus>
-    <input ng-model="quantity" placeholder="quantity" autofocus>
-    <input ng-model="image" placeholder="imgUrl" autofocus>
-
+    </form>
   </div>
   
 
