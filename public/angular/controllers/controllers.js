@@ -81,6 +81,9 @@ TheControllers.controller('DetailsController', ['$scope', function($scope) {
     console.log("ASdaasdasdasdasdsdsasd");
     console.log($scope.dataArray[index]);
   }
+  $scope.testFunction = function() {
+    $scope.greeting = "Hello Tester";
+  }
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {
