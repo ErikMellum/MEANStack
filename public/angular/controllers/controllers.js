@@ -74,7 +74,6 @@ $scope.displayRecipes = function() {
 }
 }]);
 
-
 TheControllers.controller('RecipeController', ['$scope', function($scope) {
   $scope.name = "Tester";
   $scope.testFunction = function() {
@@ -95,7 +94,6 @@ $scope.inputRecipe = function(comp) {
 }
 
 }]);
-
 
 TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $http) {
   $http.get('/api/tmpIngredients').success(function(data) {
