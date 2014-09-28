@@ -85,11 +85,12 @@ TheControllers.controller('AboutController', ['$scope', function($scope, $http) 
   $scope.names=["Name 1, Name 2, Name3"];
 }]);
 
-TheControllers.controller('InputController', ['$scope', function($scope, $http) {
+TheControllers.controller('InputController', ['$scope', '$http', function($scope, $http) {
 
 $scope.inputRecipe = function(comp) {
       var url = '/api/composition/new/'
-      $http.post(url, postObject).success(function(comp) {
+      $http.post(url, comp).success(function(data) {
+      console.log(comp);
       });
 }
 
