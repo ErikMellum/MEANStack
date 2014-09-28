@@ -1,4 +1,4 @@
-describe('Unit: RecipeController', function(){
+describe('Unit: InputController', function(){
 
   beforeEach(module('myApp'));
 
@@ -8,15 +8,14 @@ describe('Unit: RecipeController', function(){
     // Create a new scope that's a child of the $rootScope
     scope = $rootScope.$new();
     // Create the controller
-    ctrl = $controller('RecipeController', {
+    ctrl = $controller('InputController', {
       $scope: scope
     });
   }));
 
-  it('should verify it can check the scope greeting variable', 
+  it('should add an ingredient to the chosen_ingredients array', 
     function() {
-      expect(scope.greeting).toBeUndefined();
-      scope.testFunction();
-      expect(scope.greeting).toBe("Hello Tester");
+      expect(scope.test).toBe("Test");
   });
+
 });

@@ -80,20 +80,23 @@ TheControllers.controller('RecipeController', ['$scope', function($scope) {
   }
 }]);
 
-TheControllers.controller('AboutController', ['$scope', function($scope, $http) {
+TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.names=["Name 1, Name 2, Name3"];
+  $scope.test = "Hello";
 }]);
-TheControllers.controller('InputController', ['$scope', function($scope, $http) {
-
+TheControllers.controller('InputController', ['$scope','$http', function($scope, $http) {
+$scope.test = "Test";
 $scope.inputRecipe = function(comp) {
-      var url = '/api/composition/new/'
+      var url = '/api/composition/new/';
+
       $http.post(url, postObject).success(function(comp) {
       });
 }
 
 }]);
 
-TheControllers.controller('ApiScrapeController', ['$scope', function($scope, $http) {
+TheControllers.controller('ApiScrapeController', ['$scope','$http', function($scope, $http) {
+  $scope.test = "Test";
   $http.get('/api/tmpIngredients').success(function(data) {
        $scope.tmpIngredients=data;
     });
