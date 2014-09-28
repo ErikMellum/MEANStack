@@ -13,6 +13,10 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'about',
     controller: 'AboutController'
   }).
+    when('/create', {
+    templateUrl: 'create',
+    controller: 'InputController'
+  }).
     when('/details/:name', {
     templateUrl: 'details/:name',
     controller: 'DetailsController'

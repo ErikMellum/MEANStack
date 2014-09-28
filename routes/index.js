@@ -10,6 +10,12 @@ router.get('/search', function(req, res) {
 router.get('/about', function(req, res) {
   res.render('partials/about');
 });
+router.get('/create', function(req, res) {
+  res.render('partials/create_recipe');
+});
+router.get('/recipe', function(req, res) {
+  res.render('partials/recipe');
+});
 router.get('/details/:name', function(req, res) {
   res.render('partials/details');
 });
