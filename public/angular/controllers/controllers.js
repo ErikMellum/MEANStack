@@ -1,4 +1,5 @@
 var TheControllers = angular.module('TheControllers', []);
+
 TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
 
 
@@ -17,10 +18,8 @@ $scope.match="";
 $scope.queryIngredients = function(match)
 {
   var url = '/api/ingredients/';
-  console.log(match);
   var postObject = {"ingredient" : match};
   $http.post(url, postObject).success(function(data) {
-    console.log(data);
     $scope.query_result = data;
   });
 }
@@ -30,12 +29,18 @@ $scope.switchAndDisplay = function(name, container, index){
      $scope.chosen_ingredients.push(name);
      $scope.recipes.length = 0; //removing all recipe results 
      $scope.displayRecipes();
+     // reset
+     $scope.match = "";
+     $scope.query_result.length = 0;
+     
 }
 $scope.remove = function(container, index){
     container.splice(index,1);
     //remove all recipes because we have no ingredients chosen || we have removen an 'ingredient' and we need to empty the recipe array to render a new recipe array later
-   if($scope.chosen_ingredients.length == 0 || container != $scope.recipes) 
-     $scope.recipes.length = 0; //removing all recipe results 
+   if($scope.chosen_ingredients.length == 0 || container != $scope.recipes){ 
+     $scope.recipes.length = 0; //removing all recipe results
+    }
+
 
    //if we arent removing a recipe, display the new recipe list
    if (container != $scope.recipes) { 
