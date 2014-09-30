@@ -1,38 +1,29 @@
 var TheControllers = angular.module('TheControllers', []);
 TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
- $scope.query_result = [
-  { 
-    name: "eggs"
-  },
-  {
-    name: "buttermilk"
-  },
-  {
-    name: "flour"
-  },
-  {
-    name:"vegetable oil"
-  },
-  {
-    name:"garlic"
-  },
-  {
-    name:"cognac"
-  },
-  {
-    name:"cumin seed"
-  },
-  {
-    name:"pizza"
-  },
-  { 
-    name: "steak"
-  }
-]
+
 
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
 $scope.dataArray=[]
+$scope.query_result = []
+$scope.match="";
+
+/**
+ * Queries API for ingredients that begin with match
+ * Who: Jayd
+ * @match  {string}     match the search input
+ * @return {data}       result of our query
+ */
+$scope.queryIngredients = function(match)
+{
+  var url = '/api/ingredients/';
+  console.log(match);
+  var postObject = {"ingredient" : match};
+  $http.post(url, postObject).success(function(data) {
+    console.log(data);
+    $scope.query_result = data;
+  });
+}
 
 $scope.switchAndDisplay = function(name, container, index){
     container.splice(index,1);

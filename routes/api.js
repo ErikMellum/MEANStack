@@ -32,10 +32,10 @@ router.use(function(req, res, next) {
  * @param {post} [ingredient] The ingredient to search for, searches match beginning of name
  * @return {matches} All ingredients that matched our query
  */
-router.post('/ingredient/', function(req, res, next){
+router.post('/ingredients/', function(req, res, next){
   console.log(req.body.ingredient);
   var needle = req.body.ingredient;
-  TmpIngredient.find({ name: { $regex: '^'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
+  TmpIngredient.find({ name: { $regex: '[^A-Za-z0-9]'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
 
     res.json(matches);
   });
