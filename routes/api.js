@@ -36,7 +36,6 @@ router.post('/ingredients/', function(req, res, next){
   console.log(req.body.ingredient);
   var needle = req.body.ingredient;
   TmpIngredient.find({ name: { $regex: '[^A-Za-z0-9]'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
-
     res.json(matches);
   });
 });
