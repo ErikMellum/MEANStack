@@ -2,13 +2,12 @@ describe('Unit: SearchController', function(){
 
   beforeEach(module('myApp'));
 
-  var ctrl, scope;
-
-  beforeEach(inject(function($controller, $rootScope) {
-    // Create a new scope that's a child of the $rootScope
+  var SearchCtrl, scope, mockHttp, url;
+ 
+  beforeEach(inject(function($httpBackend, $controller, $rootScope) {
+    mockHttp = $httpBackend;
     scope = $rootScope.$new();
-    // Create the controller
-    ctrl = $controller('SearchController', {
+    SearchCtrl = $controller('SearchController', {
       $scope: scope
     });
   }));
@@ -20,4 +19,23 @@ describe('Unit: SearchController', function(){
       expect(scope.chosen_ingredients.length).toBe(1);
   });
 
+  it ('should post successfully', 
+    function(){
+      var postObject = {"ingredients" : ['free range egg']};
+      url = '/api/composition/withIngredients/';
+      mockHttp.whenPOST(url, postObject).respond(201, 'success');
+      mockHttp.expectPOST(url).respond(201, 'success');
+  });
+
+  it ('should query an ingredient correctly', 
+    function(){
+      var ingredientRequestHandler = mockHttp.when('POST', '/api/ingredients/')
+      .respond({data: ['free range eggs', 'large eggs']});
+
+      var postObject = {"ingredient" : 'egg'};
+      url = '/api/ingredients/';
+      mockHttp.expectPOST(url).respond(200, {
+          data: ['free range eggs', 'large eggs']
+      });
+  });
 });

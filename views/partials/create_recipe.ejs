@@ -1,14 +1,37 @@
-  <div ng-controller="InputController">
+  <div ng-controller="InputController" class="create-form">
     <form novalidate class="simple-form">
-    
-    <input ng-model="comp.name" placeholder="recipe name" autofocus>
-    <input ng-model="comp.ingredient" placeholder="ingredient" autofocus>
-    <input ng-model="comp.unit" placeholder="unit" autofocus>
-    <input ng-model="comp.quantity" placeholder="quantity" autofocus>
-    <button ng-click="inputRecipe(comp)">SUBMIT</button>
 
+    Recipe Name:
+    <input ng-model="recipeName" placeholder="recipe name" autofocus><br />
+    Ingredients: {{count}}
+    <button ng-show="count<5" ng-click="count = count + 1" ng-init="count=0">+</button>
+    <button ng-show="count>0" ng-click="count = count - 1; ingredient[count+1]=''; unit[count+1]=''; quantity[count+1]=''">-</button><br />
+    <input ng-model="ingredient[0]" placeholder="ingredient"> 
+    <input ng-model="unit[0]" placeholder="unit">
+    <input ng-model="quantity[0]" placeholder="quantity">  <br />
+    <div ng-if="count>=1">
+        <input ng-model="ingredient[1]" placeholder="ingredient"> 
+        <input ng-model="unit[1]" placeholder="unit">
+        <input ng-model="quantity[1]" placeholder="quantity">  <br />
+    </div>
+    <div ng-if="count>=2">
+        <input ng-model="ingredient[2]" placeholder="ingredient"> 
+        <input ng-model="unit[2]" placeholder="unit">
+        <input ng-model="quantity[2]" placeholder="quantity">  <br />
+    </div>
+    <div ng-if="count>=3">
+        <input ng-model="ingredient[3]" placeholder="ingredient"> 
+        <input ng-model="unit[3]" placeholder="unit">
+        <input ng-model="quantity[3]" placeholder="quantity">  <br />
+    </div>
+    <div ng-if="count>=4">
+        <input ng-model="ingredient[4]" placeholder="ingredient"> 
+        <input ng-model="unit[4]" placeholder="unit">
+        <input ng-model="quantity[4]" placeholder="quantity">  <br />
+    </div>
+
+    <button ng-click="inputRecipe(recipeName)">Create</button>
     </form>
   </div>
-  
 
 

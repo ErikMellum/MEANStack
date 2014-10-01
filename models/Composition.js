@@ -16,11 +16,11 @@ var CompositionSchema = new mongoose.Schema({
     rating: { type:Number, min:0, max:5, default:0},
     ratingInstance: { type:Number, default:0},
     reviewInstance: { type:Number, default:0},
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     date: { type:Date, default: Date.now },
     AbstractIngredientParents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbstractIngredient'}],
     CompositionParents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}],
-    images:[{ type:String }]
+    images:[{ type:String, default:''}]
 });
 
 //Increment Rating instance; Call Every time this recipe is rated!//

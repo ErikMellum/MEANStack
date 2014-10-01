@@ -1,10 +1,8 @@
 
 <section class="foodpage">
   <div class="search">
-    <h1 class="middle">Recipe Search</h1>
-    <label>search: </label>
-
-    <input ng-model="match" ng-keyup="queryIngredients(match)" placeholder="Search for foods" autofocus>
+    <h1 class="middle">Ingredient Search</h1>
+    <input ng-model="match" ng-keyup="queryIngredients(match)" placeholder="Search for ingredients" autofocus>
   </div>
   <ul class="foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="ingredient in query_result">
@@ -19,7 +17,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
-      <a href="#/details/{{recipe}}" ng-click="details(recipe, $index)"><div >
+      <a href="#/details/{{recipe.name}}" ng-click="details(recipe.name, $index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{recipe.name}}</h2>
       </div></a>
