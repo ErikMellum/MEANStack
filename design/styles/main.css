@@ -1,0 +1,98 @@
+/* Reset Styles */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* Global Styles */
+
+body {
+  background: url(../images/smooth_wall.png) repeat 0 0;
+}
+
+h1, h2, h3, strong {
+  font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+  font-size: 50px;
+  line-height: 60px;
+  color: #547980;
+}
+
+strong {
+  font-size: 30px;
+}
+
+h1 {
+  text-align: left;
+}
+
+h3 {
+  line-height: 25px;
+  color: #594F4F;
+  font-size: 25px;
+}
+
+p, span, button {
+  font-family: 'Vollkorn', Georgia, Times, serif;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.navbar-fixed-top {
+  background-color: #9DE0AD;
+  opacity: 0.9;
+  height: 75px;
+  border: none;
+}
+
+.side-nav {
+  position: fixed;
+  margin-top: 75px;
+  padding-top: 10px;
+  left: 225px;
+  width: 225px;
+  margin-left: -225px;
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+  background-color: #45ADA8;
+  height: 100%;
+  opacity: 0.9;
+  text-align: center;
+}
+
+#wrapper {
+  margin-left: 225px;
+}
+
+#page-wrapper {
+  width: 90%;
+  padding: 85px 10px 10px 10px;
+}
+
+.recipe-search {
+  width: 60%;
+  padding: 20px;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+    outline: none;
+    outline-offset: 0px;
+}

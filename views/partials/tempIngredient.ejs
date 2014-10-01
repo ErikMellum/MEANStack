@@ -1,13 +1,20 @@
+<div id="tmpIngredientBox">
 <form action="/api/api-scrape" method="POST" >
-  {{test}}
-  <select ng-repeat="ingredient in tmpIngredients" ng-model="currentIngredient">
-    <option value="{{ingredient.name}}">{{ingredient.name}}</option>
-  </select>
+
+  <input id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchPhrase" placeholder="Enter Ingredient" autofocus>
+  <table id="searchIngredientResults">
+  <tr ng-repeat="ingredient in tmpIngredients | filter: searchPhrase | limitTo : 3">
+    <td class="tmpIngredient">{{ingredient.name}}</td>
+  </tr>
+
+</table>
+
   <input id="id_field" type="hidden" name="id" value="{{currentIngredient.name}}">
-  <label for="name">Name: <input type="text" id="name_field" name="name"  value="{{currentIngredient.name}}"></label><br>
-  <label for="brand">Brand: <input type="text" id="brand_field" name="brand"  value="{{currentIngredient.name}}"></label><br>
-  <label for="unique">Unique: <input type="checkbox" id="unique_field" name="unique" checked="true"></label><br>
-  <label for="processed">Processed: <input type="checkbox" id="processed_field" name="processed"  checked="true"></label><br>
-  <label for="abstract-parent">Abstract Parent: <input type="text" id="abstract_parent_field" name="abstract-parent"  value="{{currentIngredient.name}}"></label>
+  <input type="text" id="name_field" name="name" placeholder="Name" value="{{currentIngredient.name}}"><br>
+  <input type="text" id="brand_field" name="brand" placeholder="Brand" value="{{currentIngredient.name}}"><br>
+  <label for="unique">Unique: <input type="checkbox" id="unique_field" name="unique" placeholder="Unique" checked="true"></label><br>
+  <label for="processed">Processed: <input type="checkbox" id="processed_field" name="processed" placeholder="Processed" checked="true"></label><br>
+  <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Abstract parent" value="{{currentIngredient.name}}"><br>
   <button type="submit">Submit</button>
 </form>
+</div>

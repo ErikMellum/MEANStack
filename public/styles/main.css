@@ -440,3 +440,27 @@ a.small {
 	padding-top: 2px;
 }
 
+.topPageHeader{
+  margin: 5px;
+  color: #DDD;
+  text-align: center;
+}
+
+.tmpIngredient{
+  text-align: center;
+  font-family: serif;
+  color: #EEE8D5;
+}
+
+input{
+  color: black;
+}
+
+#searchIngredientResults{
+  border: white;
+  padding: 10px;
+}
+#tmpIngredientBox{
+  margin: 0 auto;
+  width: 400px;
+}
