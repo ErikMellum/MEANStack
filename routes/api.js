@@ -101,8 +101,15 @@ router.post('/composition/withIngredients/', function(req, res, next){
  */ //Currently two /composition/new/ ?? 
 router.post('/composition/new/', function(req, res, next){
     console.log(req.body);
+/*
     var newComposition = new Composition();
+    var ingredientArray = [];
+    req.body.ingredient.forEach(function(ingredient){
+        console.log(ingredient);
+    }
     composition.name = req.body.name;
+    
+    
     composition.recipe = req.body.ingredient;
     composition.user_id = req.body.user_id;
 
@@ -112,11 +119,14 @@ router.post('/composition/new/', function(req, res, next){
     //Search DB for ParentID, push onto ParentID array; via sub query//
     // *** //
     //Save Composition//
+    /*
     composition.save(function(err, composition){
       if (err)
         res.send(err);
       res.json(composition); //Return Json Object
     });
+    */
+    
 });
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)

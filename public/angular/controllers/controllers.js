@@ -86,12 +86,29 @@ TheControllers.controller('AboutController', ['$scope','$http', function($scope,
   $scope.names=["Name 1, Name 2, Name3"];
   $scope.test = "Hello";
 }]);
+
 TheControllers.controller('InputController', ['$scope','$http', function($scope, $http) {
 $scope.test = "Test";
-$scope.inputRecipe = function(comp) {
-      var url = '/api/composition/new/';
+$scope.count = '0';
+$scope.ingredient = [];
+$scope.quantity = [];
+$scope.unit = [];
+$scope.recipeName = "";
 
-      $http.post(url, postObject).success(function(comp) {
+$scope.inputRecipe = function(recipe) {
+      var url = '/api/composition/new/';
+      console.log($scope.ingredient);
+      console.log($scope.quantity);
+      console.log($scope.unit);
+      var array = new Array();
+      for(i=0; i<$scope.ingredient.length;i++){
+        var ingObj = { "name":$scope.ingredient[i], "quantity":$scope.quantity[i], "unit":$scope.unit[i]};
+        array.push(ingObj);
+      }
+      console.log(array);
+      recipe = { "name":$scope.recipeName, "ingredients":array  };
+      postObject = recipe;
+      $http.post(url, postObject).success(function(data){
       });
 }
 
