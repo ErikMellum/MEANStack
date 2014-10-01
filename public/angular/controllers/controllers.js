@@ -1,5 +1,19 @@
 var TheControllers = angular.module('TheControllers', ['recipeService']);
 
+angular.module('TheControllers').directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) { //the user pressed enter
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
 TheControllers.controller('SearchController', ['$scope','$http', 'detailsService', function($scope, $http, detailsService) {
 
 $scope.chosen_ingredients=[]
@@ -14,8 +28,7 @@ $scope.reset = function(){
      $scope.query_result.length = 0;
 }
  $scope.insert = function(ingredient){
-  $scope.chosen_ingredients.push({name : ingredient});
-  $scope.recipes.length = 0; //removing all recipe results  
+  $scope.chosen_ingredients.push({name : ingredient}); 
   $scope.displayRecipes();
   $scope.reset();
 
@@ -34,32 +47,22 @@ $scope.queryIngredients = function(match)
     $scope.query_result = data;
   });
 }
-$scope.switchAndDisplay = function(name, container, index){
-    container.splice(index,1);
+$scope.switchAndDisplay = function(name){
      $scope.chosen_ingredients.push(name);
-     $scope.recipes.length = 0; //removing all recipe results 
      $scope.displayRecipes();
      $scope.reset();
      
 }
-$scope.remove = function(container, index){
-    container.splice(index,1);
-    //remove all recipes because we have no ingredients chosen || we have removen an 'ingredient' and we need to empty the recipe array to render a new recipe array later
-   if($scope.chosen_ingredients.length == 0 || container != $scope.recipes){ 
-     $scope.recipes.length = 0; //removing all recipe results
-    }
-
-   //if we arent removing a recipe, display the new recipe list
-   if (container != $scope.recipes) { 
-     $scope.displayRecipes();
-   }
+$scope.remove = function(index){
+    $scope.chosen_ingredients.splice(index,1);
+    $scope.displayRecipes();
 }
   $scope.details = function(recipe, index){
     detailsService.setName(recipe); //setting the name in the service so the DetailsController can use it later
     // console.log($scope.dataArray[index]);
   }
 $scope.displayRecipes = function() {
-
+  $scope.recipes.length = 0; //removing all recipe results 
   if ($scope.chosen_ingredients.length) {
     var url = '/api/composition/withIngredients/'
     var ingredientsArray = new Array();
@@ -122,17 +125,3 @@ TheControllers.controller('ApiScrapeController', ['$scope','$http', function($sc
   $scope.tmpIds=[];
 
 }]);
-
-angular.module('TheControllers').directive('ngEnter', function() {
-        return function(scope, element, attrs) {
-            element.bind("keydown keypress", function(event) {
-                if(event.which === 13) { //the user pressed enter
-                    scope.$apply(function(){
-                        scope.$eval(attrs.ngEnter, {'event': event});
-                    });
-
-                    event.preventDefault();
-                }
-            });
-        };
-    });
