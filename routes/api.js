@@ -85,9 +85,25 @@ router.post('/composition/withIngredients/', function(req, res, next){
  * @return {res.json} yummly object API (at the moment)
  * 
  * Should recieve a json recipe object formulated on the front end using a form 
- */
+ */ //Currently two /composition/new/ ?? 
 router.post('/composition/new/', function(req, res, next){
     console.log(req.body);
+    var newComposition = new Composition();
+    composition.name = req.body.name;
+    composition.recipe = req.body.ingredient;
+    composition.user_id = req.body.user_id;
+
+    /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
+    //Search DB for ChildID, push onto ChildID array; via sub query//
+    // *** // 
+    //Search DB for ParentID, push onto ParentID array; via sub query//
+    // *** //
+    //Save Composition//
+    composition.save(function(err, composition){
+      if (err)
+        res.send(err);
+      res.json(composition); //Return Json Object
+    });
 });
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
@@ -232,21 +248,6 @@ router.post('/composition/omgwtfbbq', function(req, res, next) {
   pizza.save(function(err, pizza){
     res.json(pizza);
   });
-
-
-});
-
-router.post('/composition/new', function(req, res) {
-  
-  var composition = new Composition();
-  composition.name = req.body.name;
-  composition.save(function(err, composition){
-    if (err)
-      res.send(err);
-    console.log("NEWNAME: " + req.body.name);
-    res.json(composition);
-  });
-
 
 
 });
