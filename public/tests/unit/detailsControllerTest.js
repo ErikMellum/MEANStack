@@ -1,4 +1,4 @@
-describe('Unit: RecipeController', function(){
+describe('Unit: DetailsController', function(){
 
   beforeEach(module('myApp'));
 
@@ -8,7 +8,7 @@ describe('Unit: RecipeController', function(){
     // Create a new scope that's a child of the $rootScope
     scope = $rootScope.$new();
     // Create the controller
-    ctrl = $controller('RecipeController', {
+    ctrl = $controller('DetailsController', {
       $scope: scope
     });
   }));

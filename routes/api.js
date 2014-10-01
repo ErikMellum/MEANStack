@@ -27,6 +27,19 @@ router.use(function(req, res, next) {
   console.log('API Request is happening.');
   next(); // make sure we go to the next routes and don't stop here
 });
+/**
+ * Fetch ingredients that start with query
+ * @param {post} [ingredient] The ingredient to search for, searches match beginning of name
+ * @return {matches} All ingredients that matched our query
+ */
+router.post('/ingredients/', function(req, res, next){
+  console.log(req.body.ingredient);
+  var needle = req.body.ingredient;
+  TmpIngredient.find({ name: { $regex: '[^A-Za-z0-9]'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
+    res.json(matches);
+  });
+});
+
 
 // fetch ingredients from the remote API and tunnel through me
 /**
@@ -85,9 +98,25 @@ router.post('/composition/withIngredients/', function(req, res, next){
  * @return {res.json} yummly object API (at the moment)
  * 
  * Should recieve a json recipe object formulated on the front end using a form 
- */
+ */ //Currently two /composition/new/ ?? 
 router.post('/composition/new/', function(req, res, next){
     console.log(req.body);
+    var newComposition = new Composition();
+    composition.name = req.body.name;
+    composition.recipe = req.body.ingredient;
+    composition.user_id = req.body.user_id;
+
+    /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
+    //Search DB for ChildID, push onto ChildID array; via sub query//
+    // *** // 
+    //Search DB for ParentID, push onto ParentID array; via sub query//
+    // *** //
+    //Save Composition//
+    composition.save(function(err, composition){
+      if (err)
+        res.send(err);
+      res.json(composition); //Return Json Object
+    });
 });
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
@@ -232,21 +261,6 @@ router.post('/composition/omgwtfbbq', function(req, res, next) {
   pizza.save(function(err, pizza){
     res.json(pizza);
   });
-
-
-});
-
-router.post('/composition/new', function(req, res) {
-  
-  var composition = new Composition();
-  composition.name = req.body.name;
-  composition.save(function(err, composition){
-    if (err)
-      res.send(err);
-    console.log("NEWNAME: " + req.body.name);
-    res.json(composition);
-  });
-
 
 
 });
