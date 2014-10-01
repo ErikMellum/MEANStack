@@ -1,7 +1,6 @@
-var TheControllers = angular.module('TheControllers', ['testService']);
+var TheControllers = angular.module('TheControllers', ['recipeService']);
 
-TheControllers.controller('SearchController', ['$scope','$http', 'test', function($scope, $http, test) {
-
+TheControllers.controller('SearchController', ['$scope','$http', 'detailsService', function($scope, $http, detailsService) {
 
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
@@ -48,7 +47,7 @@ $scope.remove = function(container, index){
    }
 }
   $scope.details = function(recipe, index){
-    test.addName(recipe); //setting the name in the service so the DetailsController can use it later
+    detailsService.setName(recipe); //setting the name in the service so the DetailsController can use it later
     // console.log($scope.dataArray[index]);
   }
 $scope.displayRecipes = function() {
@@ -70,8 +69,8 @@ $scope.displayRecipes = function() {
 }
 }]);
 
-TheControllers.controller('DetailsController', ['$scope' ,'test', function($scope, test) {
-     $scope.recipeName = test.getName(); //call to service for the name of recipe
+TheControllers.controller('DetailsController', ['$scope' ,'detailsService', function($scope, detailsService) {
+     $scope.recipeName = detailsService.getName(); //call to service for the name of recipe
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {

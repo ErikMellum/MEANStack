@@ -1,10 +1,9 @@
-angular.module('testService', [])
-.service('test', function(){
+angular.module('recipeService', [])
+.service('detailsService', function(){
   var recipeName= "";
 
-  var addName = function(name) {
+  var setName = function(name) {
       recipeName = name;
-      console.log("setting name to " + name);
   }
 
   var getName = function(){
@@ -12,7 +11,7 @@ angular.module('testService', [])
   }
 
   return {
-    addName: addName,
+    setName: setName,
     getName: getName
   };      
 });
