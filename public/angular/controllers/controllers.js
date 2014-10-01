@@ -1,5 +1,19 @@
 var TheControllers = angular.module('TheControllers', ['recipeService']);
 
+angular.module('TheControllers').directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) { //the user pressed enter
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
 TheControllers.controller('SearchController', ['$scope','$http', 'detailsService', function($scope, $http, detailsService) {
 
 $scope.chosen_ingredients=[]
@@ -14,6 +28,16 @@ $scope.match="";
  * @match  {string}     match the search input
  * @return {data}       result of our query
  */
+ $scope.reset = function(){
+     $scope.match = "";
+     $scope.query_result.length = 0;
+}
+ $scope.insert = function(ingredient){
+  $scope.chosen_ingredients.push({name : ingredient});
+  $scope.displayRecipes();
+  $scope.reset();
+
+ }
 $scope.queryIngredients = function(match)
 {
   var url = '/api/ingredients/';
@@ -22,15 +46,12 @@ $scope.queryIngredients = function(match)
     $scope.query_result = data;
   });
 }
-
 $scope.switchAndDisplay = function(name, container, index){
     container.splice(index,1);
      $scope.chosen_ingredients.push(name);
      $scope.recipes.length = 0; //removing all recipe results 
      $scope.displayRecipes();
-     // reset
-     $scope.match = "";
-     $scope.query_result.length = 0;
+     $scope.reset();
      
 }
 $scope.remove = function(container, index){
