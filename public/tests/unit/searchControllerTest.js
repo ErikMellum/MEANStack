@@ -26,4 +26,16 @@ describe('Unit: SearchController', function(){
       mockHttp.whenPOST(url, postObject).respond(201, 'success');
       mockHttp.expectPOST(url).respond(201, 'success');
   });
+
+  it ('should query an ingredient correctly', 
+    function(){
+      var ingredientRequestHandler = mockHttp.when('POST', '/api/ingredients/')
+      .respond({data: ['free range eggs', 'large eggs']});
+
+      var postObject = {"ingredient" : 'egg'};
+      url = '/api/ingredients/';
+      mockHttp.expectPOST(url).respond(200, {
+          data: ['free range eggs', 'large eggs']
+      });
+  });
 });
