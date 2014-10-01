@@ -429,3 +429,8 @@ a.small {
 	padding-top: 2px;
 }
 
+.topPageHeader{
+  margin: 5px;
+  color: #DDD;
+  text-align: center;
+}
