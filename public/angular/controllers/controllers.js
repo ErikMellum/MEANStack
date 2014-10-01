@@ -94,8 +94,6 @@ TheControllers.controller('DetailsController', ['$scope' ,'detailsService', func
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {
-  $scope.names=["Name 1, Name 2, Name3"];
-  $scope.test = "Hello";
 }]);
 
 TheControllers.controller('InputController', ['$scope','$http', function($scope, $http) {
