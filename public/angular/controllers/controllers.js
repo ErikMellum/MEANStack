@@ -1,19 +1,5 @@
 var TheControllers = angular.module('TheControllers', ['recipeService']);
 
-angular.module('TheControllers').directive('ngEnter', function() {
-        return function(scope, element, attrs) {
-            element.bind("keydown keypress", function(event) {
-                if(event.which === 13) { //the user pressed enter
-                    scope.$apply(function(){
-                        scope.$eval(attrs.ngEnter, {'event': event});
-                    });
-
-                    event.preventDefault();
-                }
-            });
-        };
-    });
-
 TheControllers.controller('SearchController', ['$scope','$http', 'detailsService', function($scope, $http, detailsService) {
 
 $scope.chosen_ingredients=[]
@@ -22,22 +8,24 @@ $scope.dataArray=[]
 $scope.query_result = []
 $scope.match="";
 
-/**
- * Queries API for ingredients that begin with match
- * Who: Jayd
- * @match  {string}     match the search input
- * @return {data}       result of our query
- */
- $scope.reset = function(){
+
+$scope.reset = function(){
      $scope.match = "";
      $scope.query_result.length = 0;
 }
  $scope.insert = function(ingredient){
   $scope.chosen_ingredients.push({name : ingredient});
+  $scope.recipes.length = 0; //removing all recipe results  
   $scope.displayRecipes();
   $scope.reset();
 
  }
+ /**
+ * Queries API for ingredients that begin with match
+ * Who: Jayd
+ * @match  {string}     match the search input
+ * @return {data}       result of our query
+ */
 $scope.queryIngredients = function(match)
 {
   var url = '/api/ingredients/';
@@ -134,3 +122,17 @@ TheControllers.controller('ApiScrapeController', ['$scope','$http', function($sc
   $scope.tmpIds=[];
 
 }]);
+
+angular.module('TheControllers').directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) { //the user pressed enter
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
