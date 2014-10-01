@@ -50,23 +50,18 @@
   
 </head>
   <body>
-    <div style=" height: 100%; margin: 10 10 10 10;">
-      <div style="height:250px;" class="banner">
-          <!-- IMAGE BANNER -->   
-      </div>
-      
       <!--  NAV  -->
-      <div class="container-fluid nav-bar" style="border:1px solid #ccc; margin-top:10px">
+      <div class="container-fluid nav-bar">
         <div class="row">
           <ul class="nav nav-pills nav-justified"  role="tablist">
-               <li class="active"><a href="#/search">Search</a></li>
+               <li><a href="#/search">Search</a></li>
               <li><a href="#/about">About</a></li>
               <li><a href="#/create">Create</a></li>
           </ul>
         </div>  
       </div>
       <hr>
-       <div class="container-fluid">
+       <div class="container-fluid main">
         <div class="row">
           <div class="col-lg-12">
             <ng-view>
@@ -76,8 +71,6 @@
         </div>
        </div>
       
-    
-    </div>
   </body>
 
 </html>

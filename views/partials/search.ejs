@@ -4,13 +4,13 @@
     <h1 class="middle">Recipe Search</h1>
     <label>search: </label>
 
-    <input ng-model="match" placeholder="Search for foods" autofocus>
+    <input ng-model="match" ng-keyup="queryIngredients(match)" placeholder="Search for foods" autofocus>
   </div>
   <ul class="foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="name in query_result | filter: match">
-      <a href="#/search" ng-click="switchAndDisplay(name, query_result, $index)"><div >
+    <li class="food cf" ng-animate="animate" ng-repeat="ingredient in query_result">
+      <a href="#/search" ng-click="switchAndDisplay(ingredient, query_result, $index)"><div >
       <div class="info inline">
-        <h2>{{name.name}}</h2>
+        <h2>{{ingredient.name}}</h2>
       </div></a>
     </li>
   </ul>  
@@ -18,10 +18,10 @@
 <div id="recipe-list" class="middle">
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="name in recipes">
+    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
       <a href="#/details/{{name}}" ng-click="details(name, $index)"><div >
       <div class="info inline">
-        <h2 class="text-align-left">{{name.name}}</h2>
+        <h2 class="text-align-left">{{recipe.name}}</h2>
       </div></a>
     </li>
   </ul>  
@@ -29,14 +29,11 @@
 <div id="results-list" class="middle">
   <h1>Chosen Ingredients</h1>
     <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="name in chosen_ingredients">
-      <a href="#/recipes" ng-click="remove(chosen_ingredients, $index)"><div >
+    <li class="food cf" ng-animate="animate" ng-repeat="ingredient in chosen_ingredients">
+      <a href="#/search" ng-click="remove(chosen_ingredients, $index)"><div >
       <div class="info inline">
-        <h2 class="text-align-left">{{name.name}}</h2>
+        <h2 class="text-align-left">{{ingredient.name}}</h2>
       </div></a>
     </li>
   </ul> 
-  
 </div>
-
-

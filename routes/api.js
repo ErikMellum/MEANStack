@@ -27,6 +27,19 @@ router.use(function(req, res, next) {
   console.log('API Request is happening.');
   next(); // make sure we go to the next routes and don't stop here
 });
+/**
+ * Fetch ingredients that start with query
+ * @param {post} [ingredient] The ingredient to search for, searches match beginning of name
+ * @return {matches} All ingredients that matched our query
+ */
+router.post('/ingredients/', function(req, res, next){
+  console.log(req.body.ingredient);
+  var needle = req.body.ingredient;
+  TmpIngredient.find({ name: { $regex: '[^A-Za-z0-9]'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
+    res.json(matches);
+  });
+});
+
 
 // fetch ingredients from the remote API and tunnel through me
 /**
