@@ -19,7 +19,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
-      <a href="#/details/{{name}}" ng-click="details(name, $index)"><div >
+      <a href="#/details/{{recipe}}" ng-click="details(recipe, $index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{recipe.name}}</h2>
       </div></a>
