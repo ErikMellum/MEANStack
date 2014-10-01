@@ -76,6 +76,8 @@ TheControllers.controller('DetailsController', ['$scope', function($scope) {
   $scope.details = function(name, index){
     console.log("ASdaasdasdasdasdsdsasd");
     console.log($scope.dataArray[index]);
+    // window.href=baseurl+"/#/details?name=" + "name"+ "&index=+index"
+    // window.href = google.com;
   }
   $scope.testFunction = function() {
     $scope.greeting = "Hello Tester";
