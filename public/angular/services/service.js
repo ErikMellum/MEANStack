@@ -4,6 +4,7 @@ angular.module('testService', [])
 
   var addName = function(name) {
       recipeName = name;
+      console.log("setting name to " + name);
   }
 
   var getName = function(){
@@ -13,10 +14,5 @@ angular.module('testService', [])
   return {
     addName: addName,
     getName: getName
-  };
-
-
-    this.sayHello= function(text){
-        return "Service says \"Hello " + text + "\"";
-    };        
+  };      
 });

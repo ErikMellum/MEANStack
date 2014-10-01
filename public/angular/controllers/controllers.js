@@ -48,7 +48,7 @@ $scope.remove = function(container, index){
    }
 }
   $scope.details = function(recipe, index){
-    test.addName(recipe.name); //setting the name in the service so the DetailsController can use it later
+    test.addName(recipe); //setting the name in the service so the DetailsController can use it later
     // console.log($scope.dataArray[index]);
   }
 $scope.displayRecipes = function() {
