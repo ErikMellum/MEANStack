@@ -1,6 +1,6 @@
-var TheControllers = angular.module('TheControllers', []);
+var TheControllers = angular.module('TheControllers', ['testService']);
 
-TheControllers.controller('SearchController', ['$scope', '$http', function($scope, $http) {
+TheControllers.controller('SearchController', ['$scope','$http', 'test', function($scope, $http, test) {
 
 
 $scope.chosen_ingredients=[]
@@ -47,11 +47,9 @@ $scope.remove = function(container, index){
      $scope.displayRecipes();
    }
 }
-  $scope.details = function(name, index){
-    console.log("ASdasd");
-    console.log(name);
-    console.log(index);
-    console.log($scope.dataArray[index]);
+  $scope.details = function(recipe, index){
+    test.addName(recipe.name); //setting the name in the service so the DetailsController can use it later
+    // console.log($scope.dataArray[index]);
   }
 $scope.displayRecipes = function() {
 
@@ -72,16 +70,8 @@ $scope.displayRecipes = function() {
 }
 }]);
 
-TheControllers.controller('DetailsController', ['$scope', function($scope) {
-  $scope.details = function(name, index){
-    console.log("ASdaasdasdasdasdsdsasd");
-    console.log($scope.dataArray[index]);
-    // window.href=baseurl+"/#/details?name=" + "name"+ "&index=+index"
-    // window.href = google.com;
-  }
-  $scope.testFunction = function() {
-    $scope.greeting = "Hello Tester";
-  }
+TheControllers.controller('DetailsController', ['$scope' ,'test', function($scope, test) {
+     $scope.recipeName = test.getName(); //call to service for the name of recipe
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {
