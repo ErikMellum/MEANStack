@@ -1,5 +1,6 @@
-angular.module('recipeService', [])
-.service('detailsService', function(){
+var recipeService = angular.module('recipeService', []);
+
+recipeService.service('detailsService', function(){
   var recipeName= "";
 
   var setName = function(name) {

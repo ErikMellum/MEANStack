@@ -40,7 +40,6 @@ $scope.remove = function(container, index){
      $scope.recipes.length = 0; //removing all recipe results
     }
 
-
    //if we arent removing a recipe, display the new recipe list
    if (container != $scope.recipes) { 
      $scope.displayRecipes();
