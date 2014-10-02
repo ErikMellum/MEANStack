@@ -49,7 +49,7 @@ router.post('/ingredients/', function(req, res, next){
  */
 router.post('/composition/withIngredients/', function(req, res, next){
   console.log(req.body)
-  // test array of ingredients for now 
+  // test array of ingredients for now
   var ingredients = req.body.ingredients;
 
   // the yummly API key embedded URL
@@ -58,6 +58,9 @@ router.post('/composition/withIngredients/', function(req, res, next){
 
   // combine url and ingredients
   url += ingredients.join('&allowedIngredient[]=');
+    // uhh, yeah. gotta get rid of those special characters
+  url = encodeURI(url);
+
   // for testing
   console.log(url);
 
@@ -83,9 +86,9 @@ router.post('/composition/withIngredients/', function(req, res, next){
             tmpIngredient.save();
         });
       })
-      
+
       // send our response
-      res.json(recipesResponse); 
+      res.json(recipesResponse);
     });
   }).on('error', function(e) {
       console.log("Got error: " + e.message);
@@ -94,11 +97,11 @@ router.post('/composition/withIngredients/', function(req, res, next){
 
 /**
  * Adds a recipe to CompositionSchema -- tunnel through this route
- * @param  {recipeObject}   
+ * @param  {recipeObject}
  * @return {res.json} yummly object API (at the moment)
- * 
- * Should recieve a json recipe object formulated on the front end using a form 
- */ //Currently two /composition/new/ ?? 
+ *
+ * Should recieve a json recipe object formulated on the front end using a form
+ */ //Currently two /composition/new/ ??
 router.post('/composition/new/', function(req, res, next){
     console.log(req.body);
 /*
@@ -108,14 +111,14 @@ router.post('/composition/new/', function(req, res, next){
         console.log(ingredient);
     }
     composition.name = req.body.name;
-    
-    
+
+
     composition.recipe = req.body.ingredient;
     composition.user_id = req.body.user_id;
 
     /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
     //Search DB for ChildID, push onto ChildID array; via sub query//
-    // *** // 
+    // *** //
     //Search DB for ParentID, push onto ParentID array; via sub query//
     // *** //
     //Save Composition//
@@ -126,7 +129,7 @@ router.post('/composition/new/', function(req, res, next){
       res.json(composition); //Return Json Object
     });
     */
-    
+
 });
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
@@ -169,7 +172,7 @@ router.get(/^\/composition\/ingredients\/(.*)/, function(req, res, next) {
       // uncomment for testing
       // console.log("Pushing this recipe: ");
       // console.log(composition);
-      
+
       // push this composition to our array
       recipes.push(composition);
     });
@@ -178,7 +181,7 @@ router.get(/^\/composition\/ingredients\/(.*)/, function(req, res, next) {
       // output the recipes json
       res.json(recipes);
     });
-  });  
+  });
 });
 
 
@@ -194,18 +197,18 @@ router.get('/composition/:id', function(req, res, next) {
       if(err){ return next(err);}
       res.json(composition);
     });
-    
+
   });
 });
 
 //this route is just for testing purposes, it sets up a simple "pizza" recipe for testing
 router.post('/composition/omgwtfbbq', function(req, res, next) {
-  
+
   // This is just to put some data in the database, obviously this will have to be removed
   // Also this should only be ran once so we don't muck up our database
   var pizza = new Composition()
   pizza.name = "Cheese Pizza"
-  
+
   var pizzaDough = new AbstractIngredient();
   pizzaDough.name = "Pizza Dough";
 
