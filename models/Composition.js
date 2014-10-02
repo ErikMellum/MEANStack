@@ -13,6 +13,7 @@ var CompositionSchema = new mongoose.Schema({
         PrimitiveIngredient: {type: mongoose.Schema.Types.ObjectId , ref: 'PrimitiveIngredient'},
         Composition: {type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}
     }],
+    instruction: [ {type:String} ],
     rating: { type:Number, min:0, max:5, default:0},
     ratingInstance: { type:Number, default:0},
     reviewInstance: { type:Number, default:0},

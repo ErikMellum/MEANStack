@@ -90,9 +90,12 @@ TheControllers.controller('AboutController', ['$scope','$http', function($scope,
 TheControllers.controller('InputController', ['$scope','$http', function($scope, $http) {
 $scope.test = "Test";
 $scope.count = '0';
+$scope.icount = '0';
 $scope.ingredient = [];
 $scope.quantity = [];
 $scope.unit = [];
+$scope.instructions = [];
+$scope.userName = "guest";
 $scope.recipeName = "";
 
 $scope.inputRecipe = function(recipe) {
@@ -106,7 +109,7 @@ $scope.inputRecipe = function(recipe) {
         array.push(ingObj);
       }
       console.log(array);
-      recipe = { "name":$scope.recipeName, "ingredients":array  };
+      recipe = { "name":$scope.recipeName, "ingredients":array, "instruction":$scope.instructions, "user":$scope.userName};
       postObject = recipe;
       $http.post(url, postObject).success(function(data){
       });
