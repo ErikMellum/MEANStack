@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var TmpRecipeSchema = new mongoose.Schema({
-	id: String,
+	id: {type: String, unique: true},
 	yield: Number,
 	imageUrlsBySize: {"90": String},
 	sourceDisplayName: String,
