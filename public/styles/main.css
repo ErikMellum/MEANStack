@@ -450,17 +450,25 @@ a.small {
   text-align: center;
   font-family: serif;
   color: #EEE8D5;
+  border: 1px solid white;
+  width: 100%;
 }
 
 input{
   color: black;
 }
 
-#searchIngredientResults{
-  border: white;
+#searchIngredientResults{ 
   padding: 10px;
-}
-#tmpIngredientBox{
+  opacity: .9;
+  width: 50%;
   margin: 0 auto;
-  width: 400px;
+  text-align: left;
+  
+}
+.delete{
+  color: red;
+  padding: 0px 2px;
+  border: 1px solid black;
+  background: #AAA;
 }

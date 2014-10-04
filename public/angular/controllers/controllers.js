@@ -116,12 +116,49 @@ $scope.inputRecipe = function(recipe) {
 
 TheControllers.controller('ApiScrapeController', ['$scope','$http', function($scope, $http) {
   $scope.test = "Test";
+  $scope.currentIngredient;
   $http.get('/api/tmpIngredients').success(function(data) {
        $scope.tmpIngredients=data;
     });
+
+  //http.get('/api/abstractIngredients')
   
   $scope.abstractIngredients=[];
   $scope.primitiveIngredients=[];
   $scope.tmpIds=[];
+
+  //need
+  $scope.getIngredient = function(ingredientName){
+    var ingredient;
+    $scope.tmpIngredients.forEach(function(element){
+      if(element.name == ingredientName)
+        $scope.setIngredient(element);
+    });
+    
+  };
+  $scope.clear= function() {
+
+    $scope.currentIngredient = "";
+    $scope.ingredientName = "";
+  }
+  $scope.setIngredient = function(ingredient){
+    $scope.currentIngredient = ingredient;
+    $scope.searchTmpIngredients = ingredient.name;
+    $scope.ingredientName = ingredient.name;
+  }
+  $scope.delete= function(ingredient) {
+
+    alert("Can't actually delete yet, API route not implemented!");
+    $scope.currentIngredient = "";
+    $scope.ingredientName = "";
+    $scope.searchTmpIngredients = "";
+    //http.delete('api/tmpIngredient/:id')
+    //$http.get('/api/tmpIngredients').success(function(data) {
+    //   $scope.tmpIngredients=data;
+    //});
+  }
+  $scope.submitNewIngredient = function(data){
+
+  };
 
 }]);
