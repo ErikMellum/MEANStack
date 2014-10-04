@@ -9,6 +9,7 @@ var http = require('http');
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
+require('../models/TmpRecipe');
 require('../models/TmpIngredient');
 require('../models/User');
 require('../models/Review');
@@ -18,6 +19,7 @@ require('../models/Unit');
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
+var TmpRecipe = mongoose.model('TmpRecipe');
 var TmpIngredient = mongoose.model('TmpIngredient');
 var User = mongoose.model('User');
 var Review = mongoose.model('Review');
@@ -35,13 +37,62 @@ router.use(function(req, res, next) {
 router.post('/ingredients/', function(req, res, next){
   console.log(req.body.ingredient);
   var needle = req.body.ingredient;
-  TmpIngredient.find({ name: { $regex: '[^A-Za-z0-9]'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
+  TmpIngredient.find({ name: { $regex: '(^| |\-|\/)'+needle+'.*', $options: 'i' }}).limit(10).exec(function(err, matches){
     res.json(matches);
+  });
+});
+/**
+ * Fetch recipe from the remote API and tunnel through this route
+ * @param  {post}   recipeId  Yummly Recipe ID
+ * @return {res.json} yummly object API (at the moment)
+ */
+router.post('/composition/', function(req, res, next){
+  console.log(req.body);
+  // TODO: distinguish between yummly fetch and mongodb fetch
+  // test array of ingredients for now
+  var recipeId = req.body.recipeId;
+
+  // the yummly API key embedded URL
+  // suffixed with start of ingredients syntax
+  var url = 'http://api.yummly.com/v1/api/recipe/'+recipeId+'?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd';
+
+  // uhh, yeah. gotta get rid of those special characters
+  url = encodeURI(url);
+
+  // for testing
+  console.log(url);
+
+  // gets remote data
+  http.get(url, function(remoteRes) {
+    // testing
+    console.log("Got response: " + remoteRes.statusCode);
+    var body = ""
+    remoteRes.on('data', function(data) {
+      // collect the data stream
+      body += data;
+    });
+    remoteRes.on('end', function() {
+      var recipe = JSON.parse(body);
+      var tmpRecipe = new TmpRecipe();
+
+      for(var key in recipe) {
+        if(recipe.hasOwnProperty(key)) {
+          console.log(key);
+          tmpRecipe[key] = recipe[key];
+        }
+      }
+      console.log(tmpRecipe);
+      tmpRecipe.save();
+
+      // send our response
+      res.json(tmpRecipe);
+    });
+  }).on('error', function(e) {
+      console.log("Got error: " + e.message);
   });
 });
 
 
-// fetch ingredients from the remote API and tunnel through me
 /**
  * Fetch Ingredients from the remote API and tunnel through this route
  * @param  {post}   ingredients  list of ingredients to search for
@@ -49,7 +100,7 @@ router.post('/ingredients/', function(req, res, next){
  */
 router.post('/composition/withIngredients/', function(req, res, next){
   console.log(req.body)
-  // test array of ingredients for now 
+  // test array of ingredients for now
   var ingredients = req.body.ingredients;
 
   // the yummly API key embedded URL
@@ -58,6 +109,9 @@ router.post('/composition/withIngredients/', function(req, res, next){
 
   // combine url and ingredients
   url += ingredients.join('&allowedIngredient[]=');
+    // uhh, yeah. gotta get rid of those special characters
+  url = encodeURI(url);
+
   // for testing
   console.log(url);
 
@@ -83,9 +137,9 @@ router.post('/composition/withIngredients/', function(req, res, next){
             tmpIngredient.save();
         });
       })
-      
+
       // send our response
-      res.json(recipesResponse); 
+      res.json(recipesResponse);
     });
   }).on('error', function(e) {
       console.log("Got error: " + e.message);
@@ -94,11 +148,11 @@ router.post('/composition/withIngredients/', function(req, res, next){
 
 /**
  * Adds a recipe to CompositionSchema -- tunnel through this route
- * @param  {recipeObject}   
+ * @param  {recipeObject}
  * @return {res.json} yummly object API (at the moment)
- * 
- * Should recieve a json recipe object formulated on the front end using a form 
- */ //Currently two /composition/new/ ?? 
+ *
+ * Should recieve a json recipe object formulated on the front end using a form
+ */ //Currently two /composition/new/ ??
 router.post('/composition/new/', function(req, res, next){
     console.log(req.body);
 /*
@@ -108,14 +162,14 @@ router.post('/composition/new/', function(req, res, next){
         console.log(ingredient);
     }
     composition.name = req.body.name;
-    
-    
+
+
     composition.recipe = req.body.ingredient;
     composition.user_id = req.body.user_id;
 
     /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
     //Search DB for ChildID, push onto ChildID array; via sub query//
-    // *** // 
+    // *** //
     //Search DB for ParentID, push onto ParentID array; via sub query//
     // *** //
     //Save Composition//
@@ -126,7 +180,7 @@ router.post('/composition/new/', function(req, res, next){
       res.json(composition); //Return Json Object
     });
     */
-    
+
 });
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
@@ -169,7 +223,7 @@ router.get(/^\/composition\/ingredients\/(.*)/, function(req, res, next) {
       // uncomment for testing
       // console.log("Pushing this recipe: ");
       // console.log(composition);
-      
+
       // push this composition to our array
       recipes.push(composition);
     });
@@ -178,101 +232,7 @@ router.get(/^\/composition\/ingredients\/(.*)/, function(req, res, next) {
       // output the recipes json
       res.json(recipes);
     });
-  });  
-});
-
-
-//this route is for a specific composition. Thus an ID is provided
-router.get('/composition/:id', function(req, res, next) {
-  // use the Composition object (defined above) to look for our object by ID
-  Composition.findById(req.params.id).exec(function(err, composition){
-    // catch the null before it causes a null exception on the next line
-    if(composition == null || err){ return next(err); }
-    // populate the "AbstractIngredient" field in our "IngredientChildren" field in our composition
-    // this shit is complicated and I'm not really sure I understand it.
-    AbstractIngredient.populate(composition.recipe, {path: 'AbstractIngredient'}, function(err, abst){
-      if(err){ return next(err);}
-      res.json(composition);
-    });
-    
   });
-});
-
-//this route is just for testing purposes, it sets up a simple "pizza" recipe for testing
-router.post('/composition/omgwtfbbq', function(req, res, next) {
-  
-  // This is just to put some data in the database, obviously this will have to be removed
-  // Also this should only be ran once so we don't muck up our database
-  var pizza = new Composition()
-  pizza.name = "Cheese Pizza"
-  
-  var pizzaDough = new AbstractIngredient();
-  pizzaDough.name = "Pizza Dough";
-
-  var pizzaDoughIngredient = {};
-  pizzaDoughIngredient.AbstractIngredient = pizzaDough;
-  pizzaDoughIngredient.quantity = 1;
-  pizzaDoughIngredient.units = "lb"
-  pizza.recipe.push(pizzaDoughIngredient);
-
-  var pizzaSauce = new AbstractIngredient();
-  pizzaSauce.name = "Pizza Sauce";
-
-  var pizzaSauceIngredient = {};
-  pizzaSauceIngredient.AbstractIngredient = pizzaSauce;
-  pizzaSauceIngredient.quantity = 16;
-  pizzaSauceIngredient.units = "fl oz"
-  pizza.recipe.push(pizzaSauceIngredient);
-
-  var cheese = new AbstractIngredient();
-  cheese.name = "Cheese";
-
-  var jackCheese =c
-  jackCheese.name = "Jack Cheese";
-
-  var vinegar = new AbstractIngredient({name: "Vinegar"})
-  var whiteVinegar = new PrimitiveIngredient();
-  whiteVinegar.name = "5% Acidic White Vinegar"
-  whiteVinegar.AbstractIngredientSchema_id = vinegar;
-
-  var vinegarIngredient = {};
-  vinegarIngredient.PrimitiveIngredient = whiteVinegar;
-  vinegarIngredient.quantity = 16;
-  vinegarIngredient.units = "fl oz";
-  jackCheese.recipe.push(vinegarIngredient);
-  var milk = new AbstractIngredient({name: "Milk"});
-  var wholeMilk = new PrimitiveIngredient();
-  wholeMilk.name = "Whole Milk"
-  wholeMilk.AbstractIngredientSchema_id = milk;
-
-  var milkIngredient = {};
-  milkIngredient.PrimitiveIngredient = wholeMilk;
-  milkIngredient.quantity = 16;
-  milkIngredient.units = "fl oz";
-  jackCheese.recipe.push(milkIngredient);
-
-  jackCheese.AbstractIngredientParents.push(cheese);
-
-  var cheeseIngredient = {};
-  cheeseIngredient.AbstractIngredient = cheese;
-  cheeseIngredient.quantity = 0.5;
-  cheeseIngredient.units = "lb"
-  pizza.recipe.push(cheeseIngredient);
-
-  // omg wtf bbq not asynchronous but whatevs
-  cheese.save();
-  pizzaDough.save();
-  pizzaSauce.save();
-  jackCheese.save();
-  vinegar.save();
-  whiteVinegar.save();
-  milk.save();
-  wholeMilk.save();
-  pizza.save(function(err, pizza){
-    res.json(pizza);
-  });
-
-
 });
 
 router.get('/compositions', function(req,res) {
