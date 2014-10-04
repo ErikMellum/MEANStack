@@ -8,7 +8,7 @@ sudo npm install -g karma
 ```
 **Run the Tests**
 ```
-karma start my.conf.js
+karma start karma.conf.js #from the public/tests directory
 ```
 
 **Test Location**
