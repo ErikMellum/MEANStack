@@ -23,7 +23,7 @@ sudo npm install -g protractor #Installs the e2e tester "protractor"
 webdriver-manager update #selenium requirements
 
 ```
-## Running Tests: ##
+###Running Tests###
 **Launch server**
 ```
 npm start #in root directory
