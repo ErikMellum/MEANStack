@@ -255,6 +255,11 @@ router.get('/tmpIngredients', function(req,res) {
 
 });
 
+router.post('/tmpIngredients', function(req,res) {
+  console.log(req.body);
+  res.json(req.body);
+});
+
 router.delete('/compositions/:composition_id', function(req, res){
   Composition.remove({
     _id : req.params.composition_id

@@ -160,8 +160,22 @@ TheControllers.controller('ApiScrapeController', ['$scope','$http', function($sc
     //   $scope.tmpIngredients=data;
     //});
   }
-  $scope.submitNewIngredient = function(data){
+  $scope.submitNewIngredient = function(){
+    var primitiveIngredient;
+    var abstractIngredient;
+    var tmpIngredient;
+    var params;
+    $scope.currentIngredient.id = $scope.ingredientId;
+    $scope.currentIngredient.name = $scope.ingredientName;
+    $scope.currentIngredient.brand = $scope.ingredientBrand;
+    $scope.currentIngredient.parent = $scope.ingredientParent;
+    $scope.currentIngredient.unique = $scope.ingredientUnique;
+    $scope.currentIngredient.processed = $scope.ingredientProcessed;
 
+    $http.post('/api/tmpIngredients', $scope.currentIngredient).success(function(data) {
+      alert("Successfully posted data, still not implemented however.");
+    //   $scope.tmpIngredients=data;
+    });
   };
 
 }]);
