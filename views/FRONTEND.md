@@ -39,6 +39,12 @@ localhost:3000
 
 
 ##Gulp && Bower##
+Gulp will run the server for you, automatically reload the page if css, javascript, angular, or backend code changes, that includes restarting the server if needed. It also will minify and pipe our css from a development folder. It requires two separate commands. One to watch and livereload, and one to launch the server. 
+
+**All frontend assets now located at**
+```
+components/**
+```
 **Setup**
 * Requires that you have ruby installed
 ```
@@ -47,12 +53,14 @@ sudo npm install
 gem install sass
 ```
 
-**Running Gulp**
-Gulp will launch the server and pipeline our assets from the components folder into the public folder
+**Running App through Gulp with Nodemon**
+```
+gulp launch
+```
+**Running livereload**
 ```
 gulp
 ```
-Eventually, it will run our tests, and restart the server when changes are made
 
 **Using Bower**
 ```
