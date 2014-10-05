@@ -255,24 +255,110 @@ router.get('/tmpIngredients', function(req,res) {
 
 });
 
-router.post('/tmpIngredients', function(req,res) {
-  console.log(req.body);
-  res.json(req.body);
+router.get('/primitiveIngredients', function(req,res) {
+  PrimitiveIngredient.find(function(err, primitiveIngredients) {
+    if (err)
+      res.send(err);
+
+    res.json(primitiveIngredients);
+  });
+
 });
 
-router.delete('/compositions/:composition_id', function(req, res){
-  Composition.remove({
-    _id : req.params.composition_id
-  }, function(err, composition){
+router.get('/abstractIngredients', function(req,res) {
+  AbstractIngredient.find(function(err, abstractIngredients) {
+    if (err)
+      res.send(err);
+
+    res.json(abstractIngredients);
+  });
+
+});
+
+router.post('/tmpIngredients', function(req,res) {
+  console.log(req.body);
+  //unique means primitive
+  if(req.body.unique == true)
+  {
+    var primitive = new PrimitiveIngredient();
+    primitive.name = req.body.name;
+    primitive.brand = req.body.brand;
+    primitive.AbstractIngredientSchema_id = req.body.parent;
+    primitive.save(); 
+  }
+  else
+  {
+    var abstract = new AbstractIngredient();
+    abstract.name = req.body.name;
+    //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
+    //abstract.parent = req.body.parent;
+    abstract.save();
+    console.log("New Abstract: " + abstract);
+  }
+  TmpIngredient.find(function(err,tmpIngredients){
+    if(err)
+      res.send(err)
+
+    AbstractIngredient.find(function(err,abstractIngredients){
+      if(err)
+        res.send(err)
+      res.json({abstracts : abstractIngredients, temps : tmpIngredients});
+    });
+  });
+  
+});
+
+router.delete('/tmpIngredients/:tmpIngredient_name', function(req, res){
+  TmpIngredient.remove({
+    name : req.body.tmpIngredient_name
+  }, function(err, tmpIngredient){
     if(err)
       res.send(err);
 
-    Composition.find(function(err,compositions){
+      TmpIngredient.find(function(err,tmpIngredients){
       if(err)
         res.send(err)
-      res.json(compositions);
+      
+      res.json(tmpIngredients);
     });
   });
+});
+
+router.delete('/abstractIngredients/:abstractIngredient_id', function(req, res){
+  if(req.params.abstractIngredient_id > 0)
+  {
+    TmpIngredient.remove({
+      id : req.body.abstractIngredient_id
+    }, function(err, abstractIngredient){
+      if(err)
+        res.send(err);
+
+        AbstractIngredient.find(function(err,abstractIngredients){
+        if(err)
+          res.send(err)
+        
+        res.json(abstractIngredients);
+      });
+    });
+  }
+});
+
+router.delete('/compositions/:composition_id', function(req, res){
+  if(req.params.composition_id > 0)
+  {
+    Composition.remove({
+      _id : req.params.composition_id
+    }, function(err, composition){
+      if(err)
+        res.send(err);
+
+      Composition.find(function(err,compositions){
+        if(err)
+          res.send(err)
+        res.json(compositions);
+      });
+    });
+  }
 });
 
 
