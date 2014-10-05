@@ -171,7 +171,6 @@ gulp.task('watch', function(){
   gulp.watch(appSources, ['app']);
   gulp.watch(coffeeSources, ['coffee']);
   gulp.watch(styleSources, ['styles']);
-  gulp.watch(bowerSources, ['bower']);
   gulp.watch(cssSources, ['css']);
 });
 
