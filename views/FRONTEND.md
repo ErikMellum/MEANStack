@@ -37,6 +37,34 @@ DEBUG=mean_api ./bin/www
 **To view the app**
 localhost:3000
 
+
+##Gulp && Bower##
+**Setup**
+* Requires that you have ruby installed
+```
+sudo npm install -g gulp bower nodemon
+sudo npm install
+gem install sass
+```
+
+**Running Gulp**
+Gulp will launch the server and pipeline our assets from the components folder into the public folder
+```
+gulp
+```
+Eventually, it will run our tests, and restart the server when changes are made
+
+**Using Bower**
+```
+bower install libname
+```
+
+**Using Sass**
+We can now use sass, just put the files in the components/sass directory.
+
+**Using Coffeescript**
+You can now use coffeescript by putting it in the components/coffee directory.
+
 ## Developers: ##
 * Jayd Saucedo
 * Cameron Brownfield

@@ -24,7 +24,7 @@ var TmpIngredient = mongoose.model('TmpIngredient');
 var User = mongoose.model('User');
 var Review = mongoose.model('Review');
 var Unit = mongoose.model('Unit');
-
+var test;
 router.use(function(req, res, next) {
   console.log('API Request is happening.');
   next(); // make sure we go to the next routes and don't stop here

@@ -55,7 +55,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 * {
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
 
@@ -187,7 +186,6 @@ a.small {
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
-         -o-user-select: none;
             user-select: none;
 }
 
@@ -297,7 +295,6 @@ a.small {
   display: block;
   float: left;
   width: 60px;
-  -webkit-border-radius: 12px;
   border-radius: 12px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -335,64 +332,60 @@ a.small {
 }
 .banner
 {
-	background:url('../images/foodBanner.jpg');
-	background-repeat:no-repeat;
-	background-size:cover;
-	
+  background:url('../images/foodBanner.jpg');
+  background-repeat:no-repeat;
+  background-size:cover;
+  
 }
 .signin{
-	margin: auto;
+  margin: auto;
 }
 .nav-bar{
-	border-radius: 7px;
-	border-color: #ccc;
-	border: 1px solid #ccc;
+  border-radius: 7px;
+  border-color: #ccc;
+  border: 1px solid #ccc;
   margin: 0px 0px 0px 0px;
 }
 .credentials-row{
-	margin: auto;
+  margin: auto;
 }
 .shrink-field{
-	width: 90%;
-	float: right;
+  width: 90%;
+  float: right;
 }
 #login{
-	position: relative;;
-	top: 5px;
-	left: 172px;
-	width: 30%;
-	margin: auto;
+  position: relative;;
+  top: 5px;
+  left: 172px;
+  width: 30%;
+  margin: auto;
 }
 .login-form-container{
-	position: block;
-	margin: auto;
-	padding-bottom: 10px;
-	width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 7px;
+  position: block;
+  margin: auto;
+  padding-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 7px;
 }
 #results-list, #recipe-list{
   min-height: 350px;
 }
 #recipe-list{
-	height: 60%;
-	width: 27%;
-	background-color: #EEE8D5;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 20px 0px 0px 0px;
-	border-radius: 20px;
-	float: right;
-	margin-top: 30px;
+  height: 60%;
+  width: 27%;
+  background-color: #EEE8D5;
+  border-radius: 20px;
+  float: right;
+  margin-top: 30px;
 }
 #results-list{
-	height: 60%;
-	width: 27%;
-	background-color: #EEE8D5;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px 20px 0px 0px;
-	border-radius: 20px;
-	float: left;
-	margin-top: 30px;
+  height: 60%;
+  width: 27%;
+  background-color: #EEE8D5;
+  border-radius: 20px;
+  float: left;
+  margin-top: 30px;
 }
 
 
@@ -419,38 +412,42 @@ a.small {
 }
 
 .nav-pills>li.active>a {
-	background-color: #145266; 
+  background-color: #145266; 
 }
 .middle{
-	text-align: center;
+  text-align: center;
 }
 .col-lg-4{
-	position: absolute;
-	left:0;
-	right:0;
-	margin: auto;
+  position: absolute;
+  left:0;
+  right:0;
+  margin: auto;
 }
 .ng-enter{
-	transition:.2s;
-	opacity: .5;
+  -webkit-transition:.2s;
+          transition:.2s;
+  opacity: .5;
 }
 .ng-enter-active{
-	opacity: 1;
-	transition:.2s;
+  opacity: 1;
+  -webkit-transition:.2s;
+          transition:.2s;
 }
 .ng-leave{
-	transition:.2s;
-	opacity: .5;
+  -webkit-transition:.2s;
+          transition:.2s;
+  opacity: .5;
 }
 .ng-leave-active{
-	opacity: 1;
-	transition:.2s;
+  opacity: 1;
+  -webkit-transition:.2s;
+          transition:.2s;
 }
 /*Causing weird bug when switching partials*/
 .text-align-left{
-	text-align: left;
-	padding-bottom: 2px;
-	padding-top: 2px;
+  text-align: left;
+  padding-bottom: 2px;
+  padding-top: 2px;
 }
 
 .topPageHeader{
