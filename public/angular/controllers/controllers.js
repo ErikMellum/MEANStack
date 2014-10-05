@@ -58,8 +58,16 @@ $scope.remove = function(index){
     $scope.displayRecipes();
 }
   $scope.details = function(recipe, index){
-    detailsService.setName(recipe); //setting the name in the service so the DetailsController can use it later
-    // console.log($scope.dataArray[index]);
+    // detailsService.setName(recipe); //setting the name in the service so the DetailsController can use it later
+    // console.log($scope.dataArray[index].id);
+     $http.get("http://api.yummly.com/v1/api/recipe/"+$scope.dataArray[index].id+"?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd").success(function(data) {
+       detailsService.setName(data);
+       console.log(data);
+       console.log(data.name)
+       console.log(data.totalTime)
+       console.log(data.rating)
+  });
+    // http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY
   }
 $scope.displayRecipes = function() {
   $scope.recipes.length = 0; //removing all recipe results 

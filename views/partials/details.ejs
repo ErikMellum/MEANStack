@@ -1,3 +1,32 @@
-
-Details of {{recipeName}}
-
+  <h1>Recipe Name</h1>
+  <ul class="chosen-foodlist">
+    <li class="food cf">
+      <div class="info inline">
+        <h2>{{recipeName.name}}</h2>
+      </div></a>
+    </li>
+  </ul>  
+  <h1>Total Time</h1>
+  <ul class="chosen-foodlist">
+    <li class="food cf">
+      <div class="info inline">
+        <h2>{{recipeName.totalTime}}</h2>
+      </div></a>
+    </li>
+  </ul>  
+    <h1>Rating</h1>
+  <ul class="chosen-foodlist">
+    <li class="food cf">
+      <div class="info inline">
+        <h2>{{recipeName.rating}}</h2>
+      </div></a>
+    </li>
+  </ul>  
+  <h1>Ingredients</h1>
+  <ul class="chosen-foodlist">
+    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeName.ingredientLines">
+      <div class="info inline">
+        <h2>{{recipe}}</h2>
+      </div></a>
+    </li>
+  </ul>  
