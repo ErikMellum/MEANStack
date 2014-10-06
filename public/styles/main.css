@@ -72,7 +72,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 html {
   background-color: #145266; 
-  background-image: url(images/fallback-gradient.png); 
 /*  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#145266), to(#145266));
   background-image: -webkit-linear-gradient(top, #145266, #145266); 
   background-image: -moz-linear-gradient(top, #145266, #145266);
