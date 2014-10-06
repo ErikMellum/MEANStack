@@ -58,6 +58,10 @@ var coffeeSources = [
   'components/coffee/*.coffee'
 ];
 
+var viewSources = [ 
+  'views/**/*.ejs'
+];
+
 gulp.task('lib', function(){
 // Javascript libs livereload
   gulp.src(jslibSources)
@@ -164,6 +168,11 @@ gulp.task('launch', function () {
     })
 });
 
+gulp.task('views', function(){
+ gulp.src(viewSources) 
+ .pipe(livereload());
+});
+
 gulp.task('watch', function(){
   livereload.listen();
   gulp.watch(jsSources, ['js']);
@@ -172,10 +181,14 @@ gulp.task('watch', function(){
   gulp.watch(coffeeSources, ['coffee']);
   gulp.watch(styleSources, ['styles']);
   gulp.watch(cssSources, ['css']);
+  gulp.watch(viewSources, ['views']);
 });
+
 
 gulp.task('default', ['styles', 'js', 'coffee', 'lib', 'json', 'app', 'bower', 'css', 'watch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())
 });
+
+

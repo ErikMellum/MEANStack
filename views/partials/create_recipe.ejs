@@ -5,7 +5,7 @@
     <input ng-model="recipeName" placeholder="recipe name" autofocus>
     UserName:
     <input ng-model="userName" placeholder="username"><br />
-    Ingredients: {{count}}
+    Ingredients: {{count+1}}
     <button ng-show="count<8" ng-click="count = count + 1" ng-init="count=0">+</button>
     <button ng-show="count>0" ng-click="count = count - 1; ingredient[count+1]=''; unit[count+1]=''; quantity[count+1]=''">-</button><br />
     <input ng-model="ingredient[0]" placeholder="ingredient" required> 
