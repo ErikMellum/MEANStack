@@ -1,8 +1,8 @@
-  <h1>Recipe Name</h1>
+  <h1>Recipe Data</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
-        <h2>{{recipeName.name}}</h2>
+        <h2>{{recipeData.name}}</h2>
       </div></a>
     </li>
   </ul>  
@@ -10,7 +10,7 @@
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
-        <h2>{{recipeName.totalTime}}</h2>
+        <h2>{{recipeData.totalTime}}</h2>
       </div></a>
     </li>
   </ul>  
@@ -18,13 +18,13 @@
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
-        <h2>{{recipeName.rating}}</h2>
+        <h2>{{recipeData.rating}}</h2>
       </div></a>
     </li>
   </ul>  
   <h1>Ingredients</h1>
   <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeName.ingredientLines">
+    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeData.ingredientLines">
       <div class="info inline">
         <h2>{{recipe}}</h2>
       </div></a>

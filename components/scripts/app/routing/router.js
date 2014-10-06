@@ -16,7 +16,13 @@ myApp.config(['$routeProvider', function($routeProvider) {
   }).
     when('/details/:name', {
     templateUrl: 'details/:name',
-    controller: 'DetailsController'
+    controller: 'DetailsController',
+    // resolve: {
+    //         recipeData: function(detailsService){
+    //           console.log("router");
+    //             return detailsService.getData();
+    //     }
+    //   }
   }).
     when('/tmpIngredient', {
     templateUrl: 'tmpIngredient',
@@ -26,3 +32,4 @@ myApp.config(['$routeProvider', function($routeProvider) {
     redirectTo: '/search'
   });
 }]);
+
