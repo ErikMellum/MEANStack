@@ -5,6 +5,7 @@ Learn to create your own Jasmine tests for MEANStack
 **Install Karma**
 ```
 sudo npm install -g karma
+sudo npm install -g karma-cli
 ```
 **Run the Tests**
 ```
