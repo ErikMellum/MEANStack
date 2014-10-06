@@ -29,6 +29,7 @@
     "gulp-uglify": "^0.3.1",
     "gulp-util": "^3.0.0",
     "karma": "^0.12.23",
+    "karma-cli": "0.0.4",
     "karma-jasmine": "^0.1.5",
     "mongoose": "^3.8.15",
     "morgan": "~1.2.3",
