@@ -14,7 +14,7 @@ angular.module('TheControllers').directive('ngEnter', function() {
         };
     });
 
-TheControllers.controller('SearchController', ['$scope','$http', 'detailsService', function($scope, $http, detailsService) {
+TheControllers.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
 
 $scope.chosen_ingredients=[]
 $scope.recipes=[]
@@ -58,17 +58,13 @@ $scope.remove = function(index){
     $scope.displayRecipes();
 }
   $scope.details = function(recipe, index){
-    // detailsService.setName(recipe); //setting the name in the service so the DetailsController can use it later
-    // console.log($scope.dataArray[index].id);
-     $http.get("http://api.yummly.com/v1/api/recipe/"+$scope.dataArray[index].id+"?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd").success(function(data) {
-       detailsService.setName(data);
-       console.log(data);
-       console.log(data.name)
-       console.log(data.totalTime)
-       console.log(data.rating)
+      $http.get("http://api.yummly.com/v1/api/recipe/"+$scope.dataArray[index].id+"?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd").success(function(data) {
+       detailsService.setData(data);
+       recipe.replace(" ", "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
+      $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
+      //had to do this here because when it is in the <a href>...the page loads faster than this $http request
   });
-    // http://api.yummly.com/v1/api/recipe/recipe-id?_app_id=YOUR_ID&_app_key=YOUR_APP_KEY
-  }
+}
 $scope.displayRecipes = function() {
   $scope.recipes.length = 0; //removing all recipe results 
   if ($scope.chosen_ingredients.length) {
@@ -89,7 +85,7 @@ $scope.displayRecipes = function() {
 }]);
 
 TheControllers.controller('DetailsController', ['$scope' ,'detailsService', function($scope, detailsService) {
-     $scope.recipeName = detailsService.getName(); //call to service for the name of recipe
+     $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {

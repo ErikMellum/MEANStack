@@ -1,18 +1,18 @@
 var recipeService = angular.module('recipeService', []);
 
 recipeService.service('detailsService', function(){
-  var recipeName= "";
+  var recipeData= "";
 
-  var setName = function(name) {
-      recipeName = name;
+  var setData = function(data) {
+      recipeData = data;
   }
 
-  var getName = function(){
-      return recipeName;
+  var getData = function(){
+      return recipeData;
   }
 
   return {
-    setName: setName,
-    getName: getName
+    setData: setData,
+    getData: getData
   };      
 });
