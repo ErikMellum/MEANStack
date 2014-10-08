@@ -1,20 +1,57 @@
-<div id="tmpIngredientBox">
-<form action="/api/api-scrape" method="POST" >
+<h1 class="topPageHeader">Create Ingredients</h1>
 
-  <input id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchPhrase" placeholder="Enter Ingredient" autofocus>
-  <table id="searchIngredientResults">
-  <tr ng-repeat="ingredient in tmpIngredients | filter: searchPhrase | limitTo : 3">
-    <td class="tmpIngredient">{{ingredient.name}}</td>
+<table id="searchIngredientResults">
+  <tr ng-repeat="ingredient in tmpIngredients | filter: searchTmpIngredients | limitTo : 3">
+    <td class="tmpIngredient">Temp: {{ingredient.name}}
+      <button class="glyphicon glyphicon-plus" ng-click="setIngredient('tempIngredient', ingredient)"></button> 
+      <button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button>
+    </td>
   </tr>
-
 </table>
 
-  <input id="id_field" type="hidden" name="id" value="{{currentIngredient.name}}">
-  <input type="text" id="name_field" name="name" placeholder="Name" value="{{currentIngredient.name}}"><br>
-  <input type="text" id="brand_field" name="brand" placeholder="Brand" value="{{currentIngredient.name}}"><br>
-  <label for="unique">Unique: <input type="checkbox" id="unique_field" name="unique" placeholder="Unique" checked="true"></label><br>
-  <label for="processed">Processed: <input type="checkbox" id="processed_field" name="processed" placeholder="Processed" checked="true"></label><br>
-  <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Abstract parent" value="{{currentIngredient.name}}"><br>
-  <button type="submit">Submit</button>
+<form class="form-inline" role="form">
+
+  <div class="form-group">
+    <input ng-enter="getIngredient(searchTmpIngredients)" class="form-control" id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchTmpIngredients" placeholder="Autocomplete Temp Ingredients" autofocus>
+  </div>
+
+  <div class="form-group">
+    <input ng-model="ingredientId" class="form-control"  id="id_field" type="hidden" name="id">
+  </div>
+
+  <div class="form-group">
+    <input ng-model="ingredientName" class="form-control" type="text" id="name_field" name="name" placeholder="Enter name">
+  </div>
+
+  <div class="form-group">
+    <input ng-model="ingredientBrand" class="form-control" type="text" id="brand_field" name="brand" placeholder="Enter brand">
+  </div>
+
+  <div class="form-group">
+    <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Enter abstract parent" ng-model="ingredientParent">
+  </div>
+
+  <div class="form-group">
+    <input type="text" name="abstract-parent-id" ng-model="ingredientParentId">
+  </div>
+
+  <div class="form-group">
+    <label for="unique">Unique: </label>
+    <input ng-model="ingredientUnique" class="checkbox" type="checkbox" id="unique_field" name="unique" placeholder="Unique">
+  </div>
+
+  <div class="form-group">
+    <label for="processed">Processed:</label>
+    <input ng-model="ingredientProcessed" class="checkbox" type="checkbox" id="processed_field" name="processed" placeholder="Processed">
+  </div>
+    
 </form>
-</div>
+<table id="searchAbstractParentsResults">
+  <tr ng-repeat="ingredient in abstractIngredients | filter: ingredientParent | limitTo : 3">
+    <td class="abstractIngredient">Parent: {{ingredient.name}}
+      <button class="glyphicon glyphicon-plus" ng-click="setIngredient('abstractIngredient', ingredient)"></button> 
+      <button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button>
+    </td>
+  </tr>
+</table>
+<button class="btn btn-default" ng-click="submitNewIngredient()" type="submit">Add!</button>

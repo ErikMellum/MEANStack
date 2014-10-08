@@ -37,6 +37,42 @@ DEBUG=mean_api ./bin/www
 **To view the app**
 localhost:3000
 
+
+##Gulp && Bower##
+Gulp will run the server for you, automatically reload the page if css, javascript, angular, or backend code changes, that includes restarting the server if needed. It also will minify and pipe our css from a development folder. It requires two separate commands. One to watch and livereload, and one to launch the server. 
+
+**All frontend assets now located at**
+```
+components/**
+```
+**Setup**
+* Requires that you have ruby installed
+```
+sudo npm install -g gulp bower nodemon
+sudo npm install
+gem install sass
+```
+
+**Running App through Gulp with Nodemon**
+```
+gulp launch
+```
+**Running livereload**
+```
+gulp
+```
+
+**Using Bower**
+```
+bower install libname
+```
+
+**Using Sass**
+We can now use sass, just put the files in the components/sass directory.
+
+**Using Coffeescript**
+You can now use coffeescript by putting it in the components/coffee directory.
+
 ## Developers: ##
 * Jayd Saucedo
 * Cameron Brownfield

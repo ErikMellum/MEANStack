@@ -6,7 +6,7 @@
   </div>
   <ul class="foodlist">
     <li ng-if="match.length > 0" class="food cf" ng-animate="animate" ng-repeat="ingredient in query_result">
-      <a href="#/search" ng-click="switchAndDisplay(ingredient)"><div >
+      <a ng-click="switchAndDisplay(ingredient)"><div >
       <div class="info inline">
         <h2>{{ingredient.name}}</h2>
       </div></a>
@@ -17,7 +17,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
-      <a href="#/details/{{recipe.name}}" ng-click="details(recipe.name, $index)"><div >
+      <a href="#/search" ng-click="details(recipe.name, $index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{recipe.name}}</h2>
       </div></a>
