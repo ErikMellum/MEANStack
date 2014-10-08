@@ -9,7 +9,8 @@ recipeName: { type:String, unique:true },
 totalTimeInSeconds: Number,
 attributes: {
     course: [String],
-    cuisine: [String]
+    cuisine: [String],
+    holiday: [String]
 },
 flavors: {
     piquant: Number,
