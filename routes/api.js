@@ -81,11 +81,11 @@ router.post('/composition/', function(req, res, next){
           tmpRecipe[key] = recipe[key];
         }
       }
-      console.log(tmpRecipe);
+      console.log(recipe);
       tmpRecipe.save();
 
       // send our response
-      res.json(tmpRecipe);
+      res.json(recipe);
     });
   }).on('error', function(e) {
       console.log("Got error: " + e.message);

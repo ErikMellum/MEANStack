@@ -1,4 +1,9 @@
-  <h1>Recipe Data</h1>
+    <br>
+    <div ng-if="recipeSourceExists()">
+        <h2><button><a href ={{recipeData.source.sourceRecipeUrl}} target="_blank"> View Recipe </a></button></h2></a>
+  </div> 
+  <br>
+  <h1 class="titleColor">Recipe Name</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
@@ -6,27 +11,33 @@
       </div></a>
     </li>
   </ul>  
-  <h1>Total Time</h1>
+  <div ng-if="recipeTimeExists()">
+  <h1 class="titleColor">Total Time</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
         <h2>{{recipeData.totalTime}}</h2>
       </div></a>
     </li>
-  </ul>  
-    <h1>Rating</h1>
+  </ul> 
+  </div> 
+    <h1 class="titleColor">Rating</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
-        <h2>{{recipeData.rating}}</h2>
+        <h2>{{recipeData.rating}} stars</h2>
       </div></a>
     </li>
   </ul>  
-  <h1>Ingredients</h1>
+
+  <div ng-if="recipeIngredientsExist()">
+  <h1 class="titleColor">Ingredients ({{recipeData.yield}})</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeData.ingredientLines">
       <div class="info inline">
         <h2>{{recipe}}</h2>
       </div></a>
     </li>
-  </ul>  
+  </ul> 
+  </div> 
+
