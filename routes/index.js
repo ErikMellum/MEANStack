@@ -7,6 +7,11 @@ router.use('/api', api);
 router.get('/search', function(req, res) {
   res.render('partials/search');
 });
+
+router.get('/search', function(req, res) {
+  res.render('partials/search');
+});
+
 router.get('/about', function(req, res) {
   res.render('partials/about');
 });
