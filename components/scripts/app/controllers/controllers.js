@@ -92,18 +92,23 @@ $scope.displayRecipes = function() {
 TheControllers.controller('DetailsController', ['$scope' ,'detailsService', function($scope, detailsService) {
   $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
 
-  $scope.recipeTimeExists = function() {
+  $scope.timeExists = function() {
     if ($scope.recipeData.totalTime)
       return true;
     return false;
   }
-  $scope.recipeIngredientsExist = function() {
+  $scope.ingredientsExist = function() {
     if ($scope.recipeData.ingredientLines)
       return true;
     return false;
   }
-    $scope.recipeSourceExists = function() {
+    $scope.sourceExists = function() {
     if ($scope.recipeData.source.sourceRecipeUrl)
+      return true;
+    return false;
+  }
+  $scope.yieldExists = function() {
+    if ($scope.recipeData.yield)
       return true;
     return false;
   }
