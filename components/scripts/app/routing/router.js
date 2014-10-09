@@ -12,7 +12,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
   }).
     when('/create', {
     templateUrl: 'create',
-    controller: 'InputController'
+    controller: 'RecipeController'
   }).
     when('/details/:name', {
     templateUrl: 'details/:name',
@@ -26,7 +26,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
   }).
     when('/tmpIngredient', {
     templateUrl: 'tmpIngredient',
-    controller: 'ApiScrapeController'
+    controller: 'IngredientController'
   }).
   otherwise({
     redirectTo: '/search'

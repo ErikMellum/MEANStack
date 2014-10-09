@@ -1,0 +1,1 @@
+var aboutController=angular.module("aboutController",[]);aboutController.controller("AboutController",["$scope","$http",function(o){o.test="about"}]);

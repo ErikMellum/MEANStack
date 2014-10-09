@@ -1,0 +1,1 @@
+var recipeService=angular.module("recipeService",[]);recipeService.service("detailsService",function(){var e="",r=function(r){e=r},i=function(){return e};return{setData:r,getData:i}});

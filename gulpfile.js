@@ -29,8 +29,10 @@ var jsSources = [
 ];
 
 var appSources = [
-  'components/scripts/app/*.js',
-  'components/scripts/app/**/*.js'
+  'components/scripts/app/controllers/*.js',
+  'components/scripts/app/directives/*.js',
+  'components/scripts/app/routing/*.js',
+  'components/scripts/app/services/*.js'
 ];
 
 var jslibSources = [
