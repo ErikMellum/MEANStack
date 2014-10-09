@@ -481,3 +481,19 @@ input{
   border: 1px solid black;
   background: #AAA;
 }
+.titleColor{
+  color: #EEE8D5;
+}
+.center{
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width:350px;
+  background-size: 100%;
+/*      position: relative;
+    top: 0; bottom:0; left: 0; right:0;
+    margin: auto;*/
+}
+.align{
+  text-align: center;
+}

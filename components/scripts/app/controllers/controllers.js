@@ -46,6 +46,9 @@ $scope.queryIngredients = function(match)
   $http.post(url, postObject).success(function(data) {
     $scope.query_result = data;
   });
+   $http.get('http://google.com').then(function(data){
+    console.log(data);   
+  });
 }
 $scope.switchAndDisplay = function(name){
      $scope.chosen_ingredients.push(name);
@@ -58,8 +61,10 @@ $scope.remove = function(index){
     $scope.displayRecipes();
 }
   $scope.details = function(recipe, index){
-      $http.get("http://api.yummly.com/v1/api/recipe/"+$scope.dataArray[index].id+"?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd").success(function(data) {
+    var postObject = {"recipeId" : $scope.dataArray[index].id};
+      $http.post("/api/composition/", postObject).success(function(data) {
        detailsService.setData(data);
+      console.log(data);
        recipe.replace(" ", "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
       $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
       //had to do this here because when it is in the <a href>...the page loads faster than this $http request
@@ -85,7 +90,28 @@ $scope.displayRecipes = function() {
 }]);
 
 TheControllers.controller('DetailsController', ['$scope' ,'detailsService', function($scope, detailsService) {
-     $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
+  $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
+
+  $scope.timeExists = function() {
+    if ($scope.recipeData.totalTime)
+      return true;
+    return false;
+  }
+  $scope.ingredientsExist = function() {
+    if ($scope.recipeData.ingredientLines)
+      return true;
+    return false;
+  }
+    $scope.sourceExists = function() {
+    if ($scope.recipeData.source.sourceRecipeUrl)
+      return true;
+    return false;
+  }
+  $scope.yieldExists = function() {
+    if ($scope.recipeData.yield)
+      return true;
+    return false;
+  }
 }]);
 
 TheControllers.controller('AboutController', ['$scope','$http', function($scope, $http) {

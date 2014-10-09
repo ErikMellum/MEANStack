@@ -1,32 +1,42 @@
-  <h1>Recipe Data</h1>
-  <ul class="chosen-foodlist">
-    <li class="food cf">
-      <div class="info inline">
-        <h2>{{recipeData.name}}</h2>
-      </div></a>
-    </li>
-  </ul>  
-  <h1>Total Time</h1>
+    <div><h2 class="align titleColor">{{recipeData.name}}</h2></div>
+    <br>
+    <div class="center">
+      <img class="center" ng-src="{{recipeData.images[0].hostedLargeUrl}}"/>
+    </div>
+  <div ng-if="sourceExists()" class="center">
+        <h2><button style="margin-left:105px">
+          <a href ={{recipeData.source.sourceRecipeUrl}} target="_blank"> View Recipe </a>
+        </button></h2>
+  </div> 
+  <br> 
+  <div ng-if="timeExists()">
+  <h1 class="titleColor">Total Time</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
         <h2>{{recipeData.totalTime}}</h2>
       </div></a>
     </li>
-  </ul>  
-    <h1>Rating</h1>
+  </ul> 
+  </div> 
+    <h1 class="titleColor">Rating</h1>
   <ul class="chosen-foodlist">
     <li class="food cf">
       <div class="info inline">
-        <h2>{{recipeData.rating}}</h2>
+        <h2>{{recipeData.rating}} stars</h2>
       </div></a>
     </li>
   </ul>  
-  <h1>Ingredients</h1>
+
+  <div ng-if="ingredientsExist()">
+  <h1 class="titleColor">Ingredients</h1>
+  <h1 class="titleColor" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeData.ingredientLines">
       <div class="info inline">
         <h2>{{recipe}}</h2>
       </div></a>
     </li>
-  </ul>  
+  </ul> 
+  </div> 
+
