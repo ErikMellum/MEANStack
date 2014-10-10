@@ -25,7 +25,7 @@ protractor protractor-conf.js
 ```
 
 ## Testing: ##
-Learn about [Mean Stack Testing](/public/tests/TESTING.md)
+Learn about [Mean Stack Testing](tests/TESTING.md)
 
 ## Front End: ##
 Learn about the [Mean Api Frontend](/views/FRONTEND.md)

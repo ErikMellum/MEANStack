@@ -1,1 +1,0 @@
-var reviewsController=angular.module("reviewsController",[]);aboutController.controller("AboutController",["$scope","$http",function(o){o.test="test"}]);

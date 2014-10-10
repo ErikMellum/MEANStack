@@ -67,13 +67,12 @@ var viewSources = [
 gulp.task('lib', function(){
 // Javascript libs livereload
   gulp.src(jslibSources)
-  .pipe(gulp.dest('public/javascripts/lib'))
+  .pipe(gulp.dest('public/lib'))
   .pipe(livereload());
 // CSS libs livereload
   gulp.src(csslibSources)
-  .pipe(concat('vendor.css'))
   .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
+  .pipe(gulp.dest('public/lib'))
   .pipe(livereload());
 });
 
@@ -111,8 +110,8 @@ gulp.task('json', function(){
 gulp.task('app', function(){
 // App livereload
   gulp.src(appSources)
-  .pipe(uglify())
-  .pipe(gulp.dest('public/angular'))
+  .pipe(concat('app.js'))
+  .pipe(gulp.dest('public/javascripts'))
   .pipe(livereload());
 });
 
@@ -164,7 +163,7 @@ gulp.task('bower', function(){
 });
 
 gulp.task('launch', function () {
-  nodemon({ script: './bin/www', ext: 'html js', ignore: ['ignored.js'] })
+  nodemon({ script: './bin/www', ext: 'html js', ignore: ['components', 'public'] })
     .on('restart', function () {
       console.log('restarted!')
     })
