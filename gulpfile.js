@@ -111,6 +111,7 @@ gulp.task('json', function(){
 gulp.task('app', function(){
 // App livereload
   gulp.src(appSources)
+  .pipe(concat('app.js'))
   .pipe(uglify())
   .pipe(gulp.dest('public/angular'))
   .pipe(livereload());

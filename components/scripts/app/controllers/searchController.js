@@ -1,4 +1,4 @@
-var searchController = angular.module('searchController', ['ngEnter']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
   $scope.chosen_ingredients=[]
@@ -16,7 +16,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.chosen_ingredients.push({name : ingredient}); 
     $scope.displayRecipes();
     $scope.reset();
-
    }
    /**
    * Queries API for ingredients that begin with match
@@ -56,7 +55,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     });
   }
   $scope.displayRecipes = function() {
-    $scope.recipes.length = 0; //removing all recipe results 
+    $scope.recipes = [];
     if ($scope.chosen_ingredients.length) {
       var url = '/api/composition/withIngredients/'
       var ingredientsArray = new Array();

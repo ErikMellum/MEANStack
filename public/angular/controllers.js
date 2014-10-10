@@ -1,1 +1,1 @@
-var TheControllers=angular.module("TheControllers",["searchController","detailsController","aboutController","recipeController","ingredientController"]);
+var theControllers=angular.module("TheControllers",[]);theControllers.controller("SearchController",["$scope","$http","$window",function(){}]);
