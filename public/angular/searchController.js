@@ -1,1 +1,0 @@
-var searchController=angular.module("searchController",[]);searchController.controller("SearchController",["$scope","$http","$window",function(){}]);

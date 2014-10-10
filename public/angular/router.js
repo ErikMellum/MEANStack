@@ -1,1 +1,0 @@
-var myApp=angular.module("myApp",["ngRoute","TheControllers"]);myApp.config(["$routeProvider",function(e){e.when("/search",{templateUrl:"search",controller:"SearchController"}).otherwise({redirectTo:"/search"})}]);

@@ -1,1 +1,0 @@
-var reviewsController = angular.module('reviewsController', []);
