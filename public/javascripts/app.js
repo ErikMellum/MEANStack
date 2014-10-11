@@ -184,6 +184,10 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []
   $scope.match="";
 
+  $scope.replaceAll = function(orig, str1, str2, ignore)
+   {
+   return orig.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+   }
 
   $scope.reset = function(){
        $scope.match = "";
@@ -224,10 +228,12 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.details = function(recipe, index){
       var postObject = {"recipeId" : $scope.dataArray[index].id};
         $http.post("/api/composition/", postObject).success(function(data) {
-         detailsService.setData(data);
-        console.log(data);
+         if (detailsService.setData(data)){
          recipe.replace(" ", "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
         $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
+        // $window.location.assign("/#/details/"+recipe);
+        // window.location.assign("/#/details/"+recipe);
+      }
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
   }
@@ -309,6 +315,7 @@ recipeService.service('detailsService', function(){
 
   var setData = function(data) {
       recipeData = data;
+      return true;
   }
 
   var getData = function(){

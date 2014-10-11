@@ -5,6 +5,7 @@ recipeService.service('detailsService', function(){
 
   var setData = function(data) {
       recipeData = data;
+      return true;
   }
 
   var getData = function(){
