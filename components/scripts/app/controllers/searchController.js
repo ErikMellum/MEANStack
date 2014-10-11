@@ -7,11 +7,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []
   $scope.match="";
 
-  $scope.replaceAll = function(orig, str1, str2, ignore)
-   {
-   return orig.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
-   }
-
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;
@@ -52,8 +47,10 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       var postObject = {"recipeId" : $scope.dataArray[index].id};
         $http.post("/api/composition/", postObject).success(function(data) {
          if (detailsService.setData(data)){
-         recipe.replace(" ", "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
-        $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
+          console.log(data);
+          recipe = recipe.replace(' ', "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
+          console.log(recipe);
+          $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
       }
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });

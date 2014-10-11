@@ -12,11 +12,6 @@ detailsController.controller('DetailsController', ['$scope' ,'detailsService', f
       return true;
     return false;
   }
-    $scope.sourceExists = function() {
-    if ($scope.recipeData.source.sourceRecipeUrl)
-      return true;
-    return false;
-  }
   $scope.yieldExists = function() {
     if ($scope.recipeData.yield)
       return true;
