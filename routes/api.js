@@ -182,6 +182,7 @@ router.post('/composition/new/', function(req, res, next){
     */
 
 });
+// https://www.digitalocean.com/community/tutorials/how-to-use-node-js-request-and-cheerio-to-set-up-simple-web-scraping
 
 // This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
 // Will return a list of recipes

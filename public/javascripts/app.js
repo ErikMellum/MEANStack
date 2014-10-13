@@ -11,7 +11,7 @@ angular.module('TheControllers',
 'ingredientController']);
 
 var detailsController = angular.module('detailsController', ['recipeService']);
-detailsController.controller('DetailsController', ['$scope' ,'detailsService', function($scope, detailsService) {
+detailsController.controller('DetailsController', ['$scope' , '$http', '$window', 'detailsService', function($scope, $http, $window, detailsService) {
   $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
 
   $scope.timeExists = function() {
@@ -24,13 +24,23 @@ detailsController.controller('DetailsController', ['$scope' ,'detailsService', f
       return true;
     return false;
   }
+  $scope.load = function() {
+    var recipe_id = $window.location.href;
+    recipe_id =recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length);
+    $http.post("/api/composition/", {"recipeId" : recipe_id}).success(function(data) {
+       detailsService.setData(data);
+       $scope.recipeData = detailsService.getData();
+       $scope.ingredients = detailsService.getIngredients();
+     });
+  }
+  $scope.load(); //calling the load function so we can make the api call to populate the recipe data before the page loads
   $scope.yieldExists = function() {
     if ($scope.recipeData.yield)
       return true;
     return false;
   }
-}]);
 
+}]);
 var ingredientController = angular.module('ingredientController', ['ngEnter']);
 
 ingredientController.controller('IngredientController', ['$scope','$http', function($scope, $http) {
@@ -184,6 +194,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
+    if (ingredient.toLowerCase().substr(0,3) == "not"){ //will do something later
+    }
     $scope.chosen_ingredients.push({name : ingredient}); 
     $scope.displayRecipes();
     $scope.reset();
@@ -215,14 +227,12 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       $scope.chosen_ingredients.splice(index,1);
       $scope.displayRecipes();
   }
-    $scope.details = function(recipe, index){
+    $scope.details = function(index){
       var postObject = {"recipeId" : $scope.dataArray[index].id};
         $http.post("/api/composition/", postObject).success(function(data) {
          if (detailsService.setData(data)){
-          console.log(data);
-          recipe = recipe.replace(' ', "%20"); //replacing the spaces in the reipe name with %20 ...url encoded convention
-          console.log(recipe);
-          $window.location.href = "/#/details/"+recipe; //redirecting the user to the details partial
+          // console.log(data);
+          $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
       }
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
@@ -302,10 +312,19 @@ var recipeService = angular.module('recipeService', []);
 
 recipeService.service('detailsService', function(){
   var recipeData= "";
+  var ingredients = []; 
 
   var setData = function(data) {
+      ingredients = [];
+      for (var i =0; i < data.ingredientLines.length; i ++){
+        if (data.ingredientLines[i] != data.ingredientLines[i+1])
+          ingredients.push(data.ingredientLines[i]);
+      }
       recipeData = data;
       return true;
+  }
+  var getIngredients = function(){
+    return ingredients;
   }
 
   var getData = function(){
@@ -314,6 +333,7 @@ recipeService.service('detailsService', function(){
 
   return {
     setData: setData,
-    getData: getData
+    getData: getData,
+    getIngredients: getIngredients
   };      
 });

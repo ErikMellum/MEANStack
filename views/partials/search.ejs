@@ -17,7 +17,7 @@
   <h1>Recipes</h1>
   <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
-      <a href="#/search" ng-click="details(recipe.name, $index)"><div >
+      <a href="#/search" ng-click="details($index)"><div >
       <div class="info inline">
         <h2 class="text-align-left">{{recipe.name}}</h2>
       </div></a>
@@ -25,7 +25,7 @@
   </ul>  
 </div>
 <div id="results-list" class="middle">
-  <h1>Chosen Ingredients</h1>
+  <h1>Ingredients</h1>
     <ul class="chosen-foodlist">
     <li class="food cf" ng-animate="animate" ng-repeat="ingredient in chosen_ingredients">
       <a href="#/search" ng-click="remove($index)"><div >

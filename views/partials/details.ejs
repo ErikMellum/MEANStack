@@ -32,11 +32,10 @@
   <h1 class="titleColor">Ingredients</h1>
   <h1 class="titleColor" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
   <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipeData.ingredientLines">
+    <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
       <div class="info inline">
         <h2>{{recipe}}</h2>
       </div></a>
     </li>
   </ul> 
   </div> 
-
