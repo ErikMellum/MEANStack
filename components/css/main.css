@@ -4,7 +4,7 @@
 @import url("http://fonts.googleapis.com/css?family=Bree+Serif|Merriweather:400,300,700,900|Droid+Sans:400,700");
 
 /* Reset Styles */
-
+-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -243,14 +243,13 @@ a.small {
 /* food List Styles */
 
 .foodlist {
-  background: #EEE8D5;
+  background: #145266;
   width: 50%;
   min-width: 290px;
   max-width:350px;
   margin: 0 auto;
   margin-bottom: 30px;
   border-radius: 0px 0px 10px 10px;
-  opacity: .95;
   z-index: 10;
   position: absolute;
   top: 157px;
@@ -279,8 +278,9 @@ a.small {
 
 .foodlist li, .chosen-foodlist li {
   margin: 0;
-  padding: 10px 10px 0 10px;
+  padding: 1px 1px 0 1px;
   border-bottom: 1px dotted black;
+  width: 86%;
 }
 
 .foodlist a, .chosen-foodlist a {
@@ -288,7 +288,10 @@ a.small {
   text-decoration: none;
 }
 
-.foodlist li:hover, .chosen-foodlist li:hover {
+.foodlist li:hover{
+  background: #19667F;
+}
+.chosen-foodlist li:hover{
   background: #FDF6E3;
 }
 
@@ -374,14 +377,18 @@ a.small {
   min-height: 350px;
 }
 #recipe-list{
+
   height: 60%;
-  width: 27%;
+  width: 50%%;
   background-color: #EEE8D5;
   -moz-border-radius: 0px;
   -webkit-border-radius: 20px 0px 0px 0px;
   border-radius: 20px;
-  float: right;
+  clear: both;
   margin-top: 30px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 #results-list{
   height: 60%;
@@ -393,8 +400,6 @@ a.small {
   float: left;
   margin-top: 30px;
 }
-
-
 .create-form input{
         color: #000000;
         border-radius: 5px;
@@ -499,4 +504,7 @@ input{
 }
 .align{
   text-align: center;
+}
+.tan{
+  color: #EEE8D5;
 }

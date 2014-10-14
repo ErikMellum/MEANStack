@@ -102,6 +102,7 @@ router.post('/composition/withIngredients/', function(req, res, next){
   console.log(req.body)
   // test array of ingredients for now
   var ingredients = req.body.ingredients;
+  var excluded = req.body.excluded;
 
   // the yummly API key embedded URL
   // suffixed with start of ingredients syntax
@@ -110,6 +111,11 @@ router.post('/composition/withIngredients/', function(req, res, next){
   // combine url and ingredients
   url += ingredients.join('&allowedIngredient[]=');
     // uhh, yeah. gotta get rid of those special characters
+    if (excluded.length){
+      url += "&excludedIngredient[]="
+      url += excluded.join('&excludedIngredient[]=');
+    }
+
   url = encodeURI(url);
 
   // for testing
