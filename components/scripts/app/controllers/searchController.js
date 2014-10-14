@@ -13,8 +13,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,3) == "not"){ //will do something later
-      console.log(ingredient.substr(4, ingredient.length));
+    if (ingredient.toLowerCase().substr(0,3) == "not"){ 
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
     } else{
       $scope.chosen_ingredients.push({name : ingredient}); 
@@ -32,7 +31,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   {
     var postObject = {};
     var url = '/api/ingredients/';
-    if (match.toLowerCase().substr(0,3) == "not"){
+    if (match.toLowerCase().substr(0,3) == "not" && match.length > 4){
       postObject = {"ingredient" : match.substr(4, match.length)};
     } 
     else {
