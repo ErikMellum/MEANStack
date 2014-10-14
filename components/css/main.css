@@ -374,7 +374,7 @@ a.small {
   border-radius: 7px;
 }
 #results-list, #recipe-list{
-  min-height: 350px;
+  min-height: 125px;
 }
 #recipe-list{
 
@@ -507,4 +507,10 @@ input{
 }
 .tan{
   color: #EEE8D5;
+}
+.bottom{
+  position: absolute;
+  top: 300px;
+  left: 0;
+  right: 0;
 }
