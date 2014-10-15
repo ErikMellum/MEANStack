@@ -27,7 +27,7 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   $scope.load = function() {
     var recipe_id = $window.location.href;
     recipe_id =recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length);
-    $http.post("/api/composition/", {"recipeId" : recipe_id}).success(function(data) {
+    $http.post("/api/compositions/", {"recipeId" : recipe_id}).success(function(data) {
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
@@ -51,11 +51,11 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
    //container for the parent ingredient used (we need the id to send to the server with our request)
   $scope.parentIngredient;
   //set up temp ingredients list
-  $http.get('/api/tmpIngredients').success(function(data) {
+  $http.get('/api/ingredients/tmpIngredients').success(function(data) {
      $scope.tmpIngredients=data;
   });
   //set up abstract ingredients list
-  $http.get('/api/abstractIngredients').success(function(data) {
+  $http.get('/api/ingredients/abstractIngredients').success(function(data) {
      $scope.abstractIngredients=data;
   });
 
@@ -104,14 +104,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       $scope.currentIngredient = "";
       $scope.ingredientName = "";
       $scope.searchTmpIngredients = "";
-      var url = 'api/tmpIngredient/:' + $scope.ingredientId;
+      var url = 'api/ingredients/tmpIngredient/:' + $scope.ingredientId;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
     }
     else if(ingredientType == "abstractIngredient")
     {
-      var url = 'api/abstractIngredient/:' + $scope.parentIngredient.id;
+      var url = 'api/ingredients/abstractIngredient/:' + $scope.parentIngredient.id;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
@@ -128,14 +128,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
     $scope.currentIngredient.unique = $scope.ingredientUnique;
     $scope.currentIngredient.processed = $scope.ingredientProcessed;
 
-    $http.post('/api/tmpIngredients', $scope.currentIngredient).success(function(data) {
+    $http.post('/api/ingredients/tmpIngredients', $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
         $scope.abstractIngredients=data.abstracts;
         $scope.tmpIngredients=data.temps;
 
     });
 
-    var url= '/api/tmpIngredients/:' + $scope.ingredientName;
+    var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
     $http.delete(url, $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
        $scope.tmpIngredients=data;
@@ -158,7 +158,7 @@ $scope.userName = "guest";
 $scope.recipeName = "";
 
 $scope.inputRecipe = function(recipe) {
-      var url = '/api/composition/new/';
+      var url = '/api/compositions/new/';
       console.log($scope.ingredient);
       console.log($scope.quantity);
       console.log($scope.unit);
@@ -203,6 +203,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       $scope.displayRecipes();
       $scope.reset();
    }
+
    /**
    * Queries API for ingredients that begin with match
    * Who: Jayd
@@ -245,7 +246,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
     $scope.details = function(index){
       var postObject = {"recipeId" : $scope.dataArray[index].id};
-        $http.post("/api/composition/", postObject).success(function(data) {
+        $http.post("/api/compositions/", postObject).success(function(data) {
          if (detailsService.setData(data)){
           $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
       }
@@ -255,7 +256,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.displayRecipes = function() {
     $scope.recipes = [];
     if ($scope.chosen_ingredients.length) {
-      var url = '/api/composition/withIngredients/'
+      var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
       $scope.chosen_ingredients.forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);

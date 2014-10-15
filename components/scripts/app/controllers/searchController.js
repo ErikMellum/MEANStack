@@ -21,6 +21,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       $scope.displayRecipes();
       $scope.reset();
    }
+
    /**
    * Queries API for ingredients that begin with match
    * Who: Jayd
@@ -63,7 +64,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
     $scope.details = function(index){
       var postObject = {"recipeId" : $scope.dataArray[index].id};
-        $http.post("/api/composition/", postObject).success(function(data) {
+        $http.post("/api/compositions/", postObject).success(function(data) {
          if (detailsService.setData(data)){
           $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
       }
@@ -73,7 +74,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.displayRecipes = function() {
     $scope.recipes = [];
     if ($scope.chosen_ingredients.length) {
-      var url = '/api/composition/withIngredients/'
+      var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
       $scope.chosen_ingredients.forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);
