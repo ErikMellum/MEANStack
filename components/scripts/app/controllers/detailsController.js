@@ -15,7 +15,7 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   $scope.load = function() {
     var recipe_id = $window.location.href;
     recipe_id =recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length);
-    $http.post("/api/composition/", {"recipeId" : recipe_id}).success(function(data) {
+    $http.post("/api/compositions/", {"recipeId" : recipe_id}).success(function(data) {
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();

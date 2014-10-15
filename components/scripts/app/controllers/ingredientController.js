@@ -8,11 +8,11 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
    //container for the parent ingredient used (we need the id to send to the server with our request)
   $scope.parentIngredient;
   //set up temp ingredients list
-  $http.get('/api/tmpIngredients').success(function(data) {
+  $http.get('/api/ingredients/tmpIngredients').success(function(data) {
      $scope.tmpIngredients=data;
   });
   //set up abstract ingredients list
-  $http.get('/api/abstractIngredients').success(function(data) {
+  $http.get('/api/ingredients/abstractIngredients').success(function(data) {
      $scope.abstractIngredients=data;
   });
 
@@ -61,14 +61,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       $scope.currentIngredient = "";
       $scope.ingredientName = "";
       $scope.searchTmpIngredients = "";
-      var url = 'api/tmpIngredient/:' + $scope.ingredientId;
+      var url = 'api/ingredients/tmpIngredient/:' + $scope.ingredientId;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
     }
     else if(ingredientType == "abstractIngredient")
     {
-      var url = 'api/abstractIngredient/:' + $scope.parentIngredient.id;
+      var url = 'api/ingredients/abstractIngredient/:' + $scope.parentIngredient.id;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
@@ -85,14 +85,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
     $scope.currentIngredient.unique = $scope.ingredientUnique;
     $scope.currentIngredient.processed = $scope.ingredientProcessed;
 
-    $http.post('/api/tmpIngredients', $scope.currentIngredient).success(function(data) {
+    $http.post('/api/ingredients/tmpIngredients', $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
         $scope.abstractIngredients=data.abstracts;
         $scope.tmpIngredients=data.temps;
 
     });
 
-    var url= '/api/tmpIngredients/:' + $scope.ingredientName;
+    var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
     $http.delete(url, $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
        $scope.tmpIngredients=data;
