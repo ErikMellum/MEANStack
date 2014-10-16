@@ -41,9 +41,10 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   }
 
 }]);
-var ingredientController = angular.module('ingredientController', ['ngEnter']);
+var ingredientController = angular.module('ingredientController', ['ngEnter', 'ingredientService']);
 
-ingredientController.controller('IngredientController', ['$scope','$http', function($scope, $http) {
+ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 
+  function($scope, $http, TmpIngredient, AbstractIngredient) {
   //for unit test
   $scope.test = "Test";
   //container for the temp ingredient used 
@@ -51,16 +52,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
    //container for the parent ingredient used (we need the id to send to the server with our request)
   $scope.parentIngredient;
   //set up temp ingredients list
-  $http.get('/api/ingredients/tmpIngredients').success(function(data) {
-     $scope.tmpIngredients=data;
-  });
+  $scope.tmpIngredients = TmpIngredient.find();
   //set up abstract ingredients list
-  $http.get('/api/ingredients/abstractIngredients').success(function(data) {
-     $scope.abstractIngredients=data;
-  });
+  $scope.abstractIngredients = AbstractIngredient.find();
 
-  //need
-  $scope.getIngredient = function(ingredientType, ingredientName){
+  //Gets a temporary or abstract ingredient from the list of the respective 
+  //ingredients and sets the ingredient name field to be this ingredient if
+  //it is part of the respective list, otherwise it sends an alert to the user. 
+  $scope.getAndSetIngredient = function(ingredientType, ingredientName){
     var ingredient;
     if(ingredientType == "tempIngredient")
     {
@@ -68,6 +67,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
         if(element.name == ingredientName)
           $scope.setIngredient(ingredientType, element);
       });
+      alert("Ingredient not found");
     }
     else if(ingredientType == "abstractIngredient")
     {
@@ -75,14 +75,19 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
         if(element.name == ingredientName)
           $scope.setIngredient(ingredientType, element);
       });
+      alert("Ingredient not found");
     }
   };
 
+  //clear will set the currentIngredient to be nothing, and the ingredient name
+  //field to be nothing
   $scope.clear= function() {
 
     $scope.currentIngredient = "";
     $scope.ingredientName = "";
   }
+
+  //setIngredient allows you to specify a string to set for the new ingredient name
   $scope.setIngredient = function(ingredientType, ingredient){
     if(ingredientType == "tempIngredient")
     {
@@ -95,8 +100,9 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       $scope.ingredientParent = ingredient.name;
       $scope.ingredientParentId = ingredient._id;
     }
-
   }
+
+
   $scope.delete= function(ingredientType, ingredient) {
     if(ingredientType == "tempIngredient")
     {
@@ -117,6 +123,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       });
     }
   }
+  
   $scope.submitNewIngredient = function(){
     var primitiveIngredient;
     var abstractIngredient;
@@ -328,7 +335,33 @@ myApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
-var recipeService = angular.module('recipeService', []);
+var ingredientService = angular.module('ingredientService', ['ngResource']);
+
+ingredientService.factory('PrimitiveIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/primitiveIngredients', {}, {
+      find: {method:'GET', params:{ingredientId: 'primitiveIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('TmpIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/tmpIngredients', {}, {
+      find: {method:'GET', params:{ingredientId:'tmpIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'tmpIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('AbstractIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/abstractIngredients', {}, {
+      find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+var recipeService = angular.module('recipeService', ['ngResource', 'ingredientService']);
 
 recipeService.service('detailsService', function(){
   var recipeData= "";

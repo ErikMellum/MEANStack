@@ -1,4 +1,4 @@
-var recipeService = angular.module('recipeService', []);
+var recipeService = angular.module('recipeService', ['ngResource', 'ingredientService']);
 
 recipeService.service('detailsService', function(){
   var recipeData= "";

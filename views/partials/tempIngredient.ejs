@@ -12,7 +12,7 @@
 <form class="form-inline" role="form">
 
   <div class="form-group">
-    <input ng-enter="getIngredient(searchTmpIngredients)" class="form-control" id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchTmpIngredients" placeholder="Autocomplete Temp Ingredients" autofocus>
+    <input ng-enter="getAndSetIngredient('tempIngredient', searchTmpIngredients)" class="form-control" id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchTmpIngredients" placeholder="Autocomplete Temp Ingredients" autofocus>
   </div>
 
   <div class="form-group">
