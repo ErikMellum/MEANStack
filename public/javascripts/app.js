@@ -4,11 +4,14 @@ aboutController.controller('AboutController', ['$scope','$http', function($scope
   $scope.test = "about";
 }]);
 angular.module('TheControllers', 
-['searchController', 
-'detailsController', 
-'aboutController', 
-'recipeController', 
-'ingredientController']);
+[
+  'searchController', 
+  'detailsController', 
+  'aboutController', 
+  'recipeController', 
+  'ingredientController',
+  'mainController'
+]);
 
 var detailsController = angular.module('detailsController', ['recipeService']);
 detailsController.controller('DetailsController', ['$scope' , '$http', '$window', 'detailsService', function($scope, $http, $window, detailsService) {
@@ -149,6 +152,18 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     });
   };
 
+}]);
+var mainController = angular.module('mainController', []);
+
+mainController.controller('MainController', ['$scope','$http', function($scope, $http) {
+   $scope.links = ['Search', 'About', 'Create'];
+   $scope.select= function(item) {
+     $scope.selected = item; 
+   };
+
+   $scope.isActive = function(item) {
+     return $scope.selected === item;
+   };
 }]);
 var recipeController = angular.module('recipeController', []);
 

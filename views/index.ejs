@@ -44,14 +44,14 @@
 
   
 </head>
-  <body>
+  <body ng-controller="MainController">
       <!--  NAV  -->
       <div class="container-fluid nav-bar">
         <div class="row">
           <ul class="nav nav-pills nav-justified"  role="tablist">
-               <li><a href="#/search">Search</a></li>
-              <li><a href="#/about">About</a></li>
-              <li><a href="#/create">Create</a></li>
+              <li ng-repeat="link in links">
+                <a ng-click="select(link)" ng-class="{active: isActive(link)}" class="mainLink" ng-href="#/{{link.toLowerCase()}}"> {{link}}</a>
+              </li>
           </ul>
         </div>  
       </div>

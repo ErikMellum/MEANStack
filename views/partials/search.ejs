@@ -5,7 +5,7 @@
     <input ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' followed by ingredient name" autofocus>
   </div>
   <ul class="foodlist">
-    <li ng-if="match.length > 0" class="food cf shrink" ng-animate="animate" ng-repeat="ingredient in query_result">
+    <li ng-if="match.length > 0" class="repeated-item food cf shrink" ng-animate="animate" ng-repeat="ingredient in query_result">
       <a href="#/search" ng-click="switchAndDisplay(ingredient)"><div >
       <div class="info inline">
         <h2 class="tan">{{ingredient.name}}</h2>
