@@ -1,6 +1,7 @@
-var ingredientController = angular.module('ingredientController', ['ngEnter']);
+var ingredientController = angular.module('ingredientController', ['ngEnter', 'ingredientService']);
 
-ingredientController.controller('IngredientController', ['$scope','$http', function($scope, $http) {
+ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 
+  function($scope, $http, TmpIngredient, AbstractIngredient) {
   //for unit test
   $scope.test = "Test";
   //container for the temp ingredient used 
@@ -8,16 +9,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
    //container for the parent ingredient used (we need the id to send to the server with our request)
   $scope.parentIngredient;
   //set up temp ingredients list
-  $http.get('/api/tmpIngredients').success(function(data) {
-     $scope.tmpIngredients=data;
-  });
+  $scope.tmpIngredients = TmpIngredient.find();
   //set up abstract ingredients list
-  $http.get('/api/abstractIngredients').success(function(data) {
-     $scope.abstractIngredients=data;
-  });
+  $scope.abstractIngredients = AbstractIngredient.find();
 
-  //need
-  $scope.getIngredient = function(ingredientType, ingredientName){
+  //Gets a temporary or abstract ingredient from the list of the respective 
+  //ingredients and sets the ingredient name field to be this ingredient if
+  //it is part of the respective list, otherwise it sends an alert to the user. 
+  $scope.getAndSetIngredient = function(ingredientType, ingredientName){
     var ingredient;
     if(ingredientType == "tempIngredient")
     {
@@ -25,6 +24,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
         if(element.name == ingredientName)
           $scope.setIngredient(ingredientType, element);
       });
+      alert("Ingredient not found");
     }
     else if(ingredientType == "abstractIngredient")
     {
@@ -32,14 +32,19 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
         if(element.name == ingredientName)
           $scope.setIngredient(ingredientType, element);
       });
+      alert("Ingredient not found");
     }
   };
 
+  //clear will set the currentIngredient to be nothing, and the ingredient name
+  //field to be nothing
   $scope.clear= function() {
 
     $scope.currentIngredient = "";
     $scope.ingredientName = "";
   }
+
+  //setIngredient allows you to specify a string to set for the new ingredient name
   $scope.setIngredient = function(ingredientType, ingredient){
     if(ingredientType == "tempIngredient")
     {
@@ -52,8 +57,9 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       $scope.ingredientParent = ingredient.name;
       $scope.ingredientParentId = ingredient._id;
     }
-
   }
+
+
   $scope.delete= function(ingredientType, ingredient) {
     if(ingredientType == "tempIngredient")
     {
@@ -61,19 +67,20 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
       $scope.currentIngredient = "";
       $scope.ingredientName = "";
       $scope.searchTmpIngredients = "";
-      var url = 'api/tmpIngredient/:' + $scope.ingredientId;
+      var url = 'api/ingredients/tmpIngredient/:' + $scope.ingredientId;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
     }
     else if(ingredientType == "abstractIngredient")
     {
-      var url = 'api/abstractIngredient/:' + $scope.parentIngredient.id;
+      var url = 'api/ingredients/abstractIngredient/:' + $scope.parentIngredient.id;
       http.delete(url).success(function(data) {
       //   $scope.tmpIngredients=data;
       });
     }
   }
+  
   $scope.submitNewIngredient = function(){
     var primitiveIngredient;
     var abstractIngredient;
@@ -85,14 +92,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', funct
     $scope.currentIngredient.unique = $scope.ingredientUnique;
     $scope.currentIngredient.processed = $scope.ingredientProcessed;
 
-    $http.post('/api/tmpIngredients', $scope.currentIngredient).success(function(data) {
+    $http.post('/api/ingredients/tmpIngredients', $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
         $scope.abstractIngredients=data.abstracts;
         $scope.tmpIngredients=data.temps;
 
     });
 
-    var url= '/api/tmpIngredients/:' + $scope.ingredientName;
+    var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
     $http.delete(url, $scope.currentIngredient).success(function(data) {
      // alert("Successfully posted data, still not implemented however.");
        $scope.tmpIngredients=data;

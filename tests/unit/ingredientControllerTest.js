@@ -1,15 +1,41 @@
 describe('Unit: IngredientController', function(){
+  var ctrl, scope, TmpIngredient, AbstractIngredient, PrimitiveIngredient;
+  var tmpIngredientList, abstractIngredientList, primitiveIngredientList;
 
-  beforeEach(module('myApp'));
+  beforeEach(module('myApp', function ($provide){
+    TmpIngredient = jasmine.createSpyObj("TmpIngredient", ["find"]);
+    AbstractIngredient = jasmine.createSpyObj("AbstractIngredient", ["find"]);
+    PrimitiveIngredient = jasmine.createSpyObj("PrimitiveIngredient", ["find"]);
 
-  var ctrl, scope;
+    tmpIngredientList = [{'name': "Grapes"}, {'name': "Corn"}];
+    abstractIngredientList = ["Fruit", "Vegetables"];
+    primitiveIngredientList =["Jiffy Peanut Butter", "Winco Turkey Pastrami"];
 
-  beforeEach(inject(function($controller, $rootScope) {
+    TmpIngredient.find.andReturn(tmpIngredientList);
+    AbstractIngredient.find.andReturn(abstractIngredientList);
+    PrimitiveIngredient.find.andReturn(primitiveIngredientList);
+
+    $provide.value("TmpIngredient", TmpIngredient);
+    $provide.value("AbstractIngredient", AbstractIngredient);
+    $provide.value("PrimitiveIngredient", PrimitiveIngredient);
+
+  }));
+
+  
+
+  beforeEach(inject(function($httpBackend, $controller, $rootScope, TmpIngredient, AbstractIngredient, PrimitiveIngredient) {
     // Create a new scope that's a child of the $rootScope
     scope = $rootScope.$new();
+    mockHttp = $httpBackend;
+    TmpIngredient = TmpIngredient;
+    AbstractIngredient = AbstractIngredient;
+    PrimitiveIngredient = PrimitiveIngredient;
     // Create the controller
     ctrl = $controller('IngredientController', {
-      $scope: scope
+      $scope: scope,
+      TmpIngredient: TmpIngredient,
+      AbstractIngredient: AbstractIngredient,
+      PrimitiveIngredient: PrimitiveIngredient
     });
   }));
 
@@ -18,4 +44,36 @@ describe('Unit: IngredientController', function(){
       expect(scope.test).toBe("Test");
   });
 
+  it("Should verify the tempIngredients and abstractIngredients get set up correctly using the factory", function(){
+    expect(TmpIngredient.find).toHaveBeenCalled();
+    expect(AbstractIngredient.find).toHaveBeenCalled();
+    expect(scope.tmpIngredients).toBe(tmpIngredientList);
+    expect(scope.abstractIngredients).toBe(abstractIngredientList);
+  });
+
+  it("Should verify that the get and set ingredient function works correctly when passing a correct ingredient name", function(){
+    var ingredientType = "tempIngredient";
+    var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
+    scope.getAndSetIngredient(ingredientType, ingredient.name);
+    expect(scope.searchTmpIngredients).toBe(ingredient.name);
+    expect(scope.ingredientName).toBe(ingredient.name); 
+  });
+
+  it("Should verify that the set ingredient function works correctly when passing a correct ingredient", function(){
+    var ingredientType = "tempIngredient";
+    var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
+    scope.setIngredient(ingredientType, ingredient);
+    expect(scope.searchTmpIngredients).toBe(ingredient.name);
+    expect(scope.ingredientName).toBe(ingredient.name); 
+  });
+
+  // should also console output that the ingredient was not found in an alert
+  it("Should verify that the set ingredient function works correctly when passing an incorrect ingredient name", function(){
+    var ingredientType = "tempIngredient";
+    var ingredient = "blork"; // a combination of blubber and pork
+    scope.getAndSetIngredient(ingredientType, ingredient.name);
+    expect(scope.searchTmpIngredients).toBeUndefined();
+    expect(scope.ingredientName).toBeUndefined(); 
+  });
+  
 });

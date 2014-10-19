@@ -514,3 +514,13 @@ input{
   left: 0;
   right: 0;
 }
+
+.active{
+  background: #145266;
+  color: white;
+  height: 110%;
+  font-size: 110%;
+}
+.mainLink{
+  font-size: 150%;
+}

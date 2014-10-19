@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var api = require('./api');
+var compositionRoutes = require('./compositions');
+var ingredientRoutes = require('./ingredients');
 
 /* GET home page. */
 router.use('/api', api);
+router.use('/api/compositions', compositionRoutes);
+router.use('/api/ingredients', ingredientRoutes);
 
 router.get('/search', function(req, res) {
   res.render('partials/search');

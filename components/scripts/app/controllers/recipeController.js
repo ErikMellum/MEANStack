@@ -13,7 +13,7 @@ $scope.userName = "guest";
 $scope.recipeName = "";
 
 $scope.inputRecipe = function(recipe) {
-      var url = '/api/composition/new/';
+      var url = '/api/compositions/new/';
       console.log($scope.ingredient);
       console.log($scope.quantity);
       console.log($scope.unit);

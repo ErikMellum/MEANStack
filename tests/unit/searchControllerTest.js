@@ -1,7 +1,6 @@
 describe('Unit: SearchController', function(){
 
   beforeEach(module('myApp'));
-
   var SearchCtrl, scope, mockHttp, url;
  
   beforeEach(inject(function($httpBackend, $controller, $rootScope) {

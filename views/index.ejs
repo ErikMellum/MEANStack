@@ -31,6 +31,7 @@
       <script src="lib/angular/angular.min.js"></script>
       <script src="lib/angular-route/angular-route.min.js"></script>
       <script src="lib/angular-animate/angular-animate.min.js"></script>
+      <script src="lib/angular-resource/angular-resource.min.js"></script>
       
       <!-- Services -->
       <script src="javascripts/app.js"></script>
@@ -43,14 +44,14 @@
 
   
 </head>
-  <body>
+  <body ng-controller="MainController">
       <!--  NAV  -->
       <div class="container-fluid nav-bar">
         <div class="row">
           <ul class="nav nav-pills nav-justified"  role="tablist">
-               <li><a href="#/search">Search</a></li>
-              <li><a href="#/about">About</a></li>
-              <li><a href="#/create">Create</a></li>
+              <li ng-repeat="link in links">
+                <a ng-click="select(link)" ng-class="{active: isActive(link)}" class="mainLink" ng-href="#/{{link.toLowerCase()}}"> {{link}}</a>
+              </li>
           </ul>
         </div>  
       </div>
