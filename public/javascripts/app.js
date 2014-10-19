@@ -219,16 +219,16 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     else {
       postObject = {"ingredient" : match};
     }
+    if (match.toLowerCase().substr(0,3) != "not" || (match.toLowerCase().substr(0,3) == "not" && match.length !=3 && match.length !=4)){ 
+    //make API call if the first three letters != "not OR if they do == "not, then make the API call if there are more letters after the "not "
       $http.post(url, postObject).success(function(data) {
         $scope.query_result = data;
       });
+    } else {
+      $scope.query_result = [];
+      //keep the query result empty if the first three letters are "not" and nothing else is after the "not"
+    }
   }
-
-    /* whoever put this, it was causing an access-origin error
-    //  $http.get('http://google.com').then(function(data){
-    //   console.log(data);   
-    // });
-    */
   $scope.switchAndDisplay = function(name){
        if ($scope.match.toLowerCase().substr(0,3) == "not"){
         $scope.excluded_ingredients.push(name);
