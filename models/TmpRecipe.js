@@ -1,13 +1,26 @@
 var mongoose = require('mongoose');
 
 var TmpRecipeSchema = new mongoose.Schema({
-	id: {type: String, unique: true},
-	yield: Number,
-	imageUrlsBySize: {"90": String},
+	id: {type: String, unique:true},
+	yield: String,
+	images: [{
+    	"imageUrlsBySize": {
+        	"90": String,
+        	"360": String
+    	},
+    	"hostedSmallUrl": String,
+   		"hostedMediumUrl": String, 
+    	"hostedLargeUrl": String
+	}],
 	sourceDisplayName: String,
+	source: {
+		"sourceRecipeUrl": String,
+        "sourceSiteUrl": String,
+        "sourceDisplayName": String
+    },
 	ingredients: [String],
 	smallImageUrls: [String],
-	recipeName: { type:String, unique:true },
+	recipeName: { type:String },
 	name: String,
 	totalTimeInSeconds: Number,
 	attributes: {

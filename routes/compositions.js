@@ -35,45 +35,57 @@ router.post('/', function(req, res, next){
   // TODO: distinguish between yummly fetch and mongodb fetch
   // test array of ingredients for now
   var recipeId = req.body.recipeId;
-
-  // the yummly API key embedded URL
-  // suffixed with start of ingredients syntax
-  var url = 'http://api.yummly.com/v1/api/recipe/'+recipeId+'?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd';
-
-  // uhh, yeah. gotta get rid of those special characters
-  url = encodeURI(url);
-
-  // for testing
-  console.log(url);
-
-  // gets remote data
-  http.get(url, function(remoteRes) {
-    // testing
-    console.log("Got response: " + remoteRes.statusCode);
-    var body = ""
-    remoteRes.on('data', function(data) {
-      // collect the data stream
-      body += data;
-    });
-    remoteRes.on('end', function() {
-      var recipe = JSON.parse(body);
-      var tmpRecipe = new TmpRecipe();
-
-      for(var key in recipe) {
-        if(recipe.hasOwnProperty(key)) {
-          console.log(key);
-          tmpRecipe[key] = recipe[key];
-        }
-      }
-      console.log(recipe);
-      tmpRecipe.save();
-
-      // send our response
+  
+  TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
+    if(recipe === null){
+      console.log("calling yummly");
+      callYummly();
+    }
+    else{
+      console.log("found!");
+      // console.log(recipe);
       res.json(recipe);
-    });
-  }).on('error', function(e) {
-      console.log("Got error: " + e.message);
+    }
   });
+  function callYummly(){
+    // the yummly API key embedded URL
+    // suffixed with start of ingredients syntax
+    var url = 'http://api.yummly.com/v1/api/recipe/'+recipeId+'?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd';
+
+    // uhh, yeah. gotta get rid of those special characters
+    url = encodeURI(url);
+
+    // for testing
+    //console.log(url);
+
+    // gets remote data
+    http.get(url, function(remoteRes) {
+      // testing
+      // console.log("Got response: " + remoteRes.statusCode);
+      var body = ""
+      remoteRes.on('data', function(data) {
+        // collect the data stream
+        body += data;
+      });
+      remoteRes.on('end', function() {
+        var recipe = JSON.parse(body);
+        var tmpRecipe = new TmpRecipe();
+
+        for(var key in recipe) {
+          if(recipe.hasOwnProperty(key)) {
+            // console.log(key);
+            tmpRecipe[key] = recipe[key];
+          }
+        }
+        // console.log(recipe);
+        tmpRecipe.save();
+        // send our response
+        res.json(recipe);
+      });
+    }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+    });
+  }
 });
 
 
