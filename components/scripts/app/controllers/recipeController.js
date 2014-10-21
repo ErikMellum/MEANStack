@@ -5,13 +5,12 @@ recipeController.controller('RecipeController', ['$scope','$http', function($sco
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
-$scope.ingredient = [];
-$scope.quantity = [];
-$scope.unit = [];
+$scope.ingredients = [];
+$scope.currentIngredient = "";
 $scope.instructions = [];
 $scope.userName = "guest";
 $scope.recipeName = "";
-
+$scope.maxIngredients = 100; 
 $scope.inputRecipe = function(recipe) {
       var url = '/api/compositions/new/';
       console.log($scope.ingredient);

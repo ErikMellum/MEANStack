@@ -1,84 +1,22 @@
-  <div ng-controller="InputController" class="create-form">
-    <form validate class="simple-form">
-
+  <div class="create-form">
     Recipe Name:
     <input ng-model="recipeName" placeholder="recipe name" autofocus>
     UserName:
     <input ng-model="userName" placeholder="username"><br />
-    Ingredients: {{count+1}}
-    <button ng-show="count<8" ng-click="count = count + 1" ng-init="count=0">+</button>
-    <button ng-show="count>0" ng-click="count = count - 1; ingredient[count+1]=''; unit[count+1]=''; quantity[count+1]=''">-</button><br />
-    <input ng-model="ingredient[0]" placeholder="ingredient" required> 
-    <input ng-model="quantity[0]" placeholder="quantity" required>
-    <input ng-model="unit[0]" placeholder="unit"> <br />
-    <div ng-if="count>=1">
-        <input ng-model="ingredient[1]" placeholder="ingredient"> 
-        <input ng-model="quantity[1]" placeholder="quantity">  
-        <input ng-model="unit[1]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=2">
-        <input ng-model="ingredient[2]" placeholder="ingredient"> 
-        <input ng-model="quantity[2]" placeholder="quantity">  
-        <input ng-model="unit[2]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=3">
-        <input ng-model="ingredient[3]" placeholder="ingredient"> 
-        <input ng-model="quantity[3]" placeholder="quantity">  
-        <input ng-model="unit[3]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=4">
-        <input ng-model="ingredient[4]" placeholder="ingredient"> 
-        <input ng-model="quantity[4]" placeholder="quantity">  
-        <input ng-model="unit[4]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=5">
-        <input ng-model="ingredient[5]" placeholder="ingredient"> 
-        <input ng-model="quantity[5]" placeholder="quantity">  
-        <input ng-model="unit[5]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=6">
-        <input ng-model="ingredient[6]" placeholder="ingredient"> 
-        <input ng-model="quantity[6]" placeholder="quantity">  
-        <input ng-model="unit[6]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=7">
-        <input ng-model="ingredient[7]" placeholder="ingredient"> 
-        <input ng-model="quantity[7]" placeholder="quantity">  
-        <input ng-model="unit[7]" placeholder="unit"> <br />
-    </div>
-    <div ng-if="count>=8">
-        <input ng-model="ingredient[8]" placeholder="ingredient"> 
-        <input ng-model="quantity[8]" placeholder="quantity">  
-        <input ng-model="unit[8]" placeholder="unit"> <br />
-    </div>
-    Steps to deliciousness: {{icount+1}}
-    <button ng-show="icount<7" ng-click="icount = icount + 1" ng-init="icount=0">+</button>
-    <button ng-show="icount>0" ng-click="icount = icount - 1; instructions[icount+1]=''">-</button><br />
-    <div ng-if="icount>=0">
-        <input size="80" ng-model="instructions[0]" placeholder="Step 1" required>
-    </div>
-    <div ng-if="icount>=1">
-        <input size="80" ng-model="instructions[1]" placeholder="Step 2">
-    </div>
-    <div ng-if="icount>=2">
-        <input size="80" ng-model="instructions[2]" placeholder="Step 3">
-    </div>
-    <div ng-if="icount>=3">
-        <input size="80" ng-model="instructions[3]" placeholder="Step 4">
-    </div>
-    <div ng-if="icount>=4">
-        <input size="80" ng-model="instructions[4]" placeholder="Step 5">
-    </div>
-    <div ng-if="icount>=5">
-        <input size="80" ng-model="instructions[5]" placeholder="Step 6">
-    </div>
-    <div ng-if="icount>=6">
-        <input size="80" ng-model="instructions[6]" placeholder="Step 7">
-    </div>
-    <div ng-if="icount>=7">
-        <input size="80" ng-model="instructions[7]" placeholder="Step 8">
-    </div>
-    </form>
+    Ingredients: {{ingredients.length}}
+    <button ng-show="ingredients.length<maxIngredients" ng-click="ingredients[ingredients.length] = currentIngredient">+</button>
+    <button ng-show="ingredients.length>0" ng-click="ingredients.splice(ingredients.length,ingredients.length)">-</button><br />
+    <input ng-model="currentIngredient.name" placeholder="ingredient name" required> 
+    <input ng-model="currentIngredient.quantity" placeholder="quantity" required>
+    <input ng-model="currentIngredient.unit" placeholder="unit"> <br />
+    <span class="ingredientTableHeader">Ingredients:</span>
+    <table>
+    <tr ng-repeat="ingredient in ingredients">
+        <td class="ingredientTableData">{{ingredient.name}}</td>
+        <td class="ingredientTableData">{{ingredient.quantity}}</td>
+        <td class="ingredientTableData">{{ingredient.unit}}</td>
+    </tr>
+    </table>
     <form novalidate class="simple-form" action="#/search" method="get">
     <button ng-click="inputRecipe(recipeName)" type=submit>Create</button>(This currently re-directs to "index/search" for testing purposes after the object is posted to the db")
     </form>

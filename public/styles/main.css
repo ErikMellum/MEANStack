@@ -521,3 +521,12 @@ input{
 .mainLink{
   font-size: 150%;
 }
+
+.ingredientTableHeader{
+  font-weight: bold;
+  width: 420px;
+}
+
+.ingredientTableData{
+  width: 140px;
+}

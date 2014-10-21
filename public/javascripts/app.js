@@ -59,6 +59,10 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   //set up abstract ingredients list
   $scope.abstractIngredients = AbstractIngredient.find();
 
+  $scope.searchTmpIngredients;
+
+  $scope.ingredientName;
+
   //Gets a temporary or abstract ingredient from the list of the respective 
   //ingredients and sets the ingredient name field to be this ingredient if
   //it is part of the respective list, otherwise it sends an alert to the user. 
@@ -66,19 +70,27 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     var ingredient;
     if(ingredientType == "tempIngredient")
     {
+      var test = false;
       $scope.tmpIngredients.forEach(function(element){
         if(element.name == ingredientName)
+        {
           $scope.setIngredient(ingredientType, element);
+          test = true;
+        }
       });
-      alert("Ingredient not found");
+      if(!test) alert("Ingredient not found");
     }
     else if(ingredientType == "abstractIngredient")
     {
+      var test = false;
       $scope.abstractIngredients.forEach(function(element){
         if(element.name == ingredientName)
+        {
           $scope.setIngredient(ingredientType, element);
+          test = true;
+        }
       });
-      alert("Ingredient not found");
+      if(!test) alert("Ingredient not found");
     }
   };
 
@@ -172,13 +184,12 @@ recipeController.controller('RecipeController', ['$scope','$http', function($sco
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
-$scope.ingredient = [];
-$scope.quantity = [];
-$scope.unit = [];
+$scope.ingredients = [];
+$scope.currentIngredient = "";
 $scope.instructions = [];
 $scope.userName = "guest";
 $scope.recipeName = "";
-
+$scope.maxIngredients = 100; 
 $scope.inputRecipe = function(recipe) {
       var url = '/api/compositions/new/';
       console.log($scope.ingredient);
