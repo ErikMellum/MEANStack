@@ -37,4 +37,37 @@ describe('Unit: SearchController', function(){
           data: ['free range eggs', 'large eggs']
       });
   });
+
+  it ('should reset the match and query_result variables', 
+    function(){
+     scope.query_result = ["NotNil"];
+     scope.match = "NotNil"; 
+     expect(scope.match).toBe("NotNil");
+     scope.reset();
+     expect(scope.match).toBe("");
+     expect(scope.query_result.length).toBe(0)
+  });
+
+  it ('should insert an ingredient into the chosen and excluded ingredients', 
+    function(){
+      expect(scope.chosen_ingredients.length).toBe(0)
+      scope.insert("Ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("not Ingredient")
+      expect(scope.excluded_ingredients[0].name).toBe("Ingredient");
+
+  });
+
+  it ('should remove an ingredient from the chosen and excluded ingredients', 
+    function(){
+      expect(scope.chosen_ingredients.length).toBe(0)
+      scope.insert("Ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("not Ingredient");
+      expect(scope.excluded_ingredients[0].name).toBe("Ingredient");
+      scope.remove(scope.chosen_ingredients, 0);
+      scope.remove(scope.excluded_ingredients, 0);
+      expect(scope.chosen_ingredients.length).toBe(0);
+      expect(scope.excluded_ingredients.length).toBe(0);
+  });
 });

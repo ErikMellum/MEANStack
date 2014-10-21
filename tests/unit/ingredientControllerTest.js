@@ -75,5 +75,16 @@ describe('Unit: IngredientController', function(){
     expect(scope.searchTmpIngredients).toBeUndefined();
     expect(scope.ingredientName).toBeUndefined(); 
   });
+
+  it("Should verify that the clear function works correctly after calling the set ingredient function", function(){
+    var ingredientType = "tempIngredient";
+    var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
+    scope.setIngredient(ingredientType, ingredient);
+    expect(scope.searchTmpIngredients).toBe(ingredient.name);
+    expect(scope.ingredientName).toBe(ingredient.name); 
+    scope.clear();
+    expect(scope.currentIngredient).toBe("");
+    expect(scope.ingredientName).toBe(""); 
+  });
   
 });
