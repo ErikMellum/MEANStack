@@ -95,7 +95,7 @@ router.post('/', function(req, res, next){
  * @return {res.json} yummly object API (at the moment)
  */
 router.post('/withIngredients/', function(req, res, next){
-  console.log(req.body)
+  // console.log(req.body)
   // test array of ingredients for now
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
@@ -120,7 +120,7 @@ router.post('/withIngredients/', function(req, res, next){
   // gets remote data
   http.get(url, function(remoteRes) {
     // testing
-    console.log("Got response: " + remoteRes.statusCode);
+     console.log("Got response: " + remoteRes.statusCode);
     var recipesResponse;
     var body = ""
     remoteRes.on('data', function(data) {
@@ -133,7 +133,7 @@ router.post('/withIngredients/', function(req, res, next){
       // loop through recipes and extract and create ingredients
       recipesResponse.forEach(function(recipe){
         recipe.ingredients.forEach(function(ingredient){
-            console.log(ingredient)
+            // console.log(ingredient)
             var tmpIngredient = new TmpIngredient();
             tmpIngredient.name = ingredient;
             tmpIngredient.save();
