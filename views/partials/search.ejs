@@ -1,48 +1,184 @@
+<aside>
+    <div id="sidebar"  class="nav-collapse ">
 
-<section class="foodpage">
-  <div class="search">
-    <h1 class="middle">Ingredient Search</h1>
-    <input ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' followed by ingredient name" autofocus>
-  </div>
-  <ul class="foodlist">
-    <li ng-if="match.length > 0" class="repeated-item food cf shrink" ng-animate="animate" ng-repeat="ingredient in query_result">
-      <a href="#/search" ng-click="switchAndDisplay(ingredient)"><div >
-      <div class="info inline">
-        <h2 class="tan">{{ingredient.name}}</h2>
-      </div></a>
-    </li>
-  </ul>  
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            <h5 class="centered">Ingredients Added</h5>
+
+            <li class="mt" ng-repeat="ingredient in chosen_ingredients">
+                <a class="active ingredientText" ng-click="remove(chosen_ingredients, $index)">
+                    <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; color: red;" ng-click="remove(chosen_ingredients, $index)"></i>
+                </a>
+            </li>
+            <br>
+            <br>
+            <h5 class="centered">Ingredients Excluded</h5>
+            <li class="mt excludedIngredient" ng-repeat="ingredient in excluded_ingredients">
+                <a class="active excludedIngredient ingredientText">
+                    <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; color: red;" ng-click="remove(excluded_ingredients, $index)"></i>
+                </a>
+            </li>
+        </ul>
+      
+        <br>
+        <br>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
+
+<!-- **********************************************************************************************************************************************************
+MAIN CONTENT
+*********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <div class="row">
+            <div class="col-lg-8 main-chart">
+              <div class="row mtbox">
+                <div class="col-md-6 col-sm-6 col-md-offset-3 box0">
+                  <div class="box1">
+                    <span class="li_search"></span>
+                    <h3>Add Ingredients</h3>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' followed by ingredient name" autofocus>
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" ng-click="queryIngredients(match)"><strong>+</strong></button>
+                    </span>
+                  </div>
+                  <ul class="foodlist">
+                  <li class="searchIngredientResults" ng-if="match.length > 0" class="repeated-item food cf shrink" ng-animate="animate" ng-repeat="ingredient in query_result">
+                    <a href="#/search" ng-click="switchAndDisplay(ingredient)">
+                    <div class="info inline">
+                      <h2>{{ingredient.name}}</h2>
+                    </div></a>
+                  </li>
+                </ul>
+                  <!-- /input-group -->
+                  <p>Find ingredients you want to be in the recipe</p>
+                </div>
+
+              </div><!-- /row mt -->
+
+              <div class="row mtbox">
+                <div class="col-md-6 col-sm-6 col-md-offset-3 box0">
+                  <div class="box1">
+                    <span class="li_pen"></span>
+                    <h3>Create Recipe</h3>
+                  </div>
+                  <p></p>
+                </div>
+
+              </div><!-- /row mt -->
+
+
+              <div class="col-md-6 col-sm-6 mb">
+                <div class="grey-panel pn donut-chart">
+                  <div class="grey-header">
+                    <h5>POPULAR RECIPE</h5>
+                  </div>
+                  <div class="row">
+                      <div class="centered">
+                        <h2><i class="fa fa-heart"></i> 199</h2>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="centered">
+                        <h3>The best sandwich ever made</h3>
+                        <br>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-theme04">view recipe</button>
+                </div><! --/grey-panel -->
+              </div><!-- /col-md-6-->
+
+
+              <div class="col-md-6 col-sm-6 mb">
+                <div class="grey-panel pn donut-chart">
+                  <div class="grey-header">
+                    <h5>POPULAR RECIPE</h5>
+                  </div>
+                  <div class="row">
+                    <div class="centered">
+                      <h2><i class="fa fa-heart"></i> 27</h2>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="centered">
+                        <h3>Ultra secret recipe</h3>
+                        <br>
+                      </div>
+                  </div>
+                  <button type="button" class="btn btn-theme04">view recipe</button>
+                </div><! --/grey-panel -->
+              </div><!-- /col-md-6-->
+              <div class="col-md-6 col-sm-6 mb">
+                <div class="grey-panel pn donut-chart">
+                  <div class="grey-header">
+                    <h5>POPULAR RECIPE</h5>
+                  </div>
+                  <div class="row">
+                      <div class="centered">
+                        <h2><i class="fa fa-heart"></i> 139</h2>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="centered">
+                        <h3>Inception Salad</h3>
+                        <br>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-theme04">view recipe</button>
+                </div><! --/grey-panel -->
+                </div><!-- /col-md-6-->
+                <div class="col-md-6 col-sm-6 mb">
+                <div class="grey-panel pn donut-chart">
+                  <div class="grey-header">
+                    <h5>POPULAR RECIPE</h5>
+                  </div>
+                  <div class="row">
+                      <div class="centered">
+                      <h2><i class="fa fa-heart"></i> 2</h2>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="centered">
+                        <h3>Terminal Velocity Refried Bean Casserole</h3>
+                        <br>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-theme04">view recipe</button>
+                </div><! --/grey-panel -->
+              
+              </div><!-- /col-md-6-->
+            </div><!-- /col-lg-9 END SECTION MIDDLE -->
+<!-- **********************************************************************************************************************************************************
+RIGHT SIDEBAR CONTENT
+*********************************************************************************************************************************************************** -->                  
+            
+            <div class="col-lg-4 ds">
+              <h3 class="rightBarFix">Recipes Containing Added Ingredients</h3>
+                                  
+                <div class="desc" ng-repeat="recipe in recipes">
+                  <div class="thumb">
+                    <span class="badge bg-theme">
+                      <i class="fa fa-star"></i>
+                    </span>
+                  </div>
+                  <div class="details">
+                    <p>
+                    {{recipe.name}}
+                    </p>
+                    <a href="#/search" ng-click="details($index)">View Recipe</a>
+                  </div>
+                </div>
+                
+
+            </div><!-- /col-lg-3 -->
+        </div><!-- /row -->
+    </section>
 </section>
-<div id="results-list" class="middle">
-  <h1>Included Ingredients</h1>
-    <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="ingredient in chosen_ingredients">
-      <a href="#/search" ng-click="remove(chosen_ingredients, $index)"><div >
-      <div class="info inline">
-        <h2 class="text-align-left">{{ingredient.name}}</h2>
-      </div></a>
-    </li>
-  </ul> 
-</div>
-<div id="results-list" class="middle" style="float: right;">
-  <h1>Excluded Ingredients</h1>
-    <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="ingredient in excluded_ingredients">
-      <a href="#/search" ng-click="remove(excluded_ingredients, $index)"><div >
-      <div class="info inline">
-        <h2 class="text-align-left">{{ingredient.name}}</h2>
-      </div></a>
-    </li>
-  </ul> 
-</div>
-<div id="recipe-list" class="middle bottom">
-  <h1>Recipes</h1>
-  <ul class="chosen-foodlist">
-    <li class="food cf" ng-animate="animate" ng-repeat="recipe in recipes">
-      <a href="#/search" ng-click="details($index)"><div >
-      <div class="info inline">
-        <h2 class="text-align-left">{{recipe.name}}</h2>
-      </div></a>
-    </li>
-  </ul>  
-</div>
+
+
