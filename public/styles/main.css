@@ -1,11 +1,3 @@
-.tmpIngredient{
-  text-align: center;
-  font-family: serif;
-  color: #EEE8D5;
-  border: 1px solid white;
-  width: 100%;
-}
-
 input{
   color: black;
 }
@@ -83,4 +75,39 @@ input{
 .excludedIngredient {
   background: #F0788A !important;
   
+}
+
+.recipeResult:hover{
+
+}
+
+#searchIngredientsResults{
+  margin-top: 60px;
+  border-radius: 8px;
+}
+
+.flexParent{
+  position: absolute;
+  right: 0px;
+}
+
+.flexChild{
+  margin-bottom: 1px;
+  width: 120px;
+  height: 29px;
+  border-right: 1px solid black;
+  padding-top: 5px;
+  text-align: center;
+  background: #EFEFEF;
+  color: #333;
+  float: right;
+  display: block;
+  -webkit-transition-property: opacity;
+          transition-property: opacity;
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
+}
+
+.flexChild:hover{
+  opacity: .8;
 }
