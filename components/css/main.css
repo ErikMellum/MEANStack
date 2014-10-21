@@ -109,3 +109,7 @@ input{
 .flexChild:hover{
   opacity: .8;
 }
+.shrink-sides{
+  margin-left: 5%;
+  margin-right: 5%;
+}
