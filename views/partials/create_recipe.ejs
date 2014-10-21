@@ -1,9 +1,9 @@
   <div class="create-form">
-    Recipe Name:
+    <h2>Recipe Name:</h2>
     <input ng-model="recipeName" placeholder="recipe name" autofocus>
-    UserName:
+    <h2>UserName:</h2>
     <input ng-model="userName" placeholder="username"><br />
-    Ingredients: {{ingredients.length}}
+    <h2>Ingredients: {{ingredients.length}}</h2>
     <button ng-show="ingredients.length<maxIngredients" ng-click="ingredients[ingredients.length] = currentIngredient">+</button>
     <button ng-show="ingredients.length>0" ng-click="ingredients.splice(ingredients.length,ingredients.length)">-</button><br />
     <input ng-model="currentIngredient.name" placeholder="ingredient name" required> 
