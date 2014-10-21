@@ -7,7 +7,7 @@
 
             <li class="mt" ng-repeat="ingredient in chosen_ingredients">
                 <a class="active ingredientText" ng-click="remove(chosen_ingredients, $index)">
-                    <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; color: red;" ng-click="remove(chosen_ingredients, $index)"></i>
+                    <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
                 </a>
             </li>
             <br>
@@ -15,7 +15,7 @@
             <h5 class="centered">Ingredients Excluded</h5>
             <li class="mt excludedIngredient" ng-repeat="ingredient in excluded_ingredients">
                 <a class="active excludedIngredient ingredientText">
-                    <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; color: red;" ng-click="remove(excluded_ingredients, $index)"></i>
+                    <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
                 </a>
             </li>
         </ul>
