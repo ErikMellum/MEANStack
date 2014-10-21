@@ -111,7 +111,9 @@ input{
 .flexChild:hover{
   opacity: .8;
 }
-.shrink-sides{
+.shrink-left{
   margin-left: 5%;
+}
+.shrink-right{
   margin-right: 5%;
 }

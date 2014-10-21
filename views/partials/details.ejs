@@ -17,8 +17,8 @@
         
 
         <div ng-if="ingredientsExist()">
-          <h1 class="titleColor" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
-          <h1 class="titleColor">Ingredients</h1>
+          <h1 class="titleColor shrink-left" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
+          <h1 class="titleColor shrink-left">Ingredients</h1>
           <ul class="chosen-foodlist">
             <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
               <div class="info inline">
