@@ -92,22 +92,22 @@ input{
 }
 
 .flexChild{
-  margin-bottom: 1px;
   width: 120px;
-  height: 29px;
-  border-right: 1px solid black;
+  height: 30px;
   padding-top: 5px;
   text-align: center;
-  background: #EFEFEF;
   color: #333;
+  margin: 2px 10px;
   float: right;
-  display: block;
-  -webkit-transition-property: opacity;
-          transition-property: opacity;
+  margin-top: 15px;
+  border-radius: 8px;
+  -webkit-transition-property: opacity, background;
+          transition-property: opacity, background;
   -webkit-transition-duration: 1s;
           transition-duration: 1s;
 }
 
 .flexChild:hover{
   opacity: .8;
+  background: #EFEFEF;
 }

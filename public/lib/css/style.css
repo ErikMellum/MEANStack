@@ -2218,6 +2218,10 @@ label {
     background: #68dff0;
     color: #fff;
     padding: 10px 0;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
 }
 
 

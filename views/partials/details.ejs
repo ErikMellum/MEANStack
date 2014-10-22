@@ -14,8 +14,6 @@
 
       <div class="col-lg-6 main-chart">
 
-        
-
         <div ng-if="ingredientsExist()">
           <h1 class="titleColor" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
           <h1 class="titleColor">Ingredients</h1>
@@ -23,7 +21,7 @@
             <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
               <div class="info inline">
                 <h2>{{recipe}}</h2>
-              </div></a>
+              </div>
             </li>
           </ul> 
         </div>
@@ -37,7 +35,7 @@
             <li class="food cf">
               <div class="info inline">
                 <h2>{{recipeData.totalTime}}</h2>
-              </div></a>
+              </div>
             </li>
           </ul>
         </div> 
@@ -47,7 +45,7 @@
           <li class="food cf">
             <div class="info inline">
               <h2>{{recipeData.rating}} stars</h2>
-            </div></a>
+            </div>
           </li>
         </ul>  
       </div><!-- /col-lg-8 -->
