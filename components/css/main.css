@@ -165,3 +165,6 @@ input{
 .popRecipe{
   overflow: auto;
 }
+.hide {
+    display: none;
+}

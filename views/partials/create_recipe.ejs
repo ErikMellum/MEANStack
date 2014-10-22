@@ -17,7 +17,6 @@
     <input ng-model="currentIngredient.name" placeholder="ingredient name" required> 
     <input ng-model="currentIngredient.quantity" placeholder="quantity" required>
     <input ng-model="currentIngredient.unit" placeholder="unit"> <br />
-    <span class="ingredientTableHeader">Ingredients:</span>
     <table>
     <tr ng-repeat="ingredient in ingredients">
         <td class="ingredientTableData">{{ingredient.name}}</td>
@@ -26,14 +25,14 @@
     </tr>
     </table>
     <form novalidate class="simple-form" action="#/search" method="get">
-    <button ng-click="inputRecipe(recipeName)" type=submit>Create</button>(This currently re-directs to "index/search" for testing purposes after the object is posted to the db")
+    <button ng-click="inputRecipe(recipeName)" type=submit>Create</button>
     </form>
   </div>
 
 
 <div class="row mtbox">
     <div class="col-md-6 col-sm-6 col-md-offset-3 box0">
-      <div class="box1">
+      <div class="box1 hide">
         <span class="li_pen"></span>
         <h3>Create Recipe</h3>
       </div>
