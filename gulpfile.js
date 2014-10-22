@@ -5,16 +5,11 @@ var gulp = require ('gulp'),
     livereload = require('gulp-livereload'),
     sass = require('gulp-ruby-sass'),
     coffee = require('gulp-coffee'),
-    autoprefixer = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
-    karma = require('gulp-karma'),
+    karma = require('karma').server,
     nodemon = require('gulp-nodemon');
-
-var karmaSources = [
-  'tests/unit/*.js',
-];
 
 var protractorSources = [
   'tests/e2e/*.js',
@@ -88,16 +83,10 @@ gulp.task('protractor', function(){
   });
 });
 
-gulp.task('karma', function(){
-  return gulp.src(karmaSources)
-  .pipe(karma({
-    configFile: 'tests/karma.conf.js',
-    action: 'run'
-  }))
-  .on('error', function(err) {
-    // Make sure failed tests cause gulp to exit non-zero
-    throw err;
-  });
+gulp.task('karma', function(done){
+  karma.start({
+    configFile: __dirname + '/tests/karma.conf.js'
+  }, done);
 });
 
 gulp.task('json', function(){
@@ -135,7 +124,6 @@ gulp.task('coffee', function() {
 gulp.task('css', function(){
   gulp.src(cssSources)
   .pipe(concat('main.css'))
-  .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
   .pipe(gulp.dest('public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
@@ -149,7 +137,6 @@ gulp.task('styles', function(){
   .pipe(sass({style: 'expanded', lineNumbers: true}))
     .on('error', gutil.log)
   .pipe(concat('sass.css'))
-  .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
   .pipe(gulp.dest('public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
@@ -163,7 +150,7 @@ gulp.task('bower', function(){
 });
 
 gulp.task('launch', function () {
-  nodemon({ script: './bin/www', ext: 'html js', ignore: ['components', 'public'] })
+  nodemon({ script: './bin/www', ext: 'html js', ignore: ['components', 'public', 'design'] })
     .on('restart', function () {
       console.log('restarted!')
     })
@@ -179,14 +166,14 @@ gulp.task('watch', function(){
   gulp.watch(jsSources, ['js']);
   gulp.watch(jsonSources, ['json']);
   gulp.watch(appSources, ['app']);
-  gulp.watch(coffeeSources, ['coffee']);
+  //gulp.watch(coffeeSources, ['coffee']);
   gulp.watch(styleSources, ['styles']);
   gulp.watch(cssSources, ['css']);
   gulp.watch(viewSources, ['views']);
 });
 
 
-gulp.task('default', ['styles', 'js', 'coffee', 'lib', 'json', 'app', 'bower', 'css', 'watch']);
+gulp.task('default', ['styles', 'js', 'coffee', 'lib', 'json', 'app', 'bower', 'css', 'watch', 'karma', 'launch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())

@@ -16,6 +16,7 @@ module.exports = function(config) {
     '../components/scripts/lib/angular-route/angular-route.js',
     '../components/scripts/lib/angular-mocks/angular-mocks.js',
     '../components/scripts/lib/angular-resource/angular-resource.js',
+    '../components/scripts/lib/angular-animate/angular-animate.js',
     '../components/scripts/app/**/*.js',
     'unit/*.js'
   ],

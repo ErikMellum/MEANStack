@@ -144,3 +144,20 @@ input{
 .recipeResultContainer{
   position: relative;
 }
+
+.sidebar{
+  overflow: auto !important;
+}
+.shrinkIngredients{
+  position: relative;
+  height: 30px !important;
+  font-size: 80% !important;
+}
+.shrinkIngredients a span{
+  position: absolute;
+  bottom: 5px;
+}
+.shrinkIngredients i.fa.fa-close {
+  position: relative;
+  bottom: 8px;
+}
