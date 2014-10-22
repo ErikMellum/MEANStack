@@ -161,3 +161,7 @@ input{
   position: relative;
   bottom: 8px;
 }
+
+.popRecipe{
+  overflow: auto;
+}

@@ -164,16 +164,16 @@ gulp.task('views', function(){
 gulp.task('watch', function(){
   livereload.listen();
   gulp.watch(jsSources, ['js']);
-  gulp.watch(jsonSources, ['json']);
+  //gulp.watch(jsonSources, ['json']);
   gulp.watch(appSources, ['app']);
   //gulp.watch(coffeeSources, ['coffee']);
-  gulp.watch(styleSources, ['styles']);
+  //gulp.watch(styleSources, ['styles']);
   gulp.watch(cssSources, ['css']);
   gulp.watch(viewSources, ['views']);
 });
 
 
-gulp.task('default', ['styles', 'js', 'coffee', 'lib', 'json', 'app', 'bower', 'css', 'watch', 'karma', 'launch']);
+gulp.task('default', ['styles', 'js', 'coffee', 'json', 'app', 'css', 'watch', 'karma', 'launch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())
