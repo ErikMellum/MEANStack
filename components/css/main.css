@@ -128,15 +128,19 @@ input{
   transition: all .25s ease-out;
 }
 .animatedRepeat.ng-enter.ng-enter-active,
-.animatedRepeat.ng-leave {
+.animatedRepeat.ng-leave{
   opacity: 1;
   height: 80px;
   overflow: hidden;
 }
 
 .animatedRepeat.ng-leave.ng-leave-active,
-.animatedRepeat.ng-enter {
+.animatedRepeat.ng-enter{
   opacity: 0;
   height: 0px;
   overflow: hidden;
+}
+
+.recipeResultContainer{
+  position: relative;
 }

@@ -117,12 +117,16 @@ RIGHT SIDEBAR CONTENT
                     </span>
                   </div>
                   <div class="details">
-                    <p style="cursor: pointer" ng-click="details($index)">
+                    <p>
                     {{recipe.recipeName}} - {{recipe.totalTimeInSeconds/60}} minutes
+
                     </p>
+
                     <a class="recipePreviewLink" href="#/search" ng-click="details($index)">View Recipe</a>
                   </div>
+                  <div>
                      <img class="imgPreview" ng-src="{{recipe.smallImageUrls[0]}}">
+                     </div>
                 </div>
                 
 
