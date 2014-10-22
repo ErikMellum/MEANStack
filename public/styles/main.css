@@ -109,14 +109,40 @@ input{
 
 .flexChild:hover{
   opacity: .8;
-<<<<<<< HEAD
   background: #EFEFEF;
-=======
 }
 .shrink-left{
   margin-left: 5%;
 }
 .shrink-right{
   margin-right: 5%;
->>>>>>> bd493ec4ae5bb4f0100fb117ebbaf5554bbc55f2
+}
+
+.fa-close{
+  -webkit-transition: all .3s ease-out;
+          transition: all .3s ease-out;
+}
+
+.fa-close:hover{
+  -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+          transform: scale(1.2);
+  cursor: pointer;
+}
+.animatedRepeat{
+  -webkit-transition: all .25s ease-out;
+          transition: all .25s ease-out;
+}
+.animatedRepeat.ng-enter.ng-enter-active,
+.animatedRepeat.ng-leave {
+  opacity: 1;
+  height: 80px;
+  overflow: hidden;
+}
+
+.animatedRepeat.ng-leave.ng-leave-active,
+.animatedRepeat.ng-enter {
+  opacity: 0;
+  height: 0px;
+  overflow: hidden;
 }

@@ -5,7 +5,7 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <h5 class="centered">Ingredients Added</h5>
 
-            <li class="mt" ng-repeat="ingredient in chosen_ingredients">
+            <li ng-animate="'animate'"class="mt animatedRepeat" ng-repeat="ingredient in chosen_ingredients">
                 <a class="active ingredientText" ng-click="remove(chosen_ingredients, $index)">
                     <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
                 </a>
@@ -13,7 +13,7 @@
             <br>
             <br>
             <h5 class="centered">Ingredients Excluded</h5>
-            <li class="mt excludedIngredient" ng-repeat="ingredient in excluded_ingredients">
+            <li ng-animate="'animate'" class="mt excludedIngredient animatedRepeat" ng-repeat="ingredient in excluded_ingredients">
                 <a class="active excludedIngredient ingredientText">
                     <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
                 </a>
@@ -49,7 +49,7 @@ MAIN CONTENT
                     </span>
                   </div>
                   <ul class="foodlist">
-                    <li class="searchIngredientResults" ng-if="match.length > 0" class="repeated-item food cf shrink" ng-animate="animate" ng-repeat="ingredient in query_result">
+                    <li class="searchIngredientResults" ng-if="match.length > 0" class="repeated-item food cf shrink animatedRepeat" ng-animate="'animate'" ng-repeat="ingredient in query_result">
                       <a href="#/search" ng-click="switchAndDisplay(ingredient)">
                       <div class="info inline">
                         <h2>{{ingredient.name}}</h2>
@@ -110,18 +110,19 @@ RIGHT SIDEBAR CONTENT
             <div class="col-lg-4 ds">
               <h3 class="rightBarFix">Recipes Containing Added Ingredients</h3>
                                   
-                <div class="desc" ng-repeat="recipe in recipes">
+                <div ng-animate="'animate'" class="desc animatedRepeat recipeResultContainer" ng-repeat="recipe in recipes" ng-init="recipeHover" ng-mouseover="recipeHover=true" ng-mouseleave="recipeHover=false">
                   <div class="thumb">
                     <span class="badge bg-theme">
                       <i class="fa fa-star"></i>
                     </span>
                   </div>
                   <div class="details">
-                    <p>
-                    {{recipe.name}}
+                    <p style="cursor: pointer" ng-click="details($index)">
+                    {{recipe.recipeName}} - {{recipe.totalTimeInSeconds/60}} minutes
                     </p>
-                    <a href="#/search" ng-click="details($index)">View Recipe</a>
+                    <a class="recipePreviewLink" href="#/search" ng-click="details($index)">View Recipe</a>
                   </div>
+                     <img class="imgPreview" ng-src="{{recipe.smallImageUrls[0]}}">
                 </div>
                 
 

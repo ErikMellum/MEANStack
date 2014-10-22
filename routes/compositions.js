@@ -141,6 +141,7 @@ router.post('/withIngredients/', function(req, res, next){
       })
 
       // send our response
+      console.log(recipesResponse[0]);
       res.json(recipesResponse);
     });
   }).on('error', function(e) {

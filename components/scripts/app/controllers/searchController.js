@@ -1,4 +1,4 @@
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'ngAnimate']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
   $scope.chosen_ingredients=[]
@@ -87,7 +87,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
-              $scope.recipes.push({name:recipe.recipeName});
+              $scope.recipes.push(recipe);
           });
         });
       }
