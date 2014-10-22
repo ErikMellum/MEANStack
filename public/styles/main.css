@@ -115,6 +115,9 @@ input{
 .shrink-right{
   margin-right: 5%;
 }
+.move-left{
+  margin-left: 40px;
+}
 
 .fa-close{
   transition: all .3s ease-out;
@@ -167,6 +170,10 @@ input{
 }
 .hide {
     display: none;
+}
+.ingredient-position{
+  position: absolute;
+  left: 10%;
 }
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
