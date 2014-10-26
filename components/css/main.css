@@ -175,3 +175,17 @@ input{
   position: absolute;
   left: 10%;
 }
+
+.createRecipeForm, .createIngredientForm{
+  margin: 40px auto;
+  width: 900px;
+  overflow: auto;
+  background: #DDD;
+  padding: 10px 20px 20px 40px;
+  border-radius: 15px;
+  color: #666;
+}
+
+.createRecipeForm h2, .createIngredientForm h2{
+  color: #222;
+}

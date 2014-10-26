@@ -173,7 +173,7 @@ gulp.task('watch', function(){
 });
 
 
-gulp.task('default', ['styles', 'js', 'coffee', 'json', 'app', 'css', 'watch', 'karma', 'launch']);
+gulp.task('default', ['js', 'app', 'css', 'watch', 'launch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())

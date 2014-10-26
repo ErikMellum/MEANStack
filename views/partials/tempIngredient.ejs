@@ -4,64 +4,59 @@
 
         <div class="row">
         
-          <div class="col-lg-8 main-chart">
-          <h1 class="topPageHeader">Create Ingredients</h1>
-          <form class="form-inline" role="form">
-
+          <div class="col-lg-12 main-chart">
+          <form class="form-vertical createIngredientForm" role="form">
+            <h2>Create Ingredients</h1>
+            <hr>
             <div class="form-group">
-              <input ng-enter="getAndSetIngredient('tempIngredient', searchTmpIngredients)" class="form-control" id="tmpIngredientSearch" type="text" name="ingredient" ng-model="searchTmpIngredients" placeholder="Autocomplete Temp Ingredients" autofocus>
+
+              <h2>Enter name</h2>
+              <input ng-model="ingredientName" class="form-control" type="text" id="name_field" name="name" placeholder="Enter name" ng-enter="getAndSetIngredient('tempIngredient', ingredientName)">
+
+              <table class="table table-hover">
+                <tr ng-repeat="ingredient in tmpIngredients | filter: ingredientName | limitTo : 1">
+                  <td ng-click="setIngredient('tempIngredient', ingredient)" class="tmpIngredient">{{ingredient.name}}</td>
+                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient('tempIngredient', ingredient)"></button></td> 
+                    <td><button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button></td>
+                </tr>
+              </table>
             </div>
 
             <div class="form-group">
-              <input ng-model="ingredientId" class="form-control"  id="id_field" type="hidden" name="id">
-            </div>
-
-            <div class="form-group">
-              <input ng-model="ingredientName" class="form-control" type="text" id="name_field" name="name" placeholder="Enter name">
-            </div>
-
-            <div class="form-group">
+              <h2>Enter brand</h2>
               <input ng-model="ingredientBrand" class="form-control" type="text" id="brand_field" name="brand" placeholder="Enter brand">
             </div>
 
             <div class="form-group">
+              <h2>Enter abstract parent</h2>
               <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Enter abstract parent" ng-model="ingredientParent">
+              <table class="table table-hover">
+                <tr ng-repeat="ingredient in abstractIngredients | filter: ingredientParent | limitTo : 1">
+                  <td ng-enter="setIngredient('abstractIngredient', ingredient)" ng-click="setIngredient('abstractIngredient', ingredient)" class="abstractIngredient">{{ingredient.name}}</td>
+                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient('abstractIngredient', ingredient)"></button></td> 
+                    <td><button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button></td>
+                </tr>
+              </table>
             </div>
 
             <div class="form-group">
-              <input type="text" name="abstract-parent-id" ng-model="ingredientParentId">
+              <input type="hidden" name="abstract-parent-id" ng-model="ingredientParentId">
             </div>
 
-            <div class="form-group">
+            <div class="form-inline">
               <label for="unique">Unique: </label>
               <input ng-model="ingredientUnique" class="checkbox" type="checkbox" id="unique_field" name="unique" placeholder="Unique">
-            </div>
-
-            <div class="form-group">
-              <label for="processed">Processed:</label>
+               <label for="processed">Processed:</label>
               <input ng-model="ingredientProcessed" class="checkbox" type="checkbox" id="processed_field" name="processed" placeholder="Processed">
+               
             </div>
+            <hr>
             <button class="btn btn-default" ng-click="submitNewIngredient()" type="submit">Add!</button>
+
+           
           </form>
           </div><!-- /col-lg-9 END SECTION MIDDLE -->
             
-<div id="searchIngredientsResults" class="col-lg-4 ds">
-
-<table >
-  <tr ng-repeat="ingredient in tmpIngredients | filter: searchTmpIngredients | limitTo : 3">
-    <td class="tmpIngredient">Temp: {{ingredient.name}}
-      <button class="glyphicon glyphicon-plus" ng-click="setIngredient('tempIngredient', ingredient)"></button> 
-      <button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button>
-    </td>
-  </tr>
-  <tr ng-repeat="ingredient in abstractIngredients | filter: ingredientParent | limitTo : 3">
-    <td class="abstractIngredient">Parent: {{ingredient.name}}
-      <button class="glyphicon glyphicon-plus" ng-click="setIngredient('abstractIngredient', ingredient)"></button> 
-      <button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button>
-    </td>
-  </tr>
-</table>
-</div><!-- /col-lg-3 -->
         </div><!-- /row -->
     </section>
 </section>

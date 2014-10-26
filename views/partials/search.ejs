@@ -5,7 +5,7 @@
         <ul class="sidebar-menu" id="nav-accordion">
             <h5 class="centered">Ingredients Added</h5>
 
-            <li ng-animate="'animate'"class="mt animatedRepeat" ng-class="{shrinkIngredients : (chosen_ingredients.length + excluded_ingredients.length) > 7}" ng-repeat="ingredient in chosen_ingredients">
+            <li ng-animate="'animate'"class="mt animatedRepeat" ng-class="{shrinkIngredients : (chosen_ingredients.length + excluded_ingredients.length) > 4}" ng-repeat="ingredient in chosen_ingredients">
                 <a class="active ingredientText" ng-click="remove(chosen_ingredients, $index)">
                     <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
                 </a>
@@ -13,7 +13,7 @@
             <br>
             <br>
             <h5 class="centered">Ingredients Excluded</h5>
-            <li ng-animate="'animate'" class="mt excludedIngredient animatedRepeat" ng-class="{shrinkIngredients : (chosen_ingredients.length + excluded_ingredients.length) > 7}" ng-repeat="ingredient in excluded_ingredients">
+            <li ng-animate="'animate'" class="mt excludedIngredient animatedRepeat" ng-class="{shrinkIngredients : (chosen_ingredients.length + excluded_ingredients.length) > 4}" ng-repeat="ingredient in excluded_ingredients">
                 <a class="active excludedIngredient ingredientText" ng-class="{shrinkIngredients : (chosen_ingredients.length + excluded_ingredients.length) > 7)}">
                     <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
                 </a>

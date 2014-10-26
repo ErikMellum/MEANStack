@@ -1,47 +1,56 @@
 <section id="main-content">
-    <section class="wrapper">
+  <section class="wrapper">
 
-        <div class="row">
+    <div class="row">
+      
+      <div class="create-form form-vertical createRecipeForm">
+        <h1>Create Recipe</h1>
+        <hr>
+        <div class="form-group">
+          <h2>Recipe Name:</h2>
+          <input class="form-control" ng-model="recipeName" placeholder="recipe name" autofocus>
+        </div>
         
-          <div class="col-lg-12 main-chart">  
+        <hr>
 
-  </div><!-- /row mt -->
-  <div class="create-form">
-    <h2>Recipe Name:</h2>
-    <input ng-model="recipeName" placeholder="recipe name" autofocus>
-    <h2>UserName:</h2>
-    <input ng-model="userName" placeholder="username"><br />
-    <h2>Ingredients: {{ingredients.length}}</h2>
-    <button ng-show="ingredients.length<maxIngredients" ng-click="ingredients[ingredients.length] = currentIngredient">+</button>
-    <button ng-show="ingredients.length>0" ng-click="ingredients.splice(ingredients.length,ingredients.length)">-</button><br />
-    <input ng-model="currentIngredient.name" placeholder="ingredient name" required> 
-    <input ng-model="currentIngredient.quantity" placeholder="quantity" required>
-    <input ng-model="currentIngredient.unit" placeholder="unit"> <br />
-    <table>
-    <tr ng-repeat="ingredient in ingredients">
-        <td class="ingredientTableData">{{ingredient.name}}</td>
-        <td class="ingredientTableData">{{ingredient.quantity}}</td>
-        <td class="ingredientTableData">{{ingredient.unit}}</td>
-    </tr>
-    </table>
-    <form novalidate class="simple-form" action="#/search" method="get">
-    <button ng-click="inputRecipe(recipeName)" type=submit>Create</button>
-    </form>
-  </div>
+        <div class="form-group">
+          <h2>Add Ingredient</h2>
+          <input class="form-inline" ng-model="currentIngredient.name" placeholder="ingredient name"> 
+          <input class="form-inline" ng-model="currentIngredient.quantity" placeholder="quantity">
+          <input class="form-inline"  ng-model="currentIngredient.unit" placeholder="unit"> 
+          <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()">+</button>
+        </div>
 
-
-<div class="row mtbox">
-    <div class="col-md-6 col-sm-6 col-md-offset-3 box0">
-      <div class="box1 hide">
-        <span class="li_pen"></span>
-        <h3>Create Recipe</h3>
+        <h2>Recipe Ingredients: {{ingredients.length}}</h2>
+        <table class="table table-hover">
+          <tr ng-repeat="ingredient in ingredients">
+            <td class="ingredientTableData">{{ingredient.name}}</td>
+            <td class="ingredientTableData">{{ingredient.quantity}}</td>
+            <td class="ingredientTableData">{{ingredient.unit}}</td>
+            <td><button class="btn" ng-click="removeIngredient($index)">-</button></td>
+          </tr>
+        </table>
+        <hr>
+        <div class="form-group">
+          <h2>Add Step</h2>
+          <input class="form-inline" ng-model="currentStep.name" placeholder="Name of step"> 
+          <input class="form-inline" ng-model="currentStep.details" placeholder="Details on how to perform this step">
+          <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addStep()">+</button>
+        </div>
+        
+        <h2>Recipe Steps: {{steps.length}}</h2>
+        <table class="table table-hover">
+          <tr ng-repeat="step in steps">
+            <td class="stepTableData">{{step.name}}</td>
+            <td class="stepTableData">{{step.details}}</td>
+            <td><button class="btn" ng-click="removeStep($index)">-</button></td>
+          </tr>
+        </table>
+        <hr>
+        <button class="btn btn-submit"ng-click="inputRecipe(recipeName)">Create</button>
       </div>
-      <p></p>
-    </div>
 
-  </div><!-- /row mt -->
-
-  </div><!-- /col-lg-3 -->
-        </div><!-- /row -->
+      </div><!-- /col-lg-3 -->
+            </div><!-- /row -->
+        </section>
     </section>
-</section>
