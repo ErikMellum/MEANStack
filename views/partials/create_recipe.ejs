@@ -23,20 +23,10 @@
           <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()">+</button>
         </div>
         <table class="table table-hover">
-          <tr ng-repeat="ingredient in primitiveIngredients | filter: currentIngredient.name | limitTo : 5">
+          <tr ng-repeat="ingredient in combinedIngredients | filter: currentIngredient.name | limitTo : 5">
             <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
               <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
           </tr>
-          <tr ng-repeat="ingredient in abstractIngredients | filter: currentIngredient.name | limitTo : 5">
-            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
-              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
-          </tr>
-
-          <tr ng-repeat="ingredient in compositionIngredients | filter: currentIngredient.name | limitTo : 5">
-            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
-              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
-          </tr>
-
         </table>
         <h2>Recipe Ingredients: {{ingredients.length}}</h2>
         <table class="table table-hover">

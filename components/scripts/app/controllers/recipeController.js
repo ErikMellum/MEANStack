@@ -2,10 +2,20 @@ var recipeController = angular.module('recipeController', ['ngEnter', 'ingredien
 
 recipeController.controller('RecipeController', ['$scope','$http', 'Composition', 'PrimitiveIngredient', 'AbstractIngredient', 'TmpIngredient',
   function($scope, $http, Composition, PrimitiveIngredient, AbstractIngredient, TmpIngredient) {
-  $scope.compositionIngredients = Composition.find();
-  $scope.abstractIngredients = AbstractIngredient.find();
-  $scope.primitiveIngredients = PrimitiveIngredient.find();
-  console.log($scope.combined);
+$scope.combinedIngredients = [];
+// needs to be done in a callback because find is actually a promise, and completely asynchronous
+Composition.find(function(compResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
+});
+
+PrimitiveIngredient.find(function(primResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(primResult);
+});
+
+AbstractIngredient.find(function(abstResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(abstResult);
+});
+
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
@@ -17,7 +27,7 @@ $scope.userName = "guest";
 $scope.recipeName = "";
 $scope.maxIngredients = 100; 
 $scope.inputRecipe = function() {
-alert("Hello");
+
 var url = '/api/compositions/new/';
 console.log($scope.userName);
 console.log($scope.recipeName);
