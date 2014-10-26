@@ -7,6 +7,8 @@
         <h1>Create Recipe</h1>
         <hr>
         <div class="form-group">
+          <h2>User Name:</h2>
+          <input class="form-control" ng-model="userName" placeholder="user name" autofocus>
           <h2>Recipe Name:</h2>
           <input class="form-control" ng-model="recipeName" placeholder="recipe name" autofocus>
         </div>
@@ -20,7 +22,22 @@
           <input class="form-inline"  ng-model="currentIngredient.unit" placeholder="unit"> 
           <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()">+</button>
         </div>
+        <table class="table table-hover">
+          <tr ng-repeat="ingredient in primitiveIngredients | filter: currentIngredient.name | limitTo : 5">
+            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
+              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
+          </tr>
+          <tr ng-repeat="ingredient in abstractIngredients | filter: currentIngredient.name | limitTo : 5">
+            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
+              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
+          </tr>
 
+          <tr ng-repeat="ingredient in compositionIngredients | filter: currentIngredient.name | limitTo : 5">
+            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
+              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
+          </tr>
+
+        </table>
         <h2>Recipe Ingredients: {{ingredients.length}}</h2>
         <table class="table table-hover">
           <tr ng-repeat="ingredient in ingredients">
@@ -47,7 +64,7 @@
           </tr>
         </table>
         <hr>
-        <button class="btn btn-submit"ng-click="inputRecipe(recipeName)">Create</button>
+        <button class="btn btn-submit"ng-click="inputRecipe()">Create</button>
       </div>
 
       </div><!-- /col-lg-3 -->

@@ -177,40 +177,37 @@ mainController.controller('MainController', ['$scope','$http', function($scope, 
      return $scope.selected === item;
    };
 }]);
-var recipeController = angular.module('recipeController', []);
+var recipeController = angular.module('recipeController', ['ngEnter', 'ingredientService']);
 
-recipeController.controller('RecipeController', ['$scope','$http', function($scope, $http) {
-
+recipeController.controller('RecipeController', ['$scope','$http', 'Composition', 'PrimitiveIngredient', 'AbstractIngredient', 'TmpIngredient',
+  function($scope, $http, Composition, PrimitiveIngredient, AbstractIngredient, TmpIngredient) {
+  $scope.compositionIngredients = Composition.find();
+  $scope.abstractIngredients = AbstractIngredient.find();
+  $scope.primitiveIngredients = PrimitiveIngredient.find();
+  console.log($scope.combined);
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
 $scope.ingredients = [];
 $scope.currentIngredient = "";
-$scope.instructions = [];
 $scope.steps = [];
 $scope.currentStep = "";
 $scope.userName = "guest";
 $scope.recipeName = "";
 $scope.maxIngredients = 100; 
-// $scope.inputRecipe = function(recipe) {
-//       var url = '/api/compositions/new/';
-//       console.log($scope.ingredients);
-//       console.log($scope.quantity);
-//       console.log($scope.unit);
-//       var array = new Array();
-//       for(i=0; i<$scope.ingredients.length;i++){
-//         var ingObj = { "name":$scope.ingredients[i], "quantity":$scope.quantity[i], "unit":$scope.unit[i]};
-//         array.push(ingObj);
-//       }
-//       console.log(array);
-//       recipe = { "name":$scope.recipeName, "ingredients": $scope.ingredients, "instruction":$scope.instructions, "user":$scope.userName};
-//       postObject = recipe;
-//       $http.post(url, postObject).success(function(data){
-//       });
-// }
-// $scope.addIngredient = function() {
-//  
-// }
+$scope.inputRecipe = function() {
+alert("Hello");
+var url = '/api/compositions/new/';
+console.log($scope.userName);
+console.log($scope.recipeName);
+console.log($scope.ingredients);
+console.log($scope.steps);
+recipe = { "name":$scope.recipeName, "ingredients": $scope.ingredients, "instruction":$scope.steps, "user":$scope.userName};
+postObject = recipe;
+$http.post(url, postObject).success(function(data){
+});
+}
+
 $scope.addIngredient = function() {
     if($scope.currentIngredient != "")
     {
@@ -246,6 +243,11 @@ $scope.addIngredient = function() {
     else
       $scope.steps.splice(index, index);
  }
+
+$scope.setIngredient = function(ingredient){
+      $scope.currentIngredient = ingredient;
+  }
+
  }]);
 
 var reviewsController = angular.module('reviewsController', []);
@@ -424,6 +426,14 @@ ingredientService.factory('AbstractIngredient', ['$resource',
     return $resource('api/ingredients/abstractIngredients', {}, {
       find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
       //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('Composition', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/compositions', {}, {
+      find: {method:'GET', params:{ingredientId: 'compositions'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);

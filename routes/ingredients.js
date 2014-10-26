@@ -61,6 +61,14 @@ router.get('/tmpIngredients', function(req,res) {
   });
 });
 
+router.get('/compositions', function(req,res) {
+  Composition.find(function(err, compositions) {
+    if (err)
+      res.send(err);
+    res.json(compositions);
+  });
+});
+
 router.delete('/abstractIngredients/:abstractIngredient_id', function(req, res){
   if(req.params.abstractIngredient_id > 0)
   {
