@@ -157,17 +157,37 @@ router.post('/withIngredients/', function(req, res, next){
  */ //Currently two /composition/new/ ??
 router.post('/new/', function(req, res, next){
     console.log(req.body);
-/*
+
     var newComposition = new Composition();
-    var ingredientArray = [];
-    req.body.ingredient.forEach(function(ingredient){
-        console.log(ingredient);
-    }
-    composition.name = req.body.name;
+ 
+    var recipeArray = [];
+    req.body.ingredients.forEach(function(ingredient){
+        if((ingredient.AbstractIngredientSchema_id == undefined) && (ingredient.PrimitiveIngredientSchema_id == undefined)){
+          var id = ingredient.CompositionSchema_id;
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'Composition':id});
+        }
+        else if((ingredient.CompositionSchema_id == undefined) && (ingredient.PrimitiveIngredientSchema_id == undefined)){
+          var id = ingredient.AbstractIngredientSchema_id;
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'AbstractIngredient':id});
+        }
+        else if((ingredient.CompositionSchema_id == undefined) && (ingredient.AbstractIngredientSchema_id == undefined)){
+          var id = ingredient.PrimativeIngredientSchema_id;
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'PrimativeIngredient':id});
+        }
+    });
+
+    console.log(recipeArray);
+    newComposition.name = req.body.name;
+    newComposition.recipe = recipeArray;
+    newComposition.instruction = req.body.instruction;
+    newComposition.save(function(err, savedComposition){
+      if(err)
+        res.send(err);
+      var compParentId = find(savedComposition.CompositionSchema_id);
+      console.log(compParentID);
+    });
 
 
-    composition.recipe = req.body.ingredient;
-    composition.user_id = req.body.user_id;
 
     /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
     //Search DB for ChildID, push onto ChildID array; via sub query//
