@@ -24,3 +24,11 @@ ingredientService.factory('AbstractIngredient', ['$resource',
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);
+ingredientService.factory('Composition', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/compositions', {}, {
+      find: {method:'GET', params:{ingredientId: 'compositions'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
