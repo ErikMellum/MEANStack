@@ -18,7 +18,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   //clear will set the currentIngredient to be nothing, and the ingredient name
   //field to be nothing
   $scope.clear= function() {
-
+    $scope.ingredientName = "";
     $scope.currentIngredient = "";
   }
 

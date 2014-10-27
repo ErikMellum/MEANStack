@@ -189,3 +189,15 @@ input{
 .test {
   font-family: inherit;
 }
+
+.bin {
+  background: blue;
+  width: 200px;
+  height: 200px;
+}
+
+.item {
+  background: red;
+  width: 200px;
+  height: 200px;
+}

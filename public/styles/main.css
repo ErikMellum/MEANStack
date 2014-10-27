@@ -189,6 +189,18 @@ input{
 .test {
   font-family: inherit;
 }
+
+.bin {
+  background: blue;
+  width: 200px;
+  height: 200px;
+}
+
+.item {
+  background: red;
+  width: 200px;
+  height: 200px;
+}
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
 Template Version: 1.0

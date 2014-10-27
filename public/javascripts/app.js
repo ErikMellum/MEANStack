@@ -64,7 +64,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   //clear will set the currentIngredient to be nothing, and the ingredient name
   //field to be nothing
   $scope.clear= function() {
-
+    $scope.ingredientName = "";
     $scope.currentIngredient = "";
   }
 
@@ -249,7 +249,7 @@ var reviewsController = angular.module('reviewsController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "test"
 }]);
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['recipeService', 'ngAnimate']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
   $scope.chosen_ingredients=[]
@@ -258,6 +258,10 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []  
   $scope.excluded_ingredients = []
   $scope.match="";
+
+  $scope.handleDrop = function() {
+     alert('Item has been dropped');
+  }
 
   $scope.reset = function(){
        $scope.match = "";
@@ -346,6 +350,62 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 }]);
 var directives = angular.module('TheDirectives', ['ngEnter']);
 
+
+var droppable = angular.module('droppable', []);
+
+droppable.directive('droppable', function() {
+    return {
+        scope: {
+          drop: '&', // parent
+          bin: '=' // bi-directional scope
+        },
+        link: function(scope, element) {
+            // again we need the native object
+          var el = element[0];
+          el.addEventListener('dragover', function(e) {
+              e.dataTransfer.dropEffect = 'move';
+              // allows us to drop
+              if (e.preventDefault) e.preventDefault();
+              this.classList.add('over');
+              return false;
+            },
+            false
+          );
+          el.addEventListener(
+              'dragenter',
+              function(e) {
+                  this.classList.add('over');
+                  return false;
+              },
+              false
+          );
+          el.addEventListener(
+              'dragleave',
+              function(e) {
+                  this.classList.remove('over');
+                  return false;
+              },
+              false
+          );
+          el.addEventListener(
+              'drop',
+              function(e) {
+                  var binId = this.id;
+                  var item = document.getElementById(e.dataTransfer.getData('Text'));
+                  this.appendChild(item);
+                  // call the passed drop function
+                  scope.$apply(function(scope) {
+                      var fn = scope.drop();
+                      if ('undefined' !== typeof fn) {
+                        fn(item.id, binId);
+                      }
+                  });
+              },
+              false
+          );
+        }
+    }
+});
 var ngEnter = angular.module('ngEnter', []);
 
 ngEnter.directive('ngEnter', function() {

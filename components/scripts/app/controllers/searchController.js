@@ -1,4 +1,4 @@
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['recipeService', 'ngAnimate']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
   $scope.chosen_ingredients=[]
@@ -7,6 +7,10 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []  
   $scope.excluded_ingredients = []
   $scope.match="";
+
+  $scope.handleDrop = function() {
+     alert('Item has been dropped');
+  }
 
   $scope.reset = function(){
        $scope.match = "";
