@@ -11,12 +11,12 @@
             <div class="form-group">
 
               <h2>Enter name</h2>
-              <input ng-model="ingredientName" class="form-control" type="text" id="name_field" name="name" placeholder="Enter name" ng-enter="getAndSetIngredient('tempIngredient', ingredientName)">
-
+              <input ng-model="ingredientName" type="text" id="name_field" name="name" placeholder="Enter name">
+              <button ng-click="ingredientName = ''" class="btn">Clear</button>
               <table class="table table-hover">
-                <tr ng-repeat="ingredient in tmpIngredients | filter: ingredientName | limitTo : 1">
-                  <td ng-click="setIngredient('tempIngredient', ingredient)" class="tmpIngredient">{{ingredient.name}}</td>
-                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient('tempIngredient', ingredient)"></button></td> 
+                <tr ng-repeat="ingredient in tmpIngredients | filter: ingredientName | limitTo : 5">
+                  <td ng-click="setIngredient(ingredient)" class="tmpIngredient">{{ingredient.name}}</td>
+                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
                     <td><button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button></td>
                 </tr>
               </table>
@@ -24,16 +24,17 @@
 
             <div class="form-group">
               <h2>Enter brand</h2>
-              <input ng-model="ingredientBrand" class="form-control" type="text" id="brand_field" name="brand" placeholder="Enter brand">
+              <input ng-model="currentIngredient.brand" class="form-control" type="text" id="brand_field" name="brand" placeholder="Enter brand">
             </div>
 
             <div class="form-group">
               <h2>Enter abstract parent</h2>
-              <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Enter abstract parent" ng-model="ingredientParent">
+              <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Enter abstract parent" ng-model="currentIngredient.parentName">
+              <button ng-click="clearParent()" class="btn">Clear</button>
               <table class="table table-hover">
-                <tr ng-repeat="ingredient in abstractIngredients | filter: ingredientParent | limitTo : 1">
-                  <td ng-enter="setIngredient('abstractIngredient', ingredient)" ng-click="setIngredient('abstractIngredient', ingredient)" class="abstractIngredient">{{ingredient.name}}</td>
-                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient('abstractIngredient', ingredient)"></button></td> 
+                <tr ng-repeat="ingredient in abstractIngredients | filter: currentIngredient.parentName | limitTo : 5">
+                  <td ng-click="setIngredientParent(ingredient)" class="abstractIngredient">{{ingredient.name}}</td>
+                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredientParent(ingredient)"></button></td> 
                     <td><button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button></td>
                 </tr>
               </table>
@@ -45,9 +46,9 @@
 
             <div class="form-inline">
               <label for="unique">Unique: </label>
-              <input ng-model="ingredientUnique" class="checkbox" type="checkbox" id="unique_field" name="unique" placeholder="Unique">
+              <input ng-model="currentIngredient.unique" class="checkbox" type="checkbox" id="unique_field" name="unique" placeholder="Unique">
                <label for="processed">Processed:</label>
-              <input ng-model="ingredientProcessed" class="checkbox" type="checkbox" id="processed_field" name="processed" placeholder="Processed">
+              <input ng-model="currentIngredient.processed" class="checkbox" type="checkbox" id="processed_field" name="processed" placeholder="Processed">
                
             </div>
             <hr>

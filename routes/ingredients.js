@@ -113,19 +113,20 @@ router.post('/abstracts', function(req,res) {
   //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
   //abstract.parent = req.body.parent;
   abstract.save(function(err) {
-  if (err)
-  {
-     res.send(err);
-     console.log(err);
-  }
-   else{
-  AbstractIngredient.find(function(err, abstracts) {
-    // if (err)
-    //   res.send(err);
-    console.log(abstracts)
-    res.json(abstracts);
-    });
-  }
+    if (err) {
+      res.send(err);
+      console.log(err);
+    }
+    else {
+      AbstractIngredient.find(function(err, abstracts) {
+        if (err)
+          res.send(err);
+        else {
+          console.log(abstracts)
+          res.json(abstracts);
+        }
+      });
+    }
   }); 
 });
 
