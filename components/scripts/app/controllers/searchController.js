@@ -1,6 +1,6 @@
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
+searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -13,9 +13,11 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,3) == "not"){ 
+    if (ingredient.toLowerCase().substr(0,4) == "not "){ 
+      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
     } else{
+      dataService.addChosenIngredient({name : ingredient});
       $scope.chosen_ingredients.push({name : ingredient}); 
     }
       $scope.displayRecipes();
@@ -49,14 +51,15 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
   }
   $scope.switchAndDisplay = function(name){
-       if ($scope.match.toLowerCase().substr(0,3) == "not"){
+       if ($scope.match.toLowerCase().substr(0,4) == "not "){
+        dataService.addExcludedIngredient(name);
         $scope.excluded_ingredients.push(name);
       } else {
+       dataService.addChosenIngredient(name);
        $scope.chosen_ingredients.push(name);
       }
        $scope.displayRecipes();
        $scope.reset();
-       
   }
   $scope.remove = function(container, index){
       container.splice(index,1);
@@ -71,25 +74,50 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
   }
+  $scope.load = function() {
+    $scope.recipes = [];
+    if (dataService.getExcludedIngredients().length > 0  || dataService.getChosenIngredients().length > 0){
+      var url = '/api/compositions/withIngredients/'
+      var allowedIngredients = new Array();
+      dataService.getChosenIngredients().forEach(function(ingredient){
+          allowedIngredients.push(ingredient.name);
+          $scope.chosen_ingredients.push({name : ingredient.name});
+      });
+      var excludedIngredients = new Array();
+      dataService.getExcludedIngredients().forEach(function(ingredient){
+          excludedIngredients.push(ingredient.name);
+          $scope.excluded_ingredients.push({name : ingredient.name});
+      });
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+          $scope.dataArray = dataService.getRecipes();
+          $scope.dataArray.forEach(function(recipe){
+              $scope.recipes.push(recipe); 
+        });
+      }
+  }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
+    dataService.clearRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
-      $scope.chosen_ingredients.forEach(function(ingredient){
+      dataService.getChosenIngredients().forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);
       });
       var excludedIngredients = new Array();
-      $scope.excluded_ingredients.forEach(function(ingredient){
+      dataService.getExcludedIngredients().forEach(function(ingredient){
           excludedIngredients.push(ingredient.name);
+
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
           });
         });
       }
   }
+  $scope.load();
 }]);

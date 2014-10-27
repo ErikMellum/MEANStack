@@ -253,9 +253,9 @@ var reviewsController = angular.module('reviewsController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "test"
 }]);
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
+searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -268,9 +268,11 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,3) == "not"){ 
+    if (ingredient.toLowerCase().substr(0,4) == "not "){ 
+      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
     } else{
+      dataService.addChosenIngredient({name : ingredient});
       $scope.chosen_ingredients.push({name : ingredient}); 
     }
       $scope.displayRecipes();
@@ -304,14 +306,15 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
   }
   $scope.switchAndDisplay = function(name){
-       if ($scope.match.toLowerCase().substr(0,3) == "not"){
+       if ($scope.match.toLowerCase().substr(0,4) == "not "){
+        dataService.addExcludedIngredient(name);
         $scope.excluded_ingredients.push(name);
       } else {
+       dataService.addChosenIngredient(name);
        $scope.chosen_ingredients.push(name);
       }
        $scope.displayRecipes();
        $scope.reset();
-       
   }
   $scope.remove = function(container, index){
       container.splice(index,1);
@@ -326,27 +329,52 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
   }
+  $scope.load = function() {
+    $scope.recipes = [];
+    if (dataService.getExcludedIngredients().length > 0  || dataService.getChosenIngredients().length > 0){
+      var url = '/api/compositions/withIngredients/'
+      var allowedIngredients = new Array();
+      dataService.getChosenIngredients().forEach(function(ingredient){
+          allowedIngredients.push(ingredient.name);
+          $scope.chosen_ingredients.push({name : ingredient.name});
+      });
+      var excludedIngredients = new Array();
+      dataService.getExcludedIngredients().forEach(function(ingredient){
+          excludedIngredients.push(ingredient.name);
+          $scope.excluded_ingredients.push({name : ingredient.name});
+      });
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+          $scope.dataArray = dataService.getRecipes();
+          $scope.dataArray.forEach(function(recipe){
+              $scope.recipes.push(recipe); 
+        });
+      }
+  }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
+    dataService.clearRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
-      $scope.chosen_ingredients.forEach(function(ingredient){
+      dataService.getChosenIngredients().forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);
       });
       var excludedIngredients = new Array();
-      $scope.excluded_ingredients.forEach(function(ingredient){
+      dataService.getExcludedIngredients().forEach(function(ingredient){
           excludedIngredients.push(ingredient.name);
+
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
           });
         });
       }
   }
+  $scope.load();
 }]);
 var directives = angular.module('TheDirectives', ['ngEnter']);
 
@@ -401,32 +429,6 @@ myApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
-var ingredientService = angular.module('ingredientService', ['ngResource']);
-
-ingredientService.factory('PrimitiveIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/primitiveIngredients', {}, {
-      find: {method:'GET', params:{ingredientId: 'primitiveIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-ingredientService.factory('TmpIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/tmpIngredients', {}, {
-      find: {method:'GET', params:{ingredientId:'tmpIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'tmpIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-ingredientService.factory('AbstractIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/abstractIngredients', {}, {
-      find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
 var recipeService = angular.module('recipeService', ['ngResource', 'ingredientService']);
 
 recipeService.service('detailsService', function(){
@@ -454,5 +456,79 @@ recipeService.service('detailsService', function(){
     setData: setData,
     getData: getData,
     getIngredients: getIngredients
+  };      
+});
+
+var ingredientService = angular.module('ingredientService', ['ngResource']);
+
+ingredientService.factory('PrimitiveIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/primitiveIngredients', {}, {
+      find: {method:'GET', params:{ingredientId: 'primitiveIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('TmpIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/tmpIngredients', {}, {
+      find: {method:'GET', params:{ingredientId:'tmpIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'tmpIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('AbstractIngredient', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/abstractIngredients', {}, {
+      find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+var savingService = angular.module('savingService', ['ngResource', 'ingredientService']);
+
+
+savingService.service('dataService', function(){
+	//need to add ability to delete a specific ingredient from the service
+  var chosen_ingredients=[]
+  var recipes=[]
+  var excluded_ingredients = []
+  var removeIngredient = function (container, index) {
+
+  }
+
+  var addChosenIngredient = function(name) {
+    chosen_ingredients.push(name); 
+  }
+   var addExcludedIngredient = function(name) {
+   	excluded_ingredients.push(name); 
+  }
+  var clearRecipes = function() {
+  	recipes = [];
+  }
+  var addRecipe = function(data){
+  	recipes.push(data);
+  }
+  var getRecipes = function(){
+  	  return recipes;	
+  }
+  var getChosenIngredients = function(){
+      return chosen_ingredients;
+  }
+
+  var getExcludedIngredients = function(){
+      return excluded_ingredients;
+  }
+
+  return {
+    
+   addChosenIngredient : addChosenIngredient,
+   getChosenIngredients : getChosenIngredients,
+   addExcludedIngredient : addExcludedIngredient,
+   getExcludedIngredients : getExcludedIngredients,
+   getRecipes : getRecipes,
+   addRecipe : addRecipe,
+   clearRecipes : clearRecipes,
+   removeIngredient : removeIngredient
   };      
 });
