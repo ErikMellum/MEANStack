@@ -263,6 +263,15 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.excluded_ingredients = []
   $scope.match="";
 
+  $scope.clearData = function(){
+    dataService.clearData();
+    $scope.chosen_ingredients=[];
+    $scope.dataArray=[];
+    $scope.query_result = [];  
+    $scope.excluded_ingredients = [];
+    $scope.match="";
+    $scope.recipes=[];
+  }
   $scope.uniqueIngredient = function (name) {
     var return_value = true;
     $scope.chosen_ingredients.forEach(function(ingredient) {
@@ -524,6 +533,12 @@ savingService.service('dataService', function(){
   var chosen_ingredients=[]
   var recipes=[]
   var excluded_ingredients = []
+
+  var clearData = function(){
+      chosen_ingredients=[];
+      recipes=[];
+      excluded_ingredients = [];
+  }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
        chosen_ingredients.splice(index,1);
@@ -563,6 +578,7 @@ savingService.service('dataService', function(){
    getRecipes : getRecipes,
    addRecipe : addRecipe,
    clearRecipes : clearRecipes,
-   removeIngredient : removeIngredient
+   removeIngredient : removeIngredient,
+   clearData : clearData
   };      
 });

@@ -6,6 +6,12 @@ savingService.service('dataService', function(){
   var chosen_ingredients=[]
   var recipes=[]
   var excluded_ingredients = []
+
+  var clearData = function(){
+      chosen_ingredients=[];
+      recipes=[];
+      excluded_ingredients = [];
+  }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
        chosen_ingredients.splice(index,1);
@@ -45,6 +51,7 @@ savingService.service('dataService', function(){
    getRecipes : getRecipes,
    addRecipe : addRecipe,
    clearRecipes : clearRecipes,
-   removeIngredient : removeIngredient
+   removeIngredient : removeIngredient,
+   clearData : clearData
   };      
 });
