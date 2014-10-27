@@ -1,7 +1,7 @@
 var ingredientController = angular.module('ingredientController', ['ngEnter', 'ingredientService']);
 
-ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 
-  function($scope, $http, TmpIngredient, AbstractIngredient) {
+ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 'PrimitiveIngredient', 
+  function($scope, $http, TmpIngredient, AbstractIngredient, PrimitiveIngredient) {
   //for unit test
   $scope.test = "Test";
   //container for the temp ingredient used 
@@ -12,6 +12,8 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   $scope.tmpIngredients = TmpIngredient.find();
   //set up abstract ingredients list
   $scope.abstractIngredients = AbstractIngredient.find();
+
+  $scope.primitiveIngredients = PrimitiveIngredient.find();
 
   $scope.searchTmpIngredients;
 
@@ -103,19 +105,33 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     $scope.currentIngredient.parent = $scope.ingredientParentId;
     $scope.currentIngredient.unique = $scope.ingredientUnique;
     $scope.currentIngredient.processed = $scope.ingredientProcessed;
+    alert("hello");
+    // true means that you are creating a primitive, false an abstract
+    if($scope.currentIngredient.unique == true)
+    {
+      $http.post('/api/ingredients/primitives', $scope.currentIngredient).success(function(data) {
+        $scope.primitiveIngredients = data.primitives;
+        $scope.primitiveIngredients = TmpIngredient.find();
+      });
+    }
+    else
+    {
+      alert("hello 1");
+      $http.post('/api/ingredients/abstracts', $scope.currentIngredient).success(function(data) {
+        alert("hello 2");
+        console.log(data);
+        $scope.abstractIngredients = data.abstracts;
+        
+      });
 
-    $http.post('/api/ingredients/tmpIngredients', $scope.currentIngredient).success(function(data) {
-     // alert("Successfully posted data, still not implemented however.");
-        $scope.abstractIngredients=data.abstracts;
-        $scope.tmpIngredients=data.temps;
+    }
+    
 
-    });
-
-    var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
-    $http.delete(url, $scope.currentIngredient).success(function(data) {
-     // alert("Successfully posted data, still not implemented however.");
-       $scope.tmpIngredients=data;
-    });
+    // var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
+    // $http.delete(url, $scope.currentIngredient).success(function(data) {
+    //  // alert("Successfully posted data, still not implemented however.");
+    //    $scope.tmpIngredients=data;
+    // });
   };
 
 }]);
