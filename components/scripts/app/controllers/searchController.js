@@ -8,20 +8,41 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.excluded_ingredients = []
   $scope.match="";
 
+  $scope.uniqueIngredient = function (name) {
+    var return_value = true;
+    $scope.chosen_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name) {
+        return_value = false;
+        return;
+      }
+    });
+    $scope.excluded_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name){
+        return_value = false;
+        return;
+      }
+    });
+    return return_value;
+  }
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,4) == "not "){ 
+    var display =false;
+    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
       dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
-    } else{
+      display = true;
+    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
       dataService.addChosenIngredient({name : ingredient});
       $scope.chosen_ingredients.push({name : ingredient}); 
-    }
+      display = true;
+    } 
+    if(display){
       $scope.displayRecipes();
       $scope.reset();
+      }
    }
 
    /**
@@ -51,18 +72,28 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
   }
   $scope.switchAndDisplay = function(name){
-       if ($scope.match.toLowerCase().substr(0,4) == "not "){
-        dataService.addExcludedIngredient(name);
-        $scope.excluded_ingredients.push(name);
-      } else {
-       dataService.addChosenIngredient(name);
-       $scope.chosen_ingredients.push(name);
+      var display =false;
+       if ($scope.match.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addExcludedIngredient(name);
+          $scope.excluded_ingredients.push(name);
+          display = true;
+      } else if ($scope.match.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addChosenIngredient(name);
+         $scope.chosen_ingredients.push(name);
+          display = true;
       }
-       $scope.displayRecipes();
-       $scope.reset();
+      if(display){
+        $scope.displayRecipes();
+        $scope.reset();
+      }
   }
   $scope.remove = function(container, index){
       container.splice(index,1);
+      if (container == $scope.chosen_ingredients)
+        dataService.removeIngredient("chosen_ingredients", index);
+      else
+          dataService.removeIngredient("excluded_ingredients", index);
+      
       $scope.displayRecipes();
   }
     $scope.details = function(index){

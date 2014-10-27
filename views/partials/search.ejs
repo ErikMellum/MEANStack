@@ -25,7 +25,7 @@
             <h5 class="centered">Ingredients Added</h5>
 
             <li ng-animate="'animate'"class="mt animatedRepeat"  ng-repeat="ingredient in chosen_ingredients">
-                <a class="active ingredientText" ng-click="remove(chosen_ingredients, $index)">
+                <a class="active ingredientText">
                     <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
                 </a>
             </li>

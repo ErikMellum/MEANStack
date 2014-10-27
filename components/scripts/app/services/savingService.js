@@ -7,7 +7,10 @@ savingService.service('dataService', function(){
   var recipes=[]
   var excluded_ingredients = []
   var removeIngredient = function (container, index) {
-
+    if (container == "chosen_ingredients")
+       chosen_ingredients.splice(index,1);
+    else
+       excluded_ingredients.splice(index,1);
   }
 
   var addChosenIngredient = function(name) {
