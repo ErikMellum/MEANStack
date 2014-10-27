@@ -1,11 +1,9 @@
-<div class="bin" droppable drop="handleDrop" ng-repeat="bin in [1, 2, 3]" bin="bin" id="bin{{ bin }}">{{ bin }}</div>
-<div class="item" id="item{{ item }}" ng-repeat="item in [1, 2, 3]" draggable item="item">{{ item }}</div>
-
 <aside>
     <div id="sidebar"  class="nav-collapse ">
 
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
+            
             <h5 class="centered test">Ingredients Added</h5>
 
             <li ng-animate="'animate'"class="animatedRepeat" ng-repeat="ingredient in chosen_ingredients">
@@ -33,7 +31,9 @@
                 </a>
             </li>
         </ul>
-      
+        <div style=" text-align: center; margin: 0 auto;">
+            <span style="color: white;" >Use only these ingredients </span><input name="onlyOrAll" type="checkbox" ng-model="only">
+            </div>
         <br>
         <br>
         <!-- sidebar menu end-->

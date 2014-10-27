@@ -124,20 +124,16 @@ input{
   cursor: pointer;
 }
 .animatedRepeat{
-  transition: all .25s ease-out;
+  transition: all .3s ease-out;
 }
 .animatedRepeat.ng-enter.ng-enter-active,
 .animatedRepeat.ng-leave{
-  opacity: 1;
-  height: 80px;
-  overflow: hidden;
+  transform: scale(1);
 }
 
 .animatedRepeat.ng-leave.ng-leave-active,
 .animatedRepeat.ng-enter{
-  opacity: 0;
-  height: 0px;
-  overflow: hidden;
+  transform: scale(0);
 }
 
 .recipeResultContainer{

@@ -8,9 +8,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.excluded_ingredients = []
   $scope.match="";
 
-  $scope.handleDrop = function() {
-     alert('Item has been dropped');
-  }
 
   $scope.reset = function(){
        $scope.match = "";

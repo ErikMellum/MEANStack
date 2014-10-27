@@ -259,9 +259,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.excluded_ingredients = []
   $scope.match="";
 
-  $scope.handleDrop = function() {
-     alert('Item has been dropped');
-  }
 
   $scope.reset = function(){
        $scope.match = "";
@@ -350,7 +347,36 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 }]);
 var directives = angular.module('TheDirectives', ['ngEnter']);
 
+var draggable = angular.module('draggable', []);
 
+draggable.directive('draggable', function() {
+    return function(scope, element) {
+        // this gives us the native JS object
+        var el = element[0];
+
+        el.draggable = true;
+
+        el.addEventListener(
+            'dragstart',
+            function(e) {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('Text', this.id);
+                this.classList.add('drag');
+                return false;
+            },
+            false
+        );
+
+        el.addEventListener(
+            'dragend',
+            function(e) {
+                this.classList.remove('drag');
+                return false;
+            },
+            false
+        );
+    }
+});
 var droppable = angular.module('droppable', []);
 
 droppable.directive('droppable', function() {
