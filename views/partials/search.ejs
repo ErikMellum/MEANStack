@@ -138,20 +138,13 @@ MAIN CONTENT
               <div class="col-md-5 popRecipe" ng-repeat="recipe in topRecipes">
                 <div class="grey-panel pn donut-chart">
                   <div class="grey-header">
-                    <h5>Top Results</h5>
+                    <h5>{{recipe.name}} - {{recipe.totalTimeInSeconds/60}} Minutes</h5>
                   </div>
                   <div class="row">
                     <div class="centered">
-                      <button type="button" class="btn btn-theme04" ng-click="details($index)">View Recipe</button>
-                      <h3>{{recipe.name}} - {{recipe.totalTimeInSeconds/60}} Minutes</h3>
-                      <img class="shrink-pic" ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
+                      <img ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
                     </div>
-                  </div>
-
-                  <div class="row shrink-sides shrink-right shrink-left">
-                      <div class="centered">
-                        <h3></h3>
-                      </div>
+                    <button type="button" class="btn btn-theme04" ng-click="details($index)">View Recipe</button>
                   </div>
                   <h2><i class="fa fa-heart"></i><span ng-if="recipe.rating != 0">{{recipe.rating}} </span></h2>
                   

@@ -171,21 +171,23 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
               $scope.recipes.push(recipe);
               dataService.addRecipe(recipe);
           });
+        //reset the topRecipes array
         $scope.topRecipes = [];
+        //add the top two recipes from the results to the topRecipes array
         $scope.topRecipes.push($scope.recipes[0]);
         $scope.topRecipes.push($scope.recipes[1]);
+        //remove the top two recipes from the recipes array so we don't see them twice
         $scope.recipes.splice(0,2);
-
+        //get the detailed recipe contents for our top recipes (need the larger image)
         $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[0].id}).success(function(data) {
           $scope.topRecipes[0] = data;
           dataService.addTopRecipe0(data);
         });
-
         $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[1].id}).success(function(data) {
           $scope.topRecipes[1] = data;
            dataService.addTopRecipe1(data);
         });
-
+        
         });
 
       }
