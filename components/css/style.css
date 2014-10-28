@@ -288,12 +288,11 @@ ul.sidebar-menu , ul.sidebar-menu li ul.sub{
     padding: 0;
 }
 
-ul.sidebar-menu {
-    margin-top: 75px;
-}
-
 #sidebar > ul > li > ul.sub {
     display: none;
+}
+.btn-warning{
+    background-color: #ff865c;
 }
 
 #sidebar > ul > li.active > ul.sub, #sidebar > ul > li > ul.sub > li > a {

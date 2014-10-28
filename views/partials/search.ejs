@@ -1,7 +1,9 @@
 <aside>
     <div id="sidebar"  class="nav-collapse ">
-        
-        <!-- sidebar menu start-->
+    <button type="button" class="btn btn-warning shift-down" ng-click="clearData()" ng-confirm="Are you sure you want to clear the data?">Clear Data</button>
+
+        <!-- sidebar menu start
+
         <ul class="sidebar-menu" id="nav-accordion">
             
             <h5 class="centered">Ingredients Added</h5>
@@ -31,6 +33,28 @@
                 </a>
             </li>
         </ul>
+        -->
+
+       <ul class="sidebar-menu" id="nav-accordion">
+            <h5 class="centered">Ingredients Added</h5>
+
+            <li ng-animate="'animate'"class="mt animatedRepeat"  ng-repeat="ingredient in chosen_ingredients">
+                <a class="active ingredientText">
+                    <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
+                </a>
+            </li>
+            <br>
+            <br>
+            <h5 class="centered">Ingredients Excluded</h5>
+            <li ng-animate="'animate'" class="mt excludedIngredient animatedRepeat" ng-repeat="ingredient in excluded_ingredients">
+                <a class="active excludedIngredient ingredientText" >
+                    <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
+                </a>
+            </li>
+        </ul>
+
+        <br>
+        <br>
         <div class="sidebarMoveUp">
         <hr>
         <h5 class="centered">Ingredient Filter</h5>

@@ -1,6 +1,6 @@
-var searchController = angular.module('searchController', ['recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate', 'ngConfirm']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
+searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -9,19 +9,56 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.match="";
   $scope.topRecipes = []
 
+  $scope.clearData = function(){
+    location.reload();
+    // dataService.clearData();
+    // $scope.chosen_ingredients=[];
+    // $scope.dataArray=[];
+    // $scope.query_result = [];  
+    // $scope.excluded_ingredients = [];
+    // $scope.match="";
+    // $scope.recipes = [];
+    // setTimeout(function(){
+    //   $scope.recipes = [];
+    // }, 1000);
+
+  }
+  $scope.uniqueIngredient = function (name) {
+    var return_value = true;
+    $scope.chosen_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name) {
+        return_value = false;
+        return;
+      }
+    });
+    $scope.excluded_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name){
+        return_value = false;
+        return;
+      }
+    });
+    return return_value;
+  }
 
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,3) == "not"){ 
+    var display =false;
+    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
+      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
-    } else{
+      display = true;
+    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
+      dataService.addChosenIngredient({name : ingredient});
       $scope.chosen_ingredients.push({name : ingredient}); 
-    }
+      display = true;
+    } 
+    if(display){
       $scope.displayRecipes();
       $scope.reset();
+      }
    }
 
    /**
@@ -51,17 +88,28 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
   }
   $scope.switchAndDisplay = function(name){
-       if ($scope.match.toLowerCase().substr(0,3) == "not"){
-        $scope.excluded_ingredients.push(name);
-      } else {
-       $scope.chosen_ingredients.push(name);
+      var display =false;
+       if ($scope.match.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addExcludedIngredient(name);
+          $scope.excluded_ingredients.push(name);
+          display = true;
+      } else if ($scope.match.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addChosenIngredient(name);
+         $scope.chosen_ingredients.push(name);
+          display = true;
       }
-       $scope.displayRecipes();
-       $scope.reset();
-       
+      if(display){
+        $scope.displayRecipes();
+        $scope.reset();
+      }
   }
   $scope.remove = function(container, index){
       container.splice(index,1);
+      if (container == $scope.chosen_ingredients)
+        dataService.removeIngredient("chosen_ingredients", index);
+      else
+          dataService.removeIngredient("excluded_ingredients", index);
+      
       $scope.displayRecipes();
   }
     $scope.details = function(index){
@@ -73,23 +121,47 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
   }
+  $scope.load = function() {
+    $scope.recipes = [];
+    if (dataService.getExcludedIngredients().length > 0  || dataService.getChosenIngredients().length > 0){
+      var url = '/api/compositions/withIngredients/'
+      var allowedIngredients = new Array();
+      dataService.getChosenIngredients().forEach(function(ingredient){
+          allowedIngredients.push(ingredient.name);
+          $scope.chosen_ingredients.push({name : ingredient.name});
+      });
+      var excludedIngredients = new Array();
+      dataService.getExcludedIngredients().forEach(function(ingredient){
+          excludedIngredients.push(ingredient.name);
+          $scope.excluded_ingredients.push({name : ingredient.name});
+      });
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+          $scope.dataArray = dataService.getRecipes();
+          $scope.dataArray.forEach(function(recipe){
+              $scope.recipes.push(recipe); 
+        });
+      }
+  }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
+    dataService.clearRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
-      $scope.chosen_ingredients.forEach(function(ingredient){
+      dataService.getChosenIngredients().forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);
       });
       var excludedIngredients = new Array();
-      $scope.excluded_ingredients.forEach(function(ingredient){
+      dataService.getExcludedIngredients().forEach(function(ingredient){
           excludedIngredients.push(ingredient.name);
+
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
           });
         //reset the topRecipes array
         $scope.topRecipes = [];
@@ -112,4 +184,5 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       }
   }
+  $scope.load();
 }]);

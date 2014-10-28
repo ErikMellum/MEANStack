@@ -20,11 +20,6 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
-       $scope.url = data.source.sourceRecipeUrl;
-       $http.get(data.source.sourceRecipeUrl).success(function(data1) {
-          $scope.text = data1;
-          
-        });
      });
   }
   $scope.load(); //calling the load function so we can make the api call to populate the recipe data before the page loads

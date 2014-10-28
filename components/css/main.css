@@ -22,6 +22,16 @@ input{
 .titleColor{
   color: #333;
 }
+.btn-warning{
+    background-color: #ff865c;
+}
+.btn-warning:hover{
+  background-color: #ffd777;
+}
+.shift-down{
+  margin-top: 70px;
+  margin-left: 30%;
+}
 .center{
   display: block;
   margin-right: auto;
@@ -207,4 +217,7 @@ input{
 
 .rightBarFix2{
   margin-top: 20px;
+}
+.shrink-pic{
+  width: 78%;
 }

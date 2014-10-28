@@ -22,6 +22,16 @@ input{
 .titleColor{
   color: #333;
 }
+.btn-warning{
+    background-color: #ff865c;
+}
+.btn-warning:hover{
+  background-color: #ffd777;
+}
+.shift-down{
+  margin-top: 70px;
+  margin-left: 30%;
+}
 .center{
   display: block;
   margin-right: auto;
@@ -208,6 +218,10 @@ input{
 .rightBarFix2{
   margin-top: 20px;
 }
+.shrink-pic{
+  width: 78%;
+}
+
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
 Template Version: 1.0
@@ -498,12 +512,11 @@ ul.sidebar-menu , ul.sidebar-menu li ul.sub{
     padding: 0;
 }
 
-ul.sidebar-menu {
-    margin-top: 75px;
-}
-
 #sidebar > ul > li > ul.sub {
     display: none;
+}
+.btn-warning{
+    background-color: #ff865c;
 }
 
 #sidebar > ul > li.active > ul.sub, #sidebar > ul > li > ul.sub > li > a {

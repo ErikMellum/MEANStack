@@ -35,11 +35,6 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
-       $scope.url = data.source.sourceRecipeUrl;
-       $http.get(data.source.sourceRecipeUrl).success(function(data1) {
-          $scope.text = data1;
-          
-        });
      });
   }
   $scope.load(); //calling the load function so we can make the api call to populate the recipe data before the page loads
@@ -255,9 +250,9 @@ var reviewsController = angular.module('reviewsController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "test"
 }]);
-var searchController = angular.module('searchController', ['recipeService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate', 'ngConfirm']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', function($scope, $http, $window, detailsService) {
+searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -266,19 +261,56 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.match="";
   $scope.topRecipes = []
 
+  $scope.clearData = function(){
+    location.reload();
+    // dataService.clearData();
+    // $scope.chosen_ingredients=[];
+    // $scope.dataArray=[];
+    // $scope.query_result = [];  
+    // $scope.excluded_ingredients = [];
+    // $scope.match="";
+    // $scope.recipes = [];
+    // setTimeout(function(){
+    //   $scope.recipes = [];
+    // }, 1000);
+
+  }
+  $scope.uniqueIngredient = function (name) {
+    var return_value = true;
+    $scope.chosen_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name) {
+        return_value = false;
+        return;
+      }
+    });
+    $scope.excluded_ingredients.forEach(function(ingredient) {
+      if (name == ingredient.name){
+        return_value = false;
+        return;
+      }
+    });
+    return return_value;
+  }
 
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
-    if (ingredient.toLowerCase().substr(0,3) == "not"){ 
+    var display =false;
+    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
+      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
       $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
-    } else{
+      display = true;
+    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
+      dataService.addChosenIngredient({name : ingredient});
       $scope.chosen_ingredients.push({name : ingredient}); 
-    }
+      display = true;
+    } 
+    if(display){
       $scope.displayRecipes();
       $scope.reset();
+      }
    }
 
    /**
@@ -308,17 +340,28 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
   }
   $scope.switchAndDisplay = function(name){
-       if ($scope.match.toLowerCase().substr(0,3) == "not"){
-        $scope.excluded_ingredients.push(name);
-      } else {
-       $scope.chosen_ingredients.push(name);
+      var display =false;
+       if ($scope.match.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addExcludedIngredient(name);
+          $scope.excluded_ingredients.push(name);
+          display = true;
+      } else if ($scope.match.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(name.name)) {
+          dataService.addChosenIngredient(name);
+         $scope.chosen_ingredients.push(name);
+          display = true;
       }
-       $scope.displayRecipes();
-       $scope.reset();
-       
+      if(display){
+        $scope.displayRecipes();
+        $scope.reset();
+      }
   }
   $scope.remove = function(container, index){
       container.splice(index,1);
+      if (container == $scope.chosen_ingredients)
+        dataService.removeIngredient("chosen_ingredients", index);
+      else
+          dataService.removeIngredient("excluded_ingredients", index);
+      
       $scope.displayRecipes();
   }
     $scope.details = function(index){
@@ -330,23 +373,47 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
     });
   }
+  $scope.load = function() {
+    $scope.recipes = [];
+    if (dataService.getExcludedIngredients().length > 0  || dataService.getChosenIngredients().length > 0){
+      var url = '/api/compositions/withIngredients/'
+      var allowedIngredients = new Array();
+      dataService.getChosenIngredients().forEach(function(ingredient){
+          allowedIngredients.push(ingredient.name);
+          $scope.chosen_ingredients.push({name : ingredient.name});
+      });
+      var excludedIngredients = new Array();
+      dataService.getExcludedIngredients().forEach(function(ingredient){
+          excludedIngredients.push(ingredient.name);
+          $scope.excluded_ingredients.push({name : ingredient.name});
+      });
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+          $scope.dataArray = dataService.getRecipes();
+          $scope.dataArray.forEach(function(recipe){
+              $scope.recipes.push(recipe); 
+        });
+      }
+  }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
+    dataService.clearRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
-      $scope.chosen_ingredients.forEach(function(ingredient){
+      dataService.getChosenIngredients().forEach(function(ingredient){
           allowedIngredients.push(ingredient.name);
       });
       var excludedIngredients = new Array();
-      $scope.excluded_ingredients.forEach(function(ingredient){
+      dataService.getExcludedIngredients().forEach(function(ingredient){
           excludedIngredients.push(ingredient.name);
+
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
           });
         //reset the topRecipes array
         $scope.topRecipes = [];
@@ -369,8 +436,9 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       }
   }
+  $scope.load();
 }]);
-var directives = angular.module('TheDirectives', ['ngEnter']);
+var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm']);
 
 var draggable = angular.module('draggable', []);
 
@@ -457,6 +525,24 @@ droppable.directive('droppable', function() {
         }
     }
 });
+var ngConfirm = angular.module('ngConfirm', []);
+ngConfirm.directive('ngConfirm', function () {
+  return {
+    priority: -1,
+    terminal: true,
+    link: {
+	    pre:function (scope, element, attr) {
+	      var msg = attr.ngConfirm || "Are you sure?";
+	      element.bind('click',function () {
+	        if ( window.confirm(msg) ) {
+	          scope.$eval(attr.ngClick);
+	        }
+	      });
+	    }
+	}
+  };
+});
+
 var ngEnter = angular.module('ngEnter', []);
 
 ngEnter.directive('ngEnter', function() {
@@ -508,6 +594,36 @@ myApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
+var recipeService = angular.module('recipeService', ['ngResource', 'ingredientService']);
+
+recipeService.service('detailsService', function(){
+  var recipeData= "";
+  var ingredients = []; 
+
+  var setData = function(data) {
+      ingredients = [];
+      for (var i =0; i < data.ingredientLines.length; i ++){
+        if (data.ingredientLines[i] != data.ingredientLines[i+1])
+          ingredients.push(data.ingredientLines[i]);
+      }
+      recipeData = data;
+      return true;
+  }
+  var getIngredients = function(){
+    return ingredients;
+  }
+
+  var getData = function(){
+      return recipeData;
+  }
+
+  return {
+    setData: setData,
+    getData: getData,
+    getIngredients: getIngredients
+  };      
+});
+
 var ingredientService = angular.module('ingredientService', ['ngResource']);
 
 ingredientService.factory('PrimitiveIngredient', ['$resource',
@@ -542,32 +658,60 @@ ingredientService.factory('Composition', ['$resource',
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);
-var recipeService = angular.module('recipeService', ['ngResource', 'ingredientService']);
+var savingService = angular.module('savingService', ['ngResource', 'ingredientService']);
 
-recipeService.service('detailsService', function(){
-  var recipeData= "";
-  var ingredients = []; 
 
-  var setData = function(data) {
-      ingredients = [];
-      for (var i =0; i < data.ingredientLines.length; i ++){
-        if (data.ingredientLines[i] != data.ingredientLines[i+1])
-          ingredients.push(data.ingredientLines[i]);
-      }
-      recipeData = data;
-      return true;
+savingService.service('dataService', function(){
+	//need to add ability to delete a specific ingredient from the service
+  var chosen_ingredients=[]
+  var recipes=[]
+  var excluded_ingredients = []
+
+  var clearData = function(){
+      chosen_ingredients=[];
+      recipes=[];
+      excluded_ingredients = [];
   }
-  var getIngredients = function(){
-    return ingredients;
+  var removeIngredient = function (container, index) {
+    if (container == "chosen_ingredients")
+       chosen_ingredients.splice(index,1);
+    else
+       excluded_ingredients.splice(index,1);
   }
 
-  var getData = function(){
-      return recipeData;
+  var addChosenIngredient = function(name) {
+    chosen_ingredients.push(name); 
+  }
+   var addExcludedIngredient = function(name) {
+   	excluded_ingredients.push(name); 
+  }
+  var clearRecipes = function() {
+  	recipes = [];
+  }
+  var addRecipe = function(data){
+  	recipes.push(data);
+  }
+  var getRecipes = function(){
+  	  return recipes;	
+  }
+  var getChosenIngredients = function(){
+      return chosen_ingredients;
+  }
+
+  var getExcludedIngredients = function(){
+      return excluded_ingredients;
   }
 
   return {
-    setData: setData,
-    getData: getData,
-    getIngredients: getIngredients
+    
+   addChosenIngredient : addChosenIngredient,
+   getChosenIngredients : getChosenIngredients,
+   addExcludedIngredient : addExcludedIngredient,
+   getExcludedIngredients : getExcludedIngredients,
+   getRecipes : getRecipes,
+   addRecipe : addRecipe,
+   clearRecipes : clearRecipes,
+   removeIngredient : removeIngredient,
+   clearData : clearData
   };      
 });
