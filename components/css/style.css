@@ -1001,6 +1001,7 @@ PANELS CONFIGURATIONS
 /*Grey Panel*/
 
 .grey-panel {
+    height: 500px;
 	text-align: center;
 	background: #dfdfe1;
 }

@@ -258,6 +258,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []  
   $scope.excluded_ingredients = []
   $scope.match="";
+  $scope.topRecipes = []
 
   $scope.clearData = function(){
     dataService.clearData();
@@ -412,7 +413,23 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
               $scope.recipes.push(recipe);
               dataService.addRecipe(recipe);
           });
+        $scope.topRecipes = [];
+        $scope.topRecipes.push($scope.recipes[0]);
+        $scope.topRecipes.push($scope.recipes[1]);
+        $scope.recipes.splice(0,2);
+
+        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[0].id}).success(function(data) {
+          $scope.topRecipes[0] = data;
         });
+
+        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[1].id}).success(function(data) {
+          $scope.topRecipes[1] = data;
+        });
+
+        });
+
+        
+
       }
   }
   $scope.load();

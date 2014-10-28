@@ -169,6 +169,7 @@ input{
 
 .popRecipe{
   overflow: auto;
+  height: 500px;
 }
 .hide {
     display: none;
@@ -214,6 +215,9 @@ input{
   width: 100%;
 }
 
+.rightBarFix2{
+  margin-top: 20px;
+}
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
 Template Version: 1.0
@@ -1217,6 +1221,7 @@ PANELS CONFIGURATIONS
 /*Grey Panel*/
 
 .grey-panel {
+    height: 500px;
 	text-align: center;
 	background: #dfdfe1;
 }

@@ -107,8 +107,9 @@ MAIN CONTENT
 
         <div class="row">
             <div class="col-lg-8 main-chart">
+
               <div class="row mtbox">
-                <div class="col-md-6 col-sm-6 col-md-offset-3 box0">
+                <div class="col-md-8 col-md-offset-2 box0">
                   <div class="box1">
                     <span class="li_search"></span>
                     <h3>Add Ingredients</h3>
@@ -132,51 +133,37 @@ MAIN CONTENT
                 </div>
 
               </div><!-- /row mt -->
-
-              <div class="col-md-6 col-sm-6 mb popRecipe">
+              <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-5 popRecipe" ng-repeat="recipe in topRecipes">
                 <div class="grey-panel pn donut-chart">
                   <div class="grey-header">
-                    <h5>POPULAR RECIPE</h5>
+                    <h5>Top Results</h5>
                   </div>
                   <div class="row">
                     <div class="centered">
-                      <h2><i class="fa fa-heart"></i> 27</h2>
+                      <button type="button" class="btn btn-theme04" ng-click="details($index)">View Recipe</button>
+                      <h3>{{recipe.name}} - {{recipe.totalTimeInSeconds/60}} Minutes</h3>
+                      <img ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
                     </div>
                   </div>
+
                   <div class="row shrink-sides shrink-right shrink-left">
                       <div class="centered">
-                        <h3>Best Sandwich Ever Made</h3>
+                        <h3></h3>
                       </div>
                   </div>
-                  <button type="button" class="btn btn-theme04">view recipe</button>
+                  <h2><i class="fa fa-heart"></i><span ng-if="recipe.rating != 0">{{recipe.rating}} </span></h2>
+                  
                 </div><! --/grey-panel -->
               </div><!-- /col-md-6-->
-        
-              <div class="col-md-6 col-sm-6 mb popRecipe">
-                <div class="grey-panel pn donut-chart">
-                  <div class="grey-header">
-                    <h5>POPULAR RECIPE</h5>
-                  </div>
-                  <div class="row">
-                      <div class="centered">
-                      <h2><i class="fa fa-heart"></i> 2</h2>
-                      </div>
-                  </div>
-                  <div class="row shrink-right shrink-left">
-                    <div class="centered">
-                        <h3>Terminal Velocity Bean Casserole</h3>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-theme04">view recipe</button>
-                </div><! --/grey-panel -->
-              
-              </div><!-- /col-md-6-->
+              </div>
             </div><!-- /col-lg-9 END SECTION MIDDLE -->
 <!-- **********************************************************************************************************************************************************
 RIGHT SIDEBAR CONTENT
 *********************************************************************************************************************************************************** -->                  
             
-            <div class="col-lg-4 ds">
+            <div class="col-lg-4 ds rightBarFix2">
               <h3 class="rightBarFix">Recipes Containing Added Ingredients</h3>
                                   
                 <div ng-animate="'animate'" class="desc animatedRepeat recipeResultContainer" ng-repeat="recipe in recipes" ng-init="recipeHover" ng-mouseover="recipeHover=true" ng-mouseleave="recipeHover=false">
@@ -191,7 +178,7 @@ RIGHT SIDEBAR CONTENT
 
                     </p>
 
-                    <a class="recipePreviewLink" href="#/search" ng-click="details($index)">View Recipe</a>
+                    <a class="recipePreviewLink" href="#/search" ng-click="details($index+2)">View Recipe</a>
                   </div>
                   <div>
                      <img class="imgPreview" ng-src="{{recipe.smallImageUrls[0]}}">
