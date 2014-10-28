@@ -1,1 +1,1 @@
-var directives = angular.module('TheDirectives', ['ngEnter']);
+var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm']);

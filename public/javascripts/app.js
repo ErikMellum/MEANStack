@@ -253,7 +253,7 @@ var reviewsController = angular.module('reviewsController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "test"
 }]);
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate', 'ngConfirm']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
@@ -270,7 +270,11 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.query_result = [];  
     $scope.excluded_ingredients = [];
     $scope.match="";
-    $scope.recipes=[];
+    $scope.recipes = [];
+    setTimeout(function(){
+      $scope.recipes = [];
+    }, 1000);
+
   }
   $scope.uniqueIngredient = function (name) {
     var return_value = true;
@@ -416,7 +420,25 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
   $scope.load();
 }]);
-var directives = angular.module('TheDirectives', ['ngEnter']);
+var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm']);
+
+var ngConfirm = angular.module('ngConfirm', []);
+ngConfirm.directive('ngConfirm', function () {
+  return {
+    priority: -1,
+    terminal: true,
+    link: {
+	    pre:function (scope, element, attr) {
+	      var msg = attr.ngConfirm || "Are you sure?";
+	      element.bind('click',function () {
+	        if ( window.confirm(msg) ) {
+	          scope.$eval(attr.ngClick);
+	        }
+	      });
+	    }
+	}
+  };
+});
 
 var ngEnter = angular.module('ngEnter', []);
 

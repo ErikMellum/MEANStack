@@ -1,4 +1,4 @@
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate']);
+var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate', 'ngConfirm']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
@@ -15,7 +15,11 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.query_result = [];  
     $scope.excluded_ingredients = [];
     $scope.match="";
-    $scope.recipes=[];
+    $scope.recipes = [];
+    setTimeout(function(){
+      $scope.recipes = [];
+    }, 1000);
+
   }
   $scope.uniqueIngredient = function (name) {
     var return_value = true;
