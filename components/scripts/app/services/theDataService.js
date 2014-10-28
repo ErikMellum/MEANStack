@@ -12,7 +12,6 @@ theDataService.service('dataService', function(){
     topRecipe0.push(data);
   }
   var addTopRecipe1 = function (data) {
-    console.log(data);
     topRecipe1.push(data);
   }
   var addRecipe = function(data){
