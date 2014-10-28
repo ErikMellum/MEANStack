@@ -10,16 +10,17 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.topRecipes = []
 
   $scope.clearData = function(){
-    dataService.clearData();
-    $scope.chosen_ingredients=[];
-    $scope.dataArray=[];
-    $scope.query_result = [];  
-    $scope.excluded_ingredients = [];
-    $scope.match="";
-    $scope.recipes = [];
-    setTimeout(function(){
-      $scope.recipes = [];
-    }, 1000);
+    location.reload();
+    // dataService.clearData();
+    // $scope.chosen_ingredients=[];
+    // $scope.dataArray=[];
+    // $scope.query_result = [];  
+    // $scope.excluded_ingredients = [];
+    // $scope.match="";
+    // $scope.recipes = [];
+    // setTimeout(function(){
+    //   $scope.recipes = [];
+    // }, 1000);
 
   }
   $scope.uniqueIngredient = function (name) {
