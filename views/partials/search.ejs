@@ -1,10 +1,10 @@
 <aside>
     <div id="sidebar"  class="nav-collapse ">
-
+        
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
             
-            <h5 class="centered test">Ingredients Added</h5>
+            <h5 class="centered">Ingredients Added</h5>
 
             <li ng-animate="'animate'"class="animatedRepeat" ng-repeat="ingredient in chosen_ingredients">
                 <a class="" ng-click="remove(chosen_ingredients, $index)">
@@ -31,11 +31,44 @@
                 </a>
             </li>
         </ul>
+        <div class="sidebarMoveUp">
+        <hr>
+        <h5 class="centered">Ingredient Filter</h5>
         <div style=" text-align: center; margin: 0 auto;">
-            <span style="color: white;" >Use only these ingredients </span><input name="onlyOrAll" type="checkbox" ng-model="only">
-            </div>
-        <br>
-        <br>
+          <span style="color: white;" >Use only these ingredients </span><input name="onlyOrAll" type="checkbox" ng-model="only" checked>
+        </div>
+        <hr>
+        <div style=" text-align: center; margin: 0 auto;">
+          <h5 class="centered" >You may want to add...</h5>
+          <span ng-repeat="ingredient in suggestedIngredients"></span>
+        </div>
+        <hr>
+        <h5 class="centered">Meal Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >All</span><input name="meal" type="radio" ng-model="allMeals" checked>
+          <span style="color: white;" >Breakfast</span><input name="meal" type="radio" ng-model="breakfast">
+          <span style="color: white;" >Lunch</span><input name="meal" type="radio" ng-model="lunch">
+          <span style="color: white;" >Dinner</span><input name="meal" type="radio" ng-model="dinner">
+          <span style="color: white;" >Snack</span><input name="meal" type="radio" ng-model="snack">
+        </div>
+        <hr>
+        <h5 class="centered">Diet Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >All</span><input name="diet" type="radio" ng-model="allDiets" checked>
+          <span style="color: white;" >Paleo</span><input name="diet" type="radio" ng-model="paleo">
+          <span style="color: white;" >Vegetarian</span><input name="diet" type="radio" ng-model="vegetarian">
+          <span style="color: white;" >Vegan</span><input name="diet" type="radio" ng-model="vegan">
+        </div>
+        <hr>
+        <h5 class="centered">Cuisine Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >All</span><input name="diet" type="radio" ng-model="allCuisines" checked>
+          <span style="color: white;" >American</span><input name="diet" type="radio" ng-model="american">
+          <span style="color: white;" >Chinese</span><input name="diet" type="radio" ng-model="chinese">
+          <span style="color: white;" >Mexican</span><input name="diet" type="radio" ng-model="mexican">
+          <span style="color: white;" >Indian</span><input name="diet" type="radio" ng-model="indian">
+        </div>
+        </div>
         <!-- sidebar menu end-->
     </div>
 </aside>
@@ -148,3 +181,6 @@ RIGHT SIDEBAR CONTENT
 </section>
 
 
+<script>
+$("#sidebar").niceScroll({styler:"fb",cursorcolor:"#4ECDC4", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', spacebarenabled:false, cursorborder: '', autohidemode: false});
+</script>
