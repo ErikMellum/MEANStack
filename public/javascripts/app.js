@@ -540,6 +540,8 @@ ngConfirm.directive('ngConfirm', function () {
     terminal: true,
     link: {
 	    pre:function (scope, element, attr) {
+	    	console.log(attr);
+	    	console.log(element);
 	      var msg = attr.ngConfirm || "Are you sure?";
 	      element.bind('click',function () {
 	        if ( window.confirm(msg) ) {
@@ -650,7 +652,6 @@ theDataService.service('dataService', function(){
     topRecipe0.push(data);
   }
   var addTopRecipe1 = function (data) {
-    console.log(data);
     topRecipe1.push(data);
   }
   var addRecipe = function(data){

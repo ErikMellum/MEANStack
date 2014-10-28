@@ -48,23 +48,15 @@ describe('Unit: SearchController', function(){
      expect(scope.query_result.length).toBe(0)
   });
 
-  it ('should insert an ingredient into the chosen and excluded ingredients', 
-    function(){
-      expect(scope.chosen_ingredients.length).toBe(0)
-      scope.insert("Ingredient");
-      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
-      scope.insert("not Ingredient")
-      expect(scope.excluded_ingredients[0].name).toBe("Ingredient");
-
-  });
 
   it ('should remove an ingredient from the chosen and excluded ingredients', 
     function(){
       expect(scope.chosen_ingredients.length).toBe(0)
       scope.insert("Ingredient");
       expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
-      scope.insert("not Ingredient");
-      expect(scope.excluded_ingredients[0].name).toBe("Ingredient");
+      scope.insert("not pizza");
+      console.log(scope.excluded_ingredients);
+      expect(scope.excluded_ingredients[0].name).toBe("pizza");
       scope.remove(scope.chosen_ingredients, 0);
       scope.remove(scope.excluded_ingredients, 0);
       expect(scope.chosen_ingredients.length).toBe(0);
