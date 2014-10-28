@@ -46,75 +46,36 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
 }]);
 var ingredientController = angular.module('ingredientController', ['ngEnter', 'ingredientService']);
 
-ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 
-  function($scope, $http, TmpIngredient, AbstractIngredient) {
+ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 'PrimitiveIngredient', 
+  function($scope, $http, TmpIngredient, AbstractIngredient, PrimitiveIngredient) {
   //for unit test
   $scope.test = "Test";
   //container for the temp ingredient used 
-  $scope.currentIngredient; 
-   //container for the parent ingredient used (we need the id to send to the server with our request)
-  $scope.parentIngredient;
+  $scope.currentIngredient = {name : "", parent : "", parentName : ""}; 
   //set up temp ingredients list
   $scope.tmpIngredients = TmpIngredient.find();
   //set up abstract ingredients list
   $scope.abstractIngredients = AbstractIngredient.find();
 
-  $scope.searchTmpIngredients;
+  $scope.primitiveIngredients = PrimitiveIngredient.find();
 
-  $scope.ingredientName;
 
-  //Gets a temporary or abstract ingredient from the list of the respective 
-  //ingredients and sets the ingredient name field to be this ingredient if
-  //it is part of the respective list, otherwise it sends an alert to the user. 
-  $scope.getAndSetIngredient = function(ingredientType, ingredientName){
-    var ingredient;
-    if(ingredientType == "tempIngredient")
-    {
-      var test = false;
-      $scope.tmpIngredients.forEach(function(element){
-        if(element.name == ingredientName)
-        {
-          $scope.setIngredient(ingredientType, element);
-          test = true;
-        }
-      });
-      if(!test) alert("Ingredient not found");
-    }
-    else if(ingredientType == "abstractIngredient")
-    {
-      var test = false;
-      $scope.abstractIngredients.forEach(function(element){
-        if(element.name == ingredientName)
-        {
-          $scope.setIngredient(ingredientType, element);
-          test = true;
-        }
-      });
-      if(!test) alert("Ingredient not found");
-    }
-  };
 
   //clear will set the currentIngredient to be nothing, and the ingredient name
   //field to be nothing
   $scope.clear= function() {
-
-    $scope.currentIngredient = "";
     $scope.ingredientName = "";
+    $scope.currentIngredient = "";
   }
 
-  //setIngredient allows you to specify a string to set for the new ingredient name
-  $scope.setIngredient = function(ingredientType, ingredient){
-    if(ingredientType == "tempIngredient")
-    {
-      $scope.currentIngredient = ingredient;
-      $scope.searchTmpIngredients = ingredient.name;
-      $scope.ingredientName = ingredient.name; 
-    }
-    else if(ingredientType == "abstractIngredient")
-    {
-      $scope.ingredientParent = ingredient.name;
-      $scope.ingredientParentId = ingredient._id;
-    }
+  $scope.setIngredient = function(ingredient){
+    $scope.currentIngredient = ingredient;
+    $scope.ingredientName = ingredient.name;
+  }
+
+  $scope.setIngredientParent = function(ingredient){
+    $scope.currentIngredient.parentName = ingredient.name;
+    $scope.currentIngredient.parent = ingredient._id;
   }
 
 
@@ -138,30 +99,53 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
       });
     }
   }
-  
+  // This will attempt to locate an abstract ingredient using the parent name on the
+  // current ingredient. It will then set the currentIngredient's parent (which is an id)
+  $scope.locateParentIdByName = function(){
+    if($scope.currentIngredient.parentName != "" && $scope.currentIngredient.parent == "")
+    {
+      $scope.abstractIngredients.forEach(function (element) {
+        if(element.name == $scope.currentIngredient.parentName)
+          $scope.currentIngredient.parent = element._id;
+      });
+    }
+  }
+
+  $scope.clearParent = function() {
+    $scope.currentIngredient.parentName = "";
+    $scope.currentIngredient.parent = "";
+  }
   $scope.submitNewIngredient = function(){
     var primitiveIngredient;
     var abstractIngredient;
     var tmpIngredient;
     var params;
-    $scope.currentIngredient.name = $scope.ingredientName;
-    $scope.currentIngredient.brand = $scope.ingredientBrand;
-    $scope.currentIngredient.parent = $scope.ingredientParentId;
-    $scope.currentIngredient.unique = $scope.ingredientUnique;
-    $scope.currentIngredient.processed = $scope.ingredientProcessed;
+    $scope.locateParentIdByName();
+    // true means that you are creating a primitive, false an abstract
+    if($scope.currentIngredient.unique == true)
+    {
+      $http.post('/api/ingredients/primitives', $scope.currentIngredient).success(function(data) {
+        $scope.primitiveIngredients = data.primitives;
+        $scope.tmpIngredients = TmpIngredient.find();
+      });
+    }
+    else
+    {
+      $http.post('/api/ingredients/abstracts', $scope.currentIngredient).success(function(data) {
+        alert("Successfully created " + $scope.currentIngredient.name);
+        $scope.currentIngredient = "";
+        $scope.abstractIngredients = data;
+        $scope.tmpIngredients = TmpIngredient.find();
+      });
 
-    $http.post('/api/ingredients/tmpIngredients', $scope.currentIngredient).success(function(data) {
-     // alert("Successfully posted data, still not implemented however.");
-        $scope.abstractIngredients=data.abstracts;
-        $scope.tmpIngredients=data.temps;
+    }
+    
 
-    });
-
-    var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
-    $http.delete(url, $scope.currentIngredient).success(function(data) {
-     // alert("Successfully posted data, still not implemented however.");
-       $scope.tmpIngredients=data;
-    });
+    // var url= '/api/ingredients/tmpIngredients/:' + $scope.ingredientName;
+    // $http.delete(url, $scope.currentIngredient).success(function(data) {
+    //  // alert("Successfully posted data, still not implemented however.");
+    //    $scope.tmpIngredients=data;
+    // });
   };
 
 }]);
@@ -177,40 +161,47 @@ mainController.controller('MainController', ['$scope','$http', function($scope, 
      return $scope.selected === item;
    };
 }]);
-var recipeController = angular.module('recipeController', []);
+var recipeController = angular.module('recipeController', ['ngEnter', 'ingredientService']);
 
-recipeController.controller('RecipeController', ['$scope','$http', function($scope, $http) {
+recipeController.controller('RecipeController', ['$scope','$http', 'Composition', 'PrimitiveIngredient', 'AbstractIngredient', 'TmpIngredient',
+  function($scope, $http, Composition, PrimitiveIngredient, AbstractIngredient, TmpIngredient) {
+$scope.combinedIngredients = [];
+// needs to be done in a callback because find is actually a promise, and completely asynchronous
+Composition.find(function(compResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
+});
+
+PrimitiveIngredient.find(function(primResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(primResult);
+});
+
+AbstractIngredient.find(function(abstResult){
+  $scope.combinedIngredients = $scope.combinedIngredients.concat(abstResult);
+});
 
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
 $scope.ingredients = [];
 $scope.currentIngredient = "";
-$scope.instructions = [];
 $scope.steps = [];
 $scope.currentStep = "";
 $scope.userName = "guest";
 $scope.recipeName = "";
 $scope.maxIngredients = 100; 
-// $scope.inputRecipe = function(recipe) {
-//       var url = '/api/compositions/new/';
-//       console.log($scope.ingredients);
-//       console.log($scope.quantity);
-//       console.log($scope.unit);
-//       var array = new Array();
-//       for(i=0; i<$scope.ingredients.length;i++){
-//         var ingObj = { "name":$scope.ingredients[i], "quantity":$scope.quantity[i], "unit":$scope.unit[i]};
-//         array.push(ingObj);
-//       }
-//       console.log(array);
-//       recipe = { "name":$scope.recipeName, "ingredients": $scope.ingredients, "instruction":$scope.instructions, "user":$scope.userName};
-//       postObject = recipe;
-//       $http.post(url, postObject).success(function(data){
-//       });
-// }
-// $scope.addIngredient = function() {
-//  
-// }
+$scope.inputRecipe = function() {
+
+var url = '/api/compositions/new/';
+console.log($scope.userName);
+console.log($scope.recipeName);
+console.log($scope.ingredients);
+console.log($scope.steps);
+recipe = { "name":$scope.recipeName, "ingredients": $scope.ingredients, "instruction":$scope.steps, "user":$scope.userName};
+postObject = recipe;
+$http.post(url, postObject).success(function(data){
+});
+}
+
 $scope.addIngredient = function() {
     if($scope.currentIngredient != "")
     {
@@ -246,6 +237,11 @@ $scope.addIngredient = function() {
     else
       $scope.steps.splice(index, index);
  }
+
+$scope.setIngredient = function(ingredient){
+      $scope.currentIngredient = ingredient;
+  }
+
  }]);
 
 var reviewsController = angular.module('reviewsController', []);
@@ -292,6 +288,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     });
     return return_value;
   }
+
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;
@@ -422,6 +419,91 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 }]);
 var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm']);
 
+var draggable = angular.module('draggable', []);
+
+draggable.directive('draggable', function() {
+    return function(scope, element) {
+        // this gives us the native JS object
+        var el = element[0];
+
+        el.draggable = true;
+
+        el.addEventListener(
+            'dragstart',
+            function(e) {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('Text', this.id);
+                this.classList.add('drag');
+                return false;
+            },
+            false
+        );
+
+        el.addEventListener(
+            'dragend',
+            function(e) {
+                this.classList.remove('drag');
+                return false;
+            },
+            false
+        );
+    }
+});
+var droppable = angular.module('droppable', []);
+
+droppable.directive('droppable', function() {
+    return {
+        scope: {
+          drop: '&', // parent
+          bin: '=' // bi-directional scope
+        },
+        link: function(scope, element) {
+            // again we need the native object
+          var el = element[0];
+          el.addEventListener('dragover', function(e) {
+              e.dataTransfer.dropEffect = 'move';
+              // allows us to drop
+              if (e.preventDefault) e.preventDefault();
+              this.classList.add('over');
+              return false;
+            },
+            false
+          );
+          el.addEventListener(
+              'dragenter',
+              function(e) {
+                  this.classList.add('over');
+                  return false;
+              },
+              false
+          );
+          el.addEventListener(
+              'dragleave',
+              function(e) {
+                  this.classList.remove('over');
+                  return false;
+              },
+              false
+          );
+          el.addEventListener(
+              'drop',
+              function(e) {
+                  var binId = this.id;
+                  var item = document.getElementById(e.dataTransfer.getData('Text'));
+                  this.appendChild(item);
+                  // call the passed drop function
+                  scope.$apply(function(scope) {
+                      var fn = scope.drop();
+                      if ('undefined' !== typeof fn) {
+                        fn(item.id, binId);
+                      }
+                  });
+              },
+              false
+          );
+        }
+    }
+});
 var ngConfirm = angular.module('ngConfirm', []);
 ngConfirm.directive('ngConfirm', function () {
   return {
@@ -544,6 +626,14 @@ ingredientService.factory('AbstractIngredient', ['$resource',
     return $resource('api/ingredients/abstractIngredients', {}, {
       find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
       //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
+      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    });
+}]);
+ingredientService.factory('Composition', ['$resource',
+  function($resource){
+    return $resource('api/ingredients/compositions', {}, {
+      find: {method:'GET', params:{ingredientId: 'compositions'}, isArray:true},
+      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);

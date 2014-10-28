@@ -77,12 +77,8 @@ input{
 .rightBarFix{
   margin-bottom: 20px !important;
 }
-.ingredientText{
-  font-size: 120%  !important;
-  font-weight: bold  !important;
-}
 
-.excludedIngredient {
+.excludedIngredient:hover {
   background: #F0788A !important;
   
 }
@@ -138,20 +134,16 @@ input{
   cursor: pointer;
 }
 .animatedRepeat{
-  transition: all .25s ease-out;
+  transition: all .3s ease-out;
 }
 .animatedRepeat.ng-enter.ng-enter-active,
 .animatedRepeat.ng-leave{
-  opacity: 1;
-  height: 80px;
-  overflow: hidden;
+  transform: scale(1);
 }
 
 .animatedRepeat.ng-leave.ng-leave-active,
 .animatedRepeat.ng-enter{
-  opacity: 0;
-  height: 0px;
-  overflow: hidden;
+  transform: scale(0);
 }
 
 .recipeResultContainer{
@@ -199,6 +191,29 @@ input{
 .createRecipeForm h2, .createIngredientForm h2{
   color: #222;
 }
+
+.test {
+  font-family: inherit;
+}
+
+.bin {
+  background: blue;
+  width: 200px;
+  height: 200px;
+}
+
+.item {
+  background: red;
+  width: 200px;
+  height: 200px;
+}
+
+.mainArea{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
 Template Version: 1.0
@@ -428,11 +443,17 @@ ul.top-menu > li > .logout {
 
 
 /*sidebar navigation*/
-
+aside {
+    position: absolute;
+    left: 0px;
+    bottom: 30px;
+}
 #sidebar {
-    width: 210px;
-    height: 100%;
     position: fixed;
+    width: 210px;
+    height: calc(100% - 40px);
+    bottom: 40px;
+    
     background: #424a5d;
 }
 

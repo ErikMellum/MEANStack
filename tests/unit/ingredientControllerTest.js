@@ -51,36 +51,19 @@ describe('Unit: IngredientController', function(){
     expect(scope.abstractIngredients).toBe(abstractIngredientList);
   });
 
-  it("Should verify that the get and set ingredient function works correctly when passing a correct ingredient name", function(){
-    var ingredientType = "tempIngredient";
-    var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
-    scope.getAndSetIngredient(ingredientType, ingredient.name);
-    expect(scope.searchTmpIngredients).toBe(ingredient.name);
-    expect(scope.ingredientName).toBe(ingredient.name); 
-  });
 
   it("Should verify that the set ingredient function works correctly when passing a correct ingredient", function(){
     var ingredientType = "tempIngredient";
     var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
-    scope.setIngredient(ingredientType, ingredient);
-    expect(scope.searchTmpIngredients).toBe(ingredient.name);
+    scope.setIngredient(ingredient);
     expect(scope.ingredientName).toBe(ingredient.name); 
   });
 
-  // should also console output that the ingredient was not found in an alert
-  it("Should verify that the set ingredient function works correctly when passing an incorrect ingredient name", function(){
-    var ingredientType = "tempIngredient";
-    var ingredient = "blork"; // a combination of blubber and pork
-    scope.getAndSetIngredient(ingredientType, ingredient.name);
-    expect(scope.searchTmpIngredients).toBeUndefined();
-    expect(scope.ingredientName).toBeUndefined(); 
-  });
 
   it("Should verify that the clear function works correctly after calling the set ingredient function", function(){
     var ingredientType = "tempIngredient";
     var ingredient = tmpIngredientList[Math.floor(Math.random()*tmpIngredientList.length)];
-    scope.setIngredient(ingredientType, ingredient);
-    expect(scope.searchTmpIngredients).toBe(ingredient.name);
+    scope.setIngredient(ingredient);
     expect(scope.ingredientName).toBe(ingredient.name); 
     scope.clear();
     expect(scope.currentIngredient).toBe("");

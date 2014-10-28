@@ -37,6 +37,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     });
     return return_value;
   }
+
   $scope.reset = function(){
        $scope.match = "";
        $scope.query_result.length = 0;

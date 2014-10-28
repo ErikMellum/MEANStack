@@ -61,6 +61,14 @@ router.get('/tmpIngredients', function(req,res) {
   });
 });
 
+router.get('/compositions', function(req,res) {
+  Composition.find(function(err, compositions) {
+    if (err)
+      res.send(err);
+    res.json(compositions);
+  });
+});
+
 router.delete('/abstractIngredients/:abstractIngredient_id', function(req, res){
   if(req.params.abstractIngredient_id > 0)
   {
@@ -80,37 +88,62 @@ router.delete('/abstractIngredients/:abstractIngredient_id', function(req, res){
   }
 });
 
-router.post('/tmpIngredients', function(req,res) {
-  console.log(req.body);
-  //unique means primitive
-  if(req.body.unique == true)
-  {
+router.post('/primitives', function(req,res) {
     var primitive = new PrimitiveIngredient();
     primitive.name = req.body.name;
     primitive.brand = req.body.brand;
     primitive.AbstractIngredientSchema_id = req.body.parent;
-    primitive.save(); 
-  }
-  else
-  {
-    var abstract = new AbstractIngredient();
-    abstract.name = req.body.name;
-    //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
-    //abstract.parent = req.body.parent;
-    abstract.save();
-    console.log("New Abstract: " + abstract);
-  }
-  TmpIngredient.find(function(err,tmpIngredients){
-    if(err)
-      res.send(err)
+    primitive.save(function(err) {
+    if (err)
+      res.send(err);
 
-    AbstractIngredient.find(function(err,abstractIngredients){
-      if(err)
-        res.send(err)
-      res.json({abstracts : abstractIngredients, temps : tmpIngredients});
+    PrimitiveIngredient.find(function(err, primitives) {
+      if (err)
+        res.send(err);
+
+      res.json(primitives);
     });
   });
-  
+});
+
+router.post('/abstracts', function(req,res) {
+  var abstract = new AbstractIngredient();
+  console.log(req.body)
+  abstract.name = req.body.name;
+  //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
+  //abstract.parent = req.body.parent;
+  abstract.save(function(err) {
+    if (err) {
+      res.send(err);
+      console.log(err);
+    }
+    else {
+      AbstractIngredient.find(function(err, abstracts) {
+        if (err)
+          res.send(err);
+        else {
+          console.log(abstracts)
+          res.json(abstracts);
+        }
+      });
+    }
+  }); 
+});
+
+router.post('/tmpIngredient', function(req,res) {
+  var tmpIngredient = new TmpIngredient();
+  tmpIngredient.name = req.body.name;
+  tmpIngredient.save(function(err) {
+  if (err)
+    res.send(err);
+
+  TmpIngredient.find(function(err, tmpIngredients) {
+    if (err)
+      res.send(err);
+
+    res.json(tmpIngredients);
+    });
+  }); 
 });
 
 router.delete('/tmpIngredients/:tmpIngredient_name', function(req, res){
