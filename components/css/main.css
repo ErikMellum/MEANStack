@@ -159,6 +159,7 @@ input{
 
 .popRecipe{
   overflow: auto;
+  height: 500px;
 }
 .hide {
     display: none;
@@ -202,4 +203,8 @@ input{
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+.rightBarFix2{
+  margin-top: 20px;
 }

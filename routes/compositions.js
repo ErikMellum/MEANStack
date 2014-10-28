@@ -259,6 +259,7 @@ router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
 });
 
 router.delete('/:composition_id', function(req, res){
+  console.log(req);
   if(req.params.composition_id > 0)
   {
     Composition.remove({
@@ -270,6 +271,7 @@ router.delete('/:composition_id', function(req, res){
       Composition.find(function(err,compositions){
         if(err)
           res.send(err)
+        console.log(compositions);
         res.json(compositions);
       });
     });
