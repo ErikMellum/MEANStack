@@ -5,8 +5,6 @@ ngConfirm.directive('ngConfirm', function () {
     terminal: true,
     link: {
 	    pre:function (scope, element, attr) {
-	    	console.log(attr);
-	    	console.log(element);
 	      var msg = attr.ngConfirm || "Are you sure?";
 	      element.bind('click',function () {
 	        if ( window.confirm(msg) ) {

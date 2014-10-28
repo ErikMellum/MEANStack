@@ -47,7 +47,54 @@ describe('Unit: SearchController', function(){
      expect(scope.match).toBe("");
      expect(scope.query_result.length).toBe(0)
   });
+   it ('should insert an ingredient into the chosen and excluded ingredients', 
+    function(){
+      expect(scope.chosen_ingredients.length).toBe(0)
+      scope.insert("Ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("not cake")
+      expect(scope.excluded_ingredients[0].name).toBe("cake");
+ });
+it ('should not insert ingredients with the same name', 
+    function(){
+      expect(scope.chosen_ingredients.length).toBe(0)
+      scope.insert("Ingredient");
+      expect(scope.chosen_ingredients.length).toBe(1);
+      scope.insert("Ingredient");
+      expect(scope.chosen_ingredients.length).toBe(1);
+      scope.insert("not cake")
+      expect(scope.excluded_ingredients.length).toBe(1);
+      scope.insert("not cake")
+       expect(scope.excluded_ingredients.length).toBe(1);
+ });
+  
+  // it ('should insert an ingredient into the chosen and excluded ingredients and check to see that the recipes are being loaded', 
+  //   function(){
+  //     expect(scope.chosen_ingredients.length).toBe(0)
+  //     scope.insert("egg");
+  //     expect(scope.chosen_ingredients[0].name).toBe("egg");
+  //     scope.insert("not milk")
+  //     expect(scope.excluded_ingredients[0].name).toBe("milk");
+  //     expect(scope.recipes.length).toBeGreaterThan(0);
+  //     expect(scope.topRecipes.length).toBeGreaterThan(0);
 
+  // });
+  // it ('should insert an ingredient into the chosen and excluded ingredients and check to see that the recipes are being loaded and then clear the data with the button', 
+  //   function(){
+  //     expect(scope.chosen_ingredients.length).toBe(0)
+  //     scope.insert("egg");
+  //     expect(scope.chosen_ingredients[0].name).toBe("egg");
+  //     scope.insert("not milk")
+  //     expect(scope.excluded_ingredients[0].name).toBe("milk");
+  //     expect(scope.recipes.length).toBeGreaterThan(0);
+  //     expect(scope.topRecipes.length).toBeGreaterThan(0);
+  //     element(".btn-warning.shift-down").click();
+  //     expect(scope.excluded_ingredients.length).toBe(0);
+  //     expect(scope.chosen_ingredients.length).toBe(0);
+  //     expect(scope.recipes.length).toBe(0);
+  //     expect(scope.topRecipes.length).toBe(0);
+
+  // });
 
   it ('should remove an ingredient from the chosen and excluded ingredients', 
     function(){
@@ -55,7 +102,6 @@ describe('Unit: SearchController', function(){
       scope.insert("Ingredient");
       expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
       scope.insert("not pizza");
-      console.log(scope.excluded_ingredients);
       expect(scope.excluded_ingredients[0].name).toBe("pizza");
       scope.remove(scope.chosen_ingredients, 0);
       scope.remove(scope.excluded_ingredients, 0);

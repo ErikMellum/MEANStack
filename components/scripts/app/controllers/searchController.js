@@ -110,7 +110,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       if (container == $scope.chosen_ingredients)
         dataService.removeIngredient("chosen_ingredients", index);
       else
-          dataService.removeIngredient("excluded_ingredients", index);
+        dataService.removeIngredient("excluded_ingredients", index);
       
       $scope.displayRecipes();
   }

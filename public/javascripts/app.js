@@ -362,7 +362,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       if (container == $scope.chosen_ingredients)
         dataService.removeIngredient("chosen_ingredients", index);
       else
-          dataService.removeIngredient("excluded_ingredients", index);
+        dataService.removeIngredient("excluded_ingredients", index);
       
       $scope.displayRecipes();
   }
@@ -540,8 +540,6 @@ ngConfirm.directive('ngConfirm', function () {
     terminal: true,
     link: {
 	    pre:function (scope, element, attr) {
-	    	console.log(attr);
-	    	console.log(element);
 	      var msg = attr.ngConfirm || "Are you sure?";
 	      element.bind('click',function () {
 	        if ( window.confirm(msg) ) {
