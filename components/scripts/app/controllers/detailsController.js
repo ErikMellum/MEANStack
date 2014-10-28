@@ -1,4 +1,4 @@
-var detailsController = angular.module('detailsController', ['recipeService']);
+var detailsController = angular.module('detailsController', ['theRecipeService']);
 detailsController.controller('DetailsController', ['$scope' , '$http', '$window', 'detailsService', function($scope, $http, $window, detailsService) {
   $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
 

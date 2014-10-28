@@ -1,4 +1,4 @@
-var searchController = angular.module('searchController', ['ngEnter', 'recipeService', 'savingService', 'ngAnimate', 'ngConfirm']);
+var searchController = angular.module('searchController', ['ngEnter', 'theRecipeService', 'theDataService', 'ngAnimate', 'ngConfirm']);
 
 searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
@@ -10,17 +10,19 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.topRecipes = []
 
   $scope.clearData = function(){
-    location.reload();
-    // dataService.clearData();
-    // $scope.chosen_ingredients=[];
-    // $scope.dataArray=[];
-    // $scope.query_result = [];  
-    // $scope.excluded_ingredients = [];
-    // $scope.match="";
-    // $scope.recipes = [];
-    // setTimeout(function(){
-    //   $scope.recipes = [];
-    // }, 1000);
+    // location.reload();
+    dataService.clearData();
+    $scope.chosen_ingredients=[];
+    $scope.dataArray=[];
+    $scope.query_result = [];  
+    $scope.excluded_ingredients = [];
+    $scope.match="";
+    $scope.recipes = [];
+    $scope.topRecipes = []
+    setTimeout(function(){
+      $scope.recipes = [];
+      $scope.topRecipes = []
+    }, 1000);
 
   }
   $scope.uniqueIngredient = function (name) {
@@ -140,11 +142,17 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           $scope.dataArray.forEach(function(recipe){
               $scope.recipes.push(recipe); 
         });
-      }
-  }
+
+          $scope.topRecipes[0] = dataService.getTopRecipe0();
+
+          $scope.topRecipes[1] = dataService.getTopRecipe1();
+        };
+    }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
+    $scope.topRecipes = []
     dataService.clearRecipes();
+    dataService.clearTopRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
@@ -170,15 +178,15 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
         $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[0].id}).success(function(data) {
           $scope.topRecipes[0] = data;
+          dataService.addTopRecipe0(data);
         });
 
         $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[1].id}).success(function(data) {
           $scope.topRecipes[1] = data;
+           dataService.addTopRecipe1(data);
         });
 
         });
-
-        
 
       }
   }

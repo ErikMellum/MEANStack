@@ -1,6 +1,6 @@
-var ingredientService = angular.module('ingredientService', ['ngResource']);
+var theIngredientService = angular.module('theIngredientService', ['ngResource']);
 
-ingredientService.factory('PrimitiveIngredient', ['$resource',
+theIngredientService.factory('PrimitiveIngredient', ['$resource',
   function($resource){
     return $resource('api/ingredients/primitiveIngredients', {}, {
       find: {method:'GET', params:{ingredientId: 'primitiveIngredients'}, isArray:true},
@@ -8,7 +8,7 @@ ingredientService.factory('PrimitiveIngredient', ['$resource',
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);
-ingredientService.factory('TmpIngredient', ['$resource',
+theIngredientService.factory('TmpIngredient', ['$resource',
   function($resource){
     return $resource('api/ingredients/tmpIngredients', {}, {
       find: {method:'GET', params:{ingredientId:'tmpIngredients'}, isArray:true},
@@ -16,7 +16,7 @@ ingredientService.factory('TmpIngredient', ['$resource',
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);
-ingredientService.factory('AbstractIngredient', ['$resource',
+theIngredientService.factory('AbstractIngredient', ['$resource',
   function($resource){
     return $resource('api/ingredients/abstractIngredients', {}, {
       find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
@@ -24,7 +24,7 @@ ingredientService.factory('AbstractIngredient', ['$resource',
       //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
     });
 }]);
-ingredientService.factory('Composition', ['$resource',
+theIngredientService.factory('Composition', ['$resource',
   function($resource){
     return $resource('api/ingredients/compositions', {}, {
       find: {method:'GET', params:{ingredientId: 'compositions'}, isArray:true},

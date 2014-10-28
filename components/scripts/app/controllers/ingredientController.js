@@ -1,4 +1,4 @@
-var ingredientController = angular.module('ingredientController', ['ngEnter', 'ingredientService']);
+var ingredientController = angular.module('ingredientController', ['ngEnter', 'theIngredientService']);
 
 ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 'PrimitiveIngredient', 
   function($scope, $http, TmpIngredient, AbstractIngredient, PrimitiveIngredient) {
