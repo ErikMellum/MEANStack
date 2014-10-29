@@ -2473,4 +2473,17 @@ label {
     min-height: 900px;
 }
 
+.primitive
+{
+    background: #6aa;
+}
 
+.abstract
+{
+    background: #a6a;
+}
+
+.composition
+{
+    background: #aa6;
+}

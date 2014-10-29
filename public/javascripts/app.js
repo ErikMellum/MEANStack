@@ -169,14 +169,18 @@ recipeController.controller('RecipeController', ['$scope','$http', 'Composition'
 $scope.combinedIngredients = [];
 // needs to be done in a callback because find is actually a promise, and completely asynchronous
 Composition.find(function(compResult){
+
+  compResult = compResult.map(function(comp){ comp.type = "composition"; return comp;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
 });
 
 PrimitiveIngredient.find(function(primResult){
+  primResult = primResult.map(function(prim){ prim.type = "primitive"; return prim;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(primResult);
 });
 
 AbstractIngredient.find(function(abstResult){
+  abstResult = abstResult.map(function(abst){ abst.type = "abstract"; return abst;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(abstResult);
 });
 

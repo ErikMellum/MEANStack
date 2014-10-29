@@ -30,6 +30,7 @@
     "karma-cli": "0.0.4",
     "karma-jasmine": "^0.1.5",
     "mongoose": "^3.8.15",
+    "mongoose-id-validator": "^0.1.5",
     "morgan": "~1.2.3",
     "nodemon": "^1.2.1",
     "passport": "^0.2.1",

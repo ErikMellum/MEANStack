@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var idvalidator = require('mongoose-id-validator');
 
 //define our composition table
 var CompositionSchema = new mongoose.Schema({
@@ -13,7 +14,7 @@ var CompositionSchema = new mongoose.Schema({
         PrimitiveIngredient: {type: mongoose.Schema.Types.ObjectId , ref: 'PrimitiveIngredient'},
         Composition: {type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}
     }],
-    instruction: [ {name:String, type:String} ],
+    instruction: [ {name:String, details:String} ],
     rating: { type:Number, min:0, max:5, default:0},
     ratingInstance: { type:Number, default:0},
     reviewInstance: { type:Number, default:0},
@@ -46,7 +47,7 @@ CompositionSchema.methods.incInstanceValueReview = function(AI, rating){
     }
     CompositionSchema.methods.incInstanceValueRating(this);
 }
-
+CompositionSchema.plugin(idvalidator);
 
 // save this as a model so we can access it
 mongoose.model('Composition', CompositionSchema);

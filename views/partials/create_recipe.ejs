@@ -19,21 +19,22 @@
           <h2>Add Ingredient</h2>
           <input class="form-inline" ng-model="currentIngredient.name" placeholder="ingredient name"> 
           <input class="form-inline" ng-model="currentIngredient.quantity" placeholder="quantity">
-          <input class="form-inline"  ng-model="currentIngredient.unit" placeholder="unit"> 
+          <input class="form-inline"  ng-model="currentIngredient.units" placeholder="units"> 
           <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()">+</button>
         </div>
         <table class="table table-hover">
-          <tr ng-repeat="ingredient in combinedIngredients | filter: currentIngredient.name | limitTo : 5">
+          <tr ng-repeat="ingredient in combinedIngredients | filter: currentIngredient.name | limitTo : 5" ng-class="ingredient.type">
             <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
               <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
           </tr>
         </table>
         <h2>Recipe Ingredients: {{ingredients.length}}</h2>
         <table class="table table-hover">
-          <tr ng-repeat="ingredient in ingredients">
+          <tr ng-repeat="ingredient in ingredients" ng-class="ingredient.type">
             <td class="ingredientTableData">{{ingredient.name}}</td>
             <td class="ingredientTableData">{{ingredient.quantity}}</td>
-            <td class="ingredientTableData">{{ingredient.unit}}</td>
+            <td class="ingredientTableData">{{ingredient.units}}</td>
+            <td class="ingredientTableData">{{ingredient.type}}</td>
             <td><button class="btn" ng-click="removeIngredient($index)">-</button></td>
           </tr>
         </table>

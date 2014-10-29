@@ -162,29 +162,33 @@ router.post('/new/', function(req, res, next){
  
     var recipeArray = [];
     req.body.ingredients.forEach(function(ingredient){
-        if((ingredient.AbstractIngredientSchema_id == undefined) && (ingredient.PrimitiveIngredientSchema_id == undefined)){
+        if(ingredient.type == "composition"){
           var id = ingredient.CompositionSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'Composition':id});
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'Composition':ingredient._id});
         }
-        else if((ingredient.CompositionSchema_id == undefined) && (ingredient.PrimitiveIngredientSchema_id == undefined)){
+        else if(ingredient.type == "abstract"){
           var id = ingredient.AbstractIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'AbstractIngredient':id});
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'AbstractIngredient':ingredient._id});
         }
-        else if((ingredient.CompositionSchema_id == undefined) && (ingredient.AbstractIngredientSchema_id == undefined)){
+        else if(ingredient.type == "primitive"){
           var id = ingredient.PrimativeIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'PrimativeIngredient':id});
+          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'PrimativeIngredient':ingredient._id});
         }
     });
 
-    console.log(recipeArray);
     newComposition.name = req.body.name;
     newComposition.recipe = recipeArray;
     newComposition.instruction = req.body.instruction;
+    console.log(newComposition);
     newComposition.save(function(err, savedComposition){
-      if(err)
+      if(err){
         res.send(err);
-      var compParentId = find(savedComposition.CompositionSchema_id);
-      console.log(compParentID);
+      }
+      else
+      {
+        res.send(savedComposition);
+      }
+
     });
 
 
