@@ -182,13 +182,13 @@ router.post('/new/', function(req, res, next){
     console.log(newComposition);
     newComposition.save(function(err, savedComposition){
       if(err){
-        res.send(err);
+        console.log(err);
       }
       else
       {
+        console.log("successfully saved");
         res.send(savedComposition);
       }
-
     });
 
 
