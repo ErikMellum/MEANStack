@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var idvalidator = require('mongoose-id-validator');
 
 //define our composition table
 var CompositionSchema = new mongoose.Schema({
@@ -47,7 +46,43 @@ CompositionSchema.methods.incInstanceValueReview = function(AI, rating){
     }
     CompositionSchema.methods.incInstanceValueRating(this);
 }
-CompositionSchema.plugin(idvalidator);
 
+/**
+ *  Validates reference ID of our ingredients
+ * @param  {ingredient array}   value 
+ * @param  {int}   i
+ * @param  {Function} next
+ * @param  {Function} done
+ * Author: Jayd
+ */
+function validateIngredients(value, i, next, done){
+    // base case, end of array
+    if(!value[i]){
+        next();
+        return;
+    }
+    mongoose.model('Composition').findOne({_id: value[i].Composition}, function (err1, comp) {
+        mongoose.model('AbstractIngredient').findOne({_id: value[i].AbstractIngredient}, function (err2, abst) {
+            mongoose.model('PrimitiveIngredient').findOne({_id: value[i].PrimitiveIngredient}, function (err3, prim) {
+                if(!(comp || abst || prim)){
+                    done("fuck cakes");
+                    return;
+                }
+                validateIngredients(value, i+1, next, done);
+            });
+        });
+    });
+}
+/**
+ * Executes before composition is saved
+ * @param  {Function} next
+ * @param  {Function} done
+ * Author: Jayd
+ */
+CompositionSchema.pre("save", function(next, done) {
+    var self = this;
+    console.log("pre save!");
+    validateIngredients(self.recipe, 0, next, done);
+});
 // save this as a model so we can access it
 mongoose.model('Composition', CompositionSchema);

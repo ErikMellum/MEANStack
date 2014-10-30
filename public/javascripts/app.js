@@ -205,6 +205,7 @@ Composition.find(function(compResult){
 
   compResult = compResult.map(function(comp){ comp.type = "composition"; return comp;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
+  console.log($scope.combinedIngredients[0]);
 });
 
 PrimitiveIngredient.find(function(primResult){
@@ -216,6 +217,8 @@ AbstractIngredient.find(function(abstResult){
   abstResult = abstResult.map(function(abst){ abst.type = "abstract"; return abst;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(abstResult);
 });
+
+
 
 $scope.test = "Test";
 $scope.count = '0';

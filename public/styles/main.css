@@ -221,6 +221,9 @@ input{
 .shrink-pic{
   width: 78%;
 }
+div.grey-panel.pn.donut-chart{
+  height: 68%;
+}
 
 /*
 Template Name: DASHGUM FREE - Bootstrap 3.2 Admin Theme
