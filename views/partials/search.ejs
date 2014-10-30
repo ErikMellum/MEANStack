@@ -38,24 +38,17 @@
        <ul class="sidebar-menu" id="nav-accordion">
             <h5 class="centered">Ingredients Added</h5>
 
-            <li ng-animate="'animate'"class="mt animatedRepeat"  ng-repeat="ingredient in chosen_ingredients">
-                <a class="active ingredientText">
+            <li ng-animate="'animate'"class="animatedRepeat"  ng-repeat="ingredient in chosen_ingredients">
+                <a class="ingredientText">
                     <span><i class="fa fa-check-circle"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(chosen_ingredients, $index)"></i>
                 </a>
             </li>
-            <br>
-            <br>
-            <h5 class="centered">Ingredients Excluded</h5>
-            <li ng-animate="'animate'" class="mt excludedIngredient animatedRepeat" ng-repeat="ingredient in excluded_ingredients">
-                <a class="active excludedIngredient ingredientText" >
+            <li ng-animate="'animate'" class="excludedIngredient animatedRepeat" ng-repeat="ingredient in excluded_ingredients">
+                <a class="excludedIngredient ingredientText" >
                     <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
                 </a>
             </li>
         </ul>
-
-        <br>
-        <br>
-        <div class="sidebarMoveUp">
         <hr>
         <h5 class="centered">Ingredient Filter</h5>
         <div style=" text-align: center; margin: 0 auto;">
@@ -91,7 +84,6 @@
           <span style="color: white;" >Chinese</span><input name="diet" type="radio" ng-model="chinese">
           <span style="color: white;" >Mexican</span><input name="diet" type="radio" ng-model="mexican">
           <span style="color: white;" >Indian</span><input name="diet" type="radio" ng-model="indian">
-        </div>
         </div>
         <!-- sidebar menu end-->
     </div>
@@ -138,12 +130,14 @@ MAIN CONTENT
               <div class="col-md-5 popRecipe" ng-repeat="recipe in topRecipes">
                 <div class="grey-panel pn donut-chart">
                   <div class="grey-header">
-                    <h5>{{recipe.name}} - {{recipe.totalTimeInSeconds/60}} Minutes</h5>
+                    <h5>{{recipe.name}}<span ng-if="recipe.totalTimeInSeconds != 0"> - {{recipe.totalTimeInSeconds/60}} Minutes</span></h5>
                   </div>
                   <div class="row">
                     <div class="centered">
                       <img ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
+                      
                     </div>
+                    <br>
                     <button type="button" class="btn btn-theme04" ng-click="details($index)">View Recipe</button>
                   </div>
                   <h2><i class="fa fa-heart"></i><span ng-if="recipe.rating != 0">{{recipe.rating}} </span></h2>
@@ -186,5 +180,5 @@ RIGHT SIDEBAR CONTENT
 
 
 <script>
-$("#sidebar").niceScroll({styler:"fb",cursorcolor:"#4ECDC4", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', spacebarenabled:false, cursorborder: '', autohidemode: false});
+$("#sidebar").niceScroll({styler:"fb",cursorcolor:"#4ECDC4", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', spacebarenabled:false, cursorborder: '', autohidemode: true});
 </script>
