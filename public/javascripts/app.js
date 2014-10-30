@@ -45,8 +45,13 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   }
 
 }]);
+/**
+ * ingredientController is included in the controllers.js
+ */
 var ingredientController = angular.module('ingredientController', ['ngEnter', 'theIngredientService']);
-
+/**
+ * ingredientController is used to do CRUD with ingredient models, as well as prepare the create ingredient page data for the user
+ */
 ingredientController.controller('IngredientController', ['$scope','$http', 'TmpIngredient', 'AbstractIngredient', 'PrimitiveIngredient', 
   function($scope, $http, TmpIngredient, AbstractIngredient, PrimitiveIngredient) {
   //for unit test
@@ -57,29 +62,44 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   $scope.tmpIngredients = TmpIngredient.find();
   //set up abstract ingredients list
   $scope.abstractIngredients = AbstractIngredient.find();
-
+  //set up primitive ingredients list
   $scope.primitiveIngredients = PrimitiveIngredient.find();
 
 
-
-  //clear will set the currentIngredient to be nothing, and the ingredient name
-  //field to be nothing
+  /**
+    clear will set the currentIngredient to be nothing, and the ingredient name
+    field to be nothing
+  **/
   $scope.clear= function() {
     $scope.ingredientName = "";
     $scope.currentIngredient = "";
   }
-
+  /**
+   * setIngredient sets the current ingredient and the ingredient name field
+   * to be that of the passed in ingredient
+   * @param {Ingredient} ingredient
+   */
   $scope.setIngredient = function(ingredient){
     $scope.currentIngredient = ingredient;
     $scope.ingredientName = ingredient.name;
   }
-
+  /**
+   * setIngredientParent is used to set the parentName and parent (id) of the 
+   * currentIngredient being added
+   * @param {Ingredient} ingredient
+   */
   $scope.setIngredientParent = function(ingredient){
     $scope.currentIngredient.parentName = ingredient.name;
     $scope.currentIngredient.parent = ingredient._id;
   }
 
-
+  /**
+   * delete is called after you submit a new ingredient - it removes the temporary
+   * ingredient that was used as seed data for the new abstract / primitive
+   * it also updates the tmpIngredientList to not include that ingredient
+   * @param  {String} ingredientType - 'tempIngredient' or 'abstractIngredient'
+   * @param  {Ingredient} ingredient
+   */
   $scope.delete= function(ingredientType, ingredient) {
     if(ingredientType == "tempIngredient")
     {
@@ -100,8 +120,10 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
       });
     }
   }
-  // This will attempt to locate an abstract ingredient using the parent name on the
-  // current ingredient. It will then set the currentIngredient's parent (which is an id)
+  /**
+  * This will attempt to locate an abstract ingredient using the parent name on the
+  * current ingredient. It will then set the currentIngredient's parent (which is an id)
+  **/
   $scope.locateParentIdByName = function(){
     if($scope.currentIngredient.parentName != "" && $scope.currentIngredient.parent == "")
     {
@@ -111,11 +133,22 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
       });
     }
   }
-
+  /**
+  * This will clear the parent name and parent (id) fields on the currentIngredient
+  **/
   $scope.clearParent = function() {
     $scope.currentIngredient.parentName = "";
     $scope.currentIngredient.parent = "";
   }
+
+  /**
+   * submitNewIngredient will look at the unique field and if true it will create
+   * a primitive ingredient, and if false, it will create an abstractIngredient.
+   * Either ingredient will be created using the currentIngredient data and 
+   * upon the successful creation the of primitives / abstracts will be updated
+   * to include the newly added ingredient.
+   * @return {[type]}
+   */
   $scope.submitNewIngredient = function(){
     var primitiveIngredient;
     var abstractIngredient;
@@ -450,7 +483,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
   $scope.load();
 }]);
-var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm']);
+var directives = angular.module('TheDirectives', ['ngEnter', 'ngConfirm', 'draggable', 'droppable', 'editable']);
 
 var draggable = angular.module('draggable', []);
 
@@ -537,6 +570,31 @@ droppable.directive('droppable', function() {
         }
     }
 });
+var editable = angular.module('editable', []);
+
+editable.directive('editable', function() {
+    var editTemplate = '<input style="cursor: text" ng-model="editable" ng-click="switchToShow()" ng-show="editingMode">';
+    var showTemplate = '<span style="cursor: text" ng-hide="editingMode" ng-dblclick="switchToEdit()" ng-bind="editable"></span>';
+    return{
+        restrict: 'E',
+        //scope:{ data }, breaks the moment you uncomment this line for some reason.... even without the data
+        compile: function (tElement, tAttrs, transclude){
+            tElement.html(editTemplate);
+            tElement.append(showTemplate);
+            return function(scope, element, attrs) {
+                scope.editingMode = false;
+                //scope.editable = scope.data;
+                scope.editable = "Something";
+                scope.switchToShow = function () {
+                    scope.editingMode = false;
+                }
+                scope.switchToEdit = function () {
+                    scope.editingMode = true;
+                }
+            }
+        }
+    }
+});
 var ngConfirm = angular.module('ngConfirm', []);
 ngConfirm.directive('ngConfirm', function () {
   return {
@@ -570,7 +628,7 @@ ngEnter.directive('ngEnter', function() {
         });
     };
 });
-var myApp = angular.module('myApp', ['ngRoute','TheControllers']);
+var myApp = angular.module('myApp', ['ngRoute','TheControllers', 'TheDirectives']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
