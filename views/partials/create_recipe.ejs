@@ -65,7 +65,7 @@
           </tr>
           <tr ng-repeat="step in steps">
             <td class="ingredientTableData">Step #{{$index+1}}</td>
-            <td class="stepTableData">{{step.name}}</td>
+            <td class="stepTableData"><editable data="somedata"></editable></td>
             <td class="stepTableData">{{step.details}}</td>
             <td><button class="btn" ng-click="removeStep($index)">-</button></td>
           </tr>
