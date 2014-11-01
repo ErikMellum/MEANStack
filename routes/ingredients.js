@@ -110,6 +110,7 @@ router.post('/abstracts', function(req,res) {
   var abstract = new AbstractIngredient();
   console.log(req.body)
   abstract.name = req.body.name;
+  console.log(abstract);
   //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
   //abstract.parent = req.body.parent;
   abstract.save(function(err) {

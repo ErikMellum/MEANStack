@@ -5,6 +5,7 @@ var http = require('http');
 
 
 //require our models
+require('../models/Ingredient');
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
@@ -15,6 +16,7 @@ require('../models/Review');
 require('../models/Unit');
 
 // define our objects
+var Ingredient = mongoose.model('Ingredient');
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
@@ -162,19 +164,8 @@ router.post('/new/', function(req, res, next){
  
     var recipeArray = [];
     req.body.ingredients.forEach(function(ingredient){
-        if(ingredient.type == "composition"){
-          var id = ingredient.CompositionSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'Composition':ingredient._id});
-        }
-        else if(ingredient.type == "abstract"){
-          var id = ingredient.AbstractIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'AbstractIngredient':ingredient._id});
-        }
-        else if(ingredient.type == "primitive"){
-          var id = ingredient.PrimativeIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'PrimativeIngredient':ingredient._id});
-        }
-    });
+      recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'ingredient':ingredient._id});
+   });
 
     newComposition.name = req.body.name;
     newComposition.recipe = recipeArray;
@@ -190,66 +181,61 @@ router.post('/new/', function(req, res, next){
         res.send(savedComposition);
       }
     });
-
-
-
-    /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
-    //Search DB for ChildID, push onto ChildID array; via sub query//
-    // *** //
-    //Search DB for ParentID, push onto ParentID array; via sub query//
-    // *** //
-    //Save Composition//
-    /*
-    composition.save(function(err, composition){
-      if (err)
-        res.send(err);
-      res.json(composition); //Return Json Object
-    });
-    */
-
 });
 // https://www.digitalocean.com/community/tutorials/how-to-use-node-js-request-and-cheerio-to-set-up-simple-web-scraping
 
-// This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
+// This route searches for recipes with specific ingredients
 // Will return a list of recipes
 // route example: http://localhost:3000/api/composition/ingredients/Cheese/Pizza Sauce/Pizza Dough
 router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
   // our params regex will capture something like "/Cheese/Pizza Sauce/Pizza Dough", so split it
   var needle = req.params[0].split('/');
   // uncomment for testing purposes
-  // console.log("requested params:");
-  // console.log(needle);
-
+  console.log("requested params:");
+  console.log(needle);
   // let's make a collection of the IDs we'll need to search for
   // so search our ingredient schema for our list of ingredients
-  var ingredientStream = AbstractIngredient.find({name: {$in: needle}}).stream();
-  // keep our found ingredient IDs in this array
-  var ingredientIds = [];
-  ingredientStream.on('data', function (ingredient) {
-    ingredientIds.push(ingredient.id)
-    // uncomment for testing
-    // console.log("Found this with name:" + ingredient.name);
-    // console.log(ingredient);
+  var query = {name: {$in: needle}};
+  var combined = [];
+  AbstractIngredient.find(query, function(err, abstr){
+    combined = combined.concat(abstr);
+    PrimitiveIngredient.find(query, function(err, prim){
+      combined = combined.concat(prim);
+      Composition.find(query, function(err, comp){
+        combined = combined.concat(comp);
+        var ingredientIds = [];
+        //foreach is blocking
+        combined.forEach(function(ingredient){ 
+          ingredientIds.push(ingredient.id)
+          // uncomment for testing
+          console.log("Found this with name:" + ingredient.name);
+          console.log(ingredient);
+
+          searchCompositions(ingredientIds);
+        });
+      });
+    });
   });
 
-  // when the ingredient search is done, the close event is called
-  ingredientStream.on('close', function () {
+
+    function searchCompositions(ingredientIds){
+    console.log(ingredientIds);
     // if one of our ingredients wasn't found, return a message
     // this causes a headers already sent error for some reason
     if(needle.length > ingredientIds.length)
     {
       res.json("Not all ingredients found in database!");
-      return next();
+      return;
     }
 
     // now let's make a collection of recipes that contain those IDs
-    var compositionStream = Composition.find({'recipe.AbstractIngredient': {$all: ingredientIds}}).stream();
+    var compositionStream = Composition.find({'recipe.ingredient': {$all: ingredientIds}}).stream();
     // keep those recipes in this array
     var recipes = [];
     compositionStream.on('data', function(composition){
       // uncomment for testing
-      // console.log("Pushing this recipe: ");
-      // console.log(composition);
+      console.log("Pushing this recipe: ");
+      console.log(composition);
 
       // push this composition to our array
       recipes.push(composition);
@@ -259,7 +245,7 @@ router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
       // output the recipes json
       res.json(recipes);
     });
-  });
+  }
 });
 
 router.delete('/:composition_id', function(req, res){

@@ -74,6 +74,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     var abstractIngredient;
     var tmpIngredient;
     var params;
+    $scope.currentIngredient.name = $scope.ingredientName;
     $scope.locateParentIdByName();
     // true means that you are creating a primitive, false an abstract
     if($scope.currentIngredient.unique == true)
