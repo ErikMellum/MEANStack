@@ -40,8 +40,17 @@ router.post('/', function(req, res, next){
   
   TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
     if(recipe === null){
-      console.log("calling yummly");
-      callYummly();
+      Composition.findOne({id: recipeId}), function(err, comp){
+        if(!comp){
+          console.log("calling yummly");
+          callYummly();
+        }
+        else
+        {
+          res.json(comp);
+        }
+      }
+
     }
     else{
       console.log("found!");
