@@ -101,53 +101,105 @@ router.post('/withIngredients/', function(req, res, next){
   // test array of ingredients for now
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
+  var query = {name: {$in: ingredients}};
+  var combined = [];
+  AbstractIngredient.find(query, function(err, abstr){
+    combined = combined.concat(abstr);
+    PrimitiveIngredient.find(query, function(err, prim){
+      combined = combined.concat(prim);
+      Composition.find(query, function(err, comp){
+        combined = combined.concat(comp);
+        var ingredientIds = [];
+        //foreach is blocking
+        combined.forEach(function(ingredient){ 
+          ingredientIds.push(ingredient.id)
+          // uncomment for testing
+          console.log("Found this with name:" + ingredient.name);
+          console.log(ingredient);
+        });
+        searchCompositions(ingredientIds);
+      });
+    });
+  });
 
-  // the yummly API key embedded URL
-  // suffixed with start of ingredients syntax
-  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
 
-  // combine url and ingredients
-  url += ingredients.join('&allowedIngredient[]=');
-    // uhh, yeah. gotta get rid of those special characters
-    if (excluded.length){
-      url += "&excludedIngredient[]="
-      url += excluded.join('&excludedIngredient[]=');
+  function searchCompositions(ingredientIds){
+    console.log(ingredientIds);
+    // if one of the ingredients wasn't found in our db, don't even bother searching for compositions
+    if(ingredients.length > ingredientIds.length)
+    {
+      searchYummly([]);
+      return;
     }
 
-  url = encodeURI(url);
+    // now let's make a collection of recipes that contain those IDs
+    var compositionStream = Composition.find({'recipe.ingredient': {$all: ingredientIds}}).stream();
+    // keep those recipes in this array
+    var recipes = [];
+    compositionStream.on('data', function(composition){
+      // uncomment for testing
+      console.log("Pushing this recipe: ");
+      console.log(composition);
 
-  // for testing
-  console.log(url);
-
-  // gets remote data
-  http.get(url, function(remoteRes) {
-    // testing
-     console.log("Got response: " + remoteRes.statusCode);
-    var recipesResponse;
-    var body = ""
-    remoteRes.on('data', function(data) {
-      // collect the data stream
-      body += data;
+      // push this composition to our array
+      recipes.push(composition);
     });
-    remoteRes.on('end', function() {
-      // TODO: maybe this can be made recursive?
-      recipesResponse = JSON.parse(body).matches;
-      // loop through recipes and extract and create ingredients
-      recipesResponse.forEach(function(recipe){
-        recipe.ingredients.forEach(function(ingredient){
-            // console.log(ingredient)
-            var tmpIngredient = new TmpIngredient();
-            tmpIngredient.name = ingredient;
-            tmpIngredient.save();
-        });
-      })
-
-      // send our response
-      res.json(recipesResponse);
+    // done searching
+    compositionStream.on('close', function(){
+      searchYummly(recipes);
     });
-  }).on('error', function(e) {
-      console.log("Got error: " + e.message);
-  });
+  }
+
+  function searchYummly(recipes){
+
+      // the yummly API key embedded URL
+    // suffixed with start of ingredients syntax
+    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredients[]='
+
+    // combine url and ingredients
+    url += ingredients.join('&allowedIngredients[]=');
+      // uhh, yeah. gotta get rid of those special characters
+      if (excluded.length){
+        url += "&excludedIngredients[]="
+        url += excluded.join('&excludedIngrediens[]=');
+      }
+
+    url = encodeURI(url);
+
+    // for testing
+    console.log(url);
+
+    // gets remote data
+    http.get(url, function(remoteRes) {
+      // testing
+       console.log("Got response: " + remoteRes.statusCode);
+      var recipesResponse;
+      var body = ""
+      remoteRes.on('data', function(data) {
+        // collect the data stream
+        body += data;
+      });
+      remoteRes.on('end', function() {
+        // TODO: maybe this can be made recursive?
+        recipesResponse = JSON.parse(body).matches;
+        // loop through recipes and extract and create ingredients
+        recipesResponse.forEach(function(recipe){
+          recipe.ingredients.forEach(function(ingredient){
+              // console.log(ingredient)
+              var tmpIngredient = new TmpIngredient();
+              tmpIngredient.name = ingredient;
+              tmpIngredient.save();
+          });
+        })
+
+        var combined = recipes.concat(recipesResponse);
+        // send our response
+        res.json(combined);
+      });
+    }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+    });
+  }
 });
 
 /**
@@ -195,57 +247,7 @@ router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
   console.log(needle);
   // let's make a collection of the IDs we'll need to search for
   // so search our ingredient schema for our list of ingredients
-  var query = {name: {$in: needle}};
-  var combined = [];
-  AbstractIngredient.find(query, function(err, abstr){
-    combined = combined.concat(abstr);
-    PrimitiveIngredient.find(query, function(err, prim){
-      combined = combined.concat(prim);
-      Composition.find(query, function(err, comp){
-        combined = combined.concat(comp);
-        var ingredientIds = [];
-        //foreach is blocking
-        combined.forEach(function(ingredient){ 
-          ingredientIds.push(ingredient.id)
-          // uncomment for testing
-          console.log("Found this with name:" + ingredient.name);
-          console.log(ingredient);
 
-          searchCompositions(ingredientIds);
-        });
-      });
-    });
-  });
-
-
-    function searchCompositions(ingredientIds){
-    console.log(ingredientIds);
-    // if one of our ingredients wasn't found, return a message
-    // this causes a headers already sent error for some reason
-    if(needle.length > ingredientIds.length)
-    {
-      res.json("Not all ingredients found in database!");
-      return;
-    }
-
-    // now let's make a collection of recipes that contain those IDs
-    var compositionStream = Composition.find({'recipe.ingredient': {$all: ingredientIds}}).stream();
-    // keep those recipes in this array
-    var recipes = [];
-    compositionStream.on('data', function(composition){
-      // uncomment for testing
-      console.log("Pushing this recipe: ");
-      console.log(composition);
-
-      // push this composition to our array
-      recipes.push(composition);
-    });
-    // done searching
-    compositionStream.on('close', function(){
-      // output the recipes json
-      res.json(recipes);
-    });
-  }
 });
 
 router.delete('/:composition_id', function(req, res){
