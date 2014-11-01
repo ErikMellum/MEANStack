@@ -30,7 +30,15 @@
         </table>
         <h2>Recipe Ingredients: {{ingredients.length}}</h2>
         <table class="table table-hover">
+          <tr>
+            <td>Number</td>
+            <td>Name</td>
+            <td>Quantity</td>
+            <td>Units</td>
+            <td>Type</td>
+          </tr>
           <tr ng-repeat="ingredient in ingredients" ng-class="ingredient.type">
+            <td class="ingredientTableData">Ingredient #{{$index+1}}</td>
             <td class="ingredientTableData">{{ingredient.name}}</td>
             <td class="ingredientTableData">{{ingredient.quantity}}</td>
             <td class="ingredientTableData">{{ingredient.units}}</td>
@@ -42,14 +50,22 @@
         <div class="form-group">
           <h2>Add Step</h2>
           <input class="form-inline" ng-model="currentStep.name" placeholder="Name of step"> 
-          <input class="form-inline" ng-model="currentStep.details" placeholder="Details on how to perform this step">
+          <br>
+          <textarea cols="50" rows="5" ng-model="currentStep.details" placeholder="Details on how to perform this step"></textarea>
+          <br>
           <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addStep()">+</button>
         </div>
         
         <h2>Recipe Steps: {{steps.length}}</h2>
         <table class="table table-hover">
+          <tr>
+            <td>Number</td>
+            <td>Name</td>
+            <td>Instruction</td>
+          </tr>
           <tr ng-repeat="step in steps">
-            <td class="stepTableData">{{step.name}}</td>
+            <td class="ingredientTableData">Step #{{$index+1}}</td>
+            <td class="stepTableData"><editable data="somedata"></editable></td>
             <td class="stepTableData">{{step.details}}</td>
             <td><button class="btn" ng-click="removeStep($index)">-</button></td>
           </tr>
