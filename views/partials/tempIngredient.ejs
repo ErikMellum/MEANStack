@@ -59,5 +59,63 @@
           </div><!-- /col-lg-9 END SECTION MIDDLE -->
             
         </div><!-- /row -->
+
+        <div class="row mt">
+              <div class="col-lg-10">
+                  <div class="form-panel create-form">
+
+                      <h2 class="mb"><i class="fa fa-angle-right"></i> Create Ingredient</h2>
+                      <form id="surveyForm" method="get" class="form-horizontal style-form">
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Ingredient Name:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="recipeName" type="text" class="form-control" placeholder="Enter the name of the ingredient" autofocus>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Brand Name:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="recipeName" type="text" class="form-control" placeholder="Optional" autofocus>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Abstract Parent:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="recipeName" type="text" class="form-control" placeholder="" autofocus>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-offset-1 col-sm-2 checkbox-inline">
+                                <input type="checkbox">
+                                <strong>Unique</strong>
+                              </label>
+                              <label class="col-sm-offset-2 col-sm-2 checkbox-inline">
+                                <input type="checkbox">
+                                <strong>Processed</strong>
+                              </label>
+                          </div>
+
+                          <div class="form-group">
+                              <div class="col-sm-5 col-sm-offset-5">
+                                  <button ng-click="inputRecipe(recipeName)" type="submit" class="btn btn-theme04">
+                                    <i class="fa fa-check"></i>
+                                    Create
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div><!-- col-lg-12-->       
+            </div><!-- /row -->
     </section>
 </section>
