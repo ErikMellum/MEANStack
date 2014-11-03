@@ -58,11 +58,15 @@ function validateIngredients(value, i, next, done){
         return;
     }
     mongoose.model('AbstractIngredient').find({_id: value[i].ingredient}, function (err1, abstr) {
-        if(!abstr){           
-            done("fuck cakes");
-            return;
-        }   
-        validateIngredients(value, i+1, next, done);
+        mongoose.model('Composition').find({_id: value[i].ingredient}, function (err2, comp) {
+            mongoose.model('PrimitiveIngredient').find({_id: value[i].ingredient}, function (err3, prim) {
+                if(!(abstr || comp || prim){           
+                    done("Error: ID not found in ingredient database.");
+                    return;
+                }   
+                validateIngredients(value, i+1, next, done);
+            });
+        });
     });
 }
 /**
