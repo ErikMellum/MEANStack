@@ -115,13 +115,25 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       $scope.displayRecipes();
   }
     $scope.details = function(index){
-      var postObject = {"recipeId" : $scope.dataArray[index].id};
-        $http.post("/api/compositions/", postObject).success(function(data) {
-         if (detailsService.setData(data)){
-          $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
+      var theRecipe, postObject;
+      theRecipe = $scope.dataArray[index];
+      postObject = {};
+      // if _id exists, it's from our db
+      if(theRecipe._id){
+        postObject.recipeId = theRecipe._id;
+        postObject.type = theRecipe.__t;
       }
+      else{
+        postObject.recipeId = theRecipe.id;
+        postObject.type = "yummly";
+      }
+
+      $http.post("/api/compositions/", postObject).success(function(data) {
+       if (detailsService.setData(data)){
+          $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
+        }
+      });
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
-    });
   }
   $scope.load = function() {
     $scope.recipes = [];
@@ -165,32 +177,38 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
-        $http.post(url, postObject).success(function(data) {
-          $scope.dataArray = data;
-            data.forEach(function(recipe){
-              $scope.recipes.push(recipe);
-              dataService.addRecipe(recipe);
-          });
+      $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
+          data.forEach(function(recipe){
+            $scope.recipes.push(recipe);
+            dataService.addRecipe(recipe);
+           });
         //reset the topRecipes array
         $scope.topRecipes = [];
+        var r1, r2;
+        r1 = $scope.recipes[0];
+        r2 = $scope.recipes[1];
         //add the top two recipes from the results to the topRecipes array
-        $scope.topRecipes.push($scope.recipes[0]);
-        $scope.topRecipes.push($scope.recipes[1]);
+        $scope.topRecipes.push(r1);
+        $scope.topRecipes.push(r2);
         //remove the top two recipes from the recipes array so we don't see them twice
         $scope.recipes.splice(0,2);
         //get the detailed recipe contents for our top recipes (need the larger image)
-        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[0].id}).success(function(data) {
+        var postObject1, postObject2;
+
+        // construct postObjects
+        postObject1 = r1._id ? {"recipeId" : r1._id, "type": r1.__t} : {"recipeId" : r1.id, "type": "yummly"};
+        postObject2 = r2._id ? {"recipeId" : r2._id, "type": r2.__t} : {"recipeId" : r2.id, "type": "yummly"};
+        $http.post("/api/compositions/", postObject1).success(function(data) {
           $scope.topRecipes[0] = data;
           dataService.addTopRecipe0(data);
         });
-        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[1].id}).success(function(data) {
+        $http.post("/api/compositions/", postObject2).success(function(data) {
           $scope.topRecipes[1] = data;
            dataService.addTopRecipe1(data);
-        });
-        
-        });
-
-      }
+        });  
+      });
+    }
   }
   $scope.load();
 }]);
