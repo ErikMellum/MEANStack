@@ -57,8 +57,8 @@ function validateIngredients(value, i, next, done){
         next();
         return;
     }
-    mongoose.model('Ingredient').find({_id: value[i].ingredient}, function (err1, comp) {
-        if(!comp){           
+    mongoose.model('AbstractIngredient').find({_id: value[i].ingredient}, function (err1, abstr) {
+        if(!abstr){           
             done("fuck cakes");
             return;
         }   
