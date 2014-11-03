@@ -130,7 +130,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       $http.post("/api/compositions/", postObject).success(function(data) {
        if (detailsService.setData(data)){
-          $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
+          var id = data._id ? data._id : data.id;
+          $window.location.href = "/#/details/"+id; //redirecting the user to the details partial
         }
       });
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
