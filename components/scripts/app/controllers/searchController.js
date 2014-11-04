@@ -147,6 +147,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
           $scope.topRecipes[1] = dataService.getTopRecipe1();
         };
+         $scope.recipes.splice(0,2);
     }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
@@ -167,12 +168,9 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
-          var counter = 1;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
-              if (counter > 2)
                 dataService.addRecipe(recipe);
-              counter ++;
           });
         //reset the topRecipes array
         $scope.topRecipes = [];
