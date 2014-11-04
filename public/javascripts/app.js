@@ -684,7 +684,6 @@ theDataService.service('dataService', function(){
   }
   var addRecipe = function(data){
     recipes.push(data);
-    console.log("put");
   }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
