@@ -26,11 +26,11 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
        $scope.ingredients = detailsService.getIngredients();
      });
   }
-  $scope.load(); //calling the load function so we can make the api call to populate the recipe data before the page loads
   $scope.yieldExists = function() {
     if ($scope.recipeData.yield)
       return true;
     return false;
   }
+  $scope.load(); //calling the load function so we can make the api call to populate the recipe data before the page loads
 
 }]);
