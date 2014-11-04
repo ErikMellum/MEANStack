@@ -459,9 +459,12 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
+          var counter = 1;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
-              dataService.addRecipe(recipe);
+              if (counter > 2)
+                dataService.addRecipe(recipe);
+              counter ++;
           });
         //reset the topRecipes array
         $scope.topRecipes = [];
