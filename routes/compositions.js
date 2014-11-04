@@ -172,14 +172,14 @@ router.post('/withIngredients/', function(req, res, next){
 
       // the yummly API key embedded URL
     // suffixed with start of ingredients syntax
-    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredients[]='
+    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
 
     // combine url and ingredients
-    url += ingredients.join('&allowedIngredients[]=');
+    url += ingredients.join('&allowedIngredient[]=');
       // uhh, yeah. gotta get rid of those special characters
       if (excluded.length){
-        url += "&excludedIngredients[]="
-        url += excluded.join('&excludedIngrediens[]=');
+        url += "&excludedIngredient[]="
+        url += excluded.join('&excludedIngredient[]=');
       }
 
     url = encodeURI(url);

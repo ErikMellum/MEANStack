@@ -130,7 +130,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       $http.post("/api/compositions/", postObject).success(function(data) {
        if (detailsService.setData(data)){
-          var id = data._id ? "$"+data._id : data.id;
+          var id = data.__t ? "$"+data._id : data.id;
           $window.location.href = "/#/details/"+id; //redirecting the user to the details partial
         }
       });

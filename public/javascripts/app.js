@@ -426,7 +426,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       $http.post("/api/compositions/", postObject).success(function(data) {
        if (detailsService.setData(data)){
-          var id = data._id ? "$"+data._id : data.id;
+          var id = data.__t ? "$"+data._id : data.id;
           $window.location.href = "/#/details/"+id; //redirecting the user to the details partial
         }
       });
@@ -688,43 +688,6 @@ myApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
-<<<<<<< HEAD
-var theIngredientService = angular.module('theIngredientService', ['ngResource']);
-
-theIngredientService.factory('PrimitiveIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/primitiveIngredients', {}, {
-      find: {method:'GET', params:{ingredientId: 'primitiveIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-theIngredientService.factory('TmpIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/tmpIngredients', {}, {
-      find: {method:'GET', params:{ingredientId:'tmpIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'tmpIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-theIngredientService.factory('AbstractIngredient', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/abstractIngredients', {}, {
-      find: {method:'GET', params:{ingredientId:'abstractIngredients'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'abstractIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-theIngredientService.factory('Composition', ['$resource',
-  function($resource){
-    return $resource('api/ingredients/compositions', {}, {
-      find: {method:'GET', params:{ingredientId: 'compositions'}, isArray:true},
-      //create: {method:'POST', params:{newIngredient: 'primitiveIngredients'}, isArray:true}
-      //find: {method:'GET', params:{phoneId:'phones'}, isArray:true}
-    });
-}]);
-=======
->>>>>>> f9e77bde09afc583c84ff8410e1bbc11c0b8288c
 var theDataService = angular.module('theDataService', ['ngResource', 'theIngredientService']);
 
 
