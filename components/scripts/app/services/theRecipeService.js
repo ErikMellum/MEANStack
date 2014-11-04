@@ -2,7 +2,8 @@ var theRecipeService = angular.module('theRecipeService', ['ngResource', 'theIng
 
 theRecipeService.service('detailsService', function(){
   var recipeData= "";
-  var ingredients = []; 
+  var ingredients = [];
+  var type = "yummly"; 
 
   var setData = function(data) {
       ingredients = [];
@@ -10,6 +11,12 @@ theRecipeService.service('detailsService', function(){
         for (var i =0; i < data.ingredientLines.length; i ++){
           if (data.ingredientLines[i] != data.ingredientLines[i+1])
             ingredients.push(data.ingredientLines[i]);
+        }
+      }
+      if(data.recipe){
+        type = data.__t;
+        for (var i =0; i < data.recipe.length; i ++){
+          ingredients.push(data.recipe[i].ingredient);
         }
       }
       recipeData = data;

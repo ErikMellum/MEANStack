@@ -31,7 +31,11 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   $scope.load = function() {
     var recipe_id = $window.location.href;
     recipe_id =recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length);
-    $http.post("/api/compositions/", {"recipeId" : recipe_id}).success(function(data) {
+    // this is so bad I want to puke
+    // if this is still here at the end of the semester, someone send an angry email to : Jayd_WTF_Are_You_Doing@saurdo.com
+    var type = recipe_id[0] == "$" ? "Composition" : "yummly";
+    recipe_id = type == "yummly" ? recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length) : recipe_id.slice(recipe_id.lastIndexOf('/')+2, recipe_id.length); 
+    $http.post("/api/compositions/", {"recipeId" : recipe_id, "type": type}).success(function(data) {
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
@@ -203,7 +207,6 @@ recipeController.controller('RecipeController', ['$scope','$http', 'Composition'
 $scope.combinedIngredients = [];
 // needs to be done in a callback because find is actually a promise, and completely asynchronous
 Composition.find(function(compResult){
-
   compResult = compResult.map(function(comp){ comp.type = "composition"; return comp;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
   console.log($scope.combinedIngredients[0]);
@@ -423,7 +426,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       $http.post("/api/compositions/", postObject).success(function(data) {
        if (detailsService.setData(data)){
-          var id = data._id ? data._id : data.id;
+          var id = data._id ? "$"+data._id : data.id;
           $window.location.href = "/#/details/"+id; //redirecting the user to the details partial
         }
       });
@@ -803,7 +806,8 @@ var theRecipeService = angular.module('theRecipeService', ['ngResource', 'theIng
 
 theRecipeService.service('detailsService', function(){
   var recipeData= "";
-  var ingredients = []; 
+  var ingredients = [];
+  var type = "yummly"; 
 
   var setData = function(data) {
       ingredients = [];
@@ -811,6 +815,12 @@ theRecipeService.service('detailsService', function(){
         for (var i =0; i < data.ingredientLines.length; i ++){
           if (data.ingredientLines[i] != data.ingredientLines[i+1])
             ingredients.push(data.ingredientLines[i]);
+        }
+      }
+      if(data.recipe){
+        type = data.__t;
+        for (var i =0; i < data.recipe.length; i ++){
+          ingredients.push(data.recipe[i].ingredient);
         }
       }
       recipeData = data;
