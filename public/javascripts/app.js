@@ -31,10 +31,16 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   $scope.load = function() {
     var recipe_id = $window.location.href;
     recipe_id =recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length);
-    $http.post("/api/compositions/", {"recipeId" : recipe_id}).success(function(data) {
+    // this is so bad I want to puke
+    // if this is still here at the end of the semester, someone send an angry email to : Jayd_WTF_Are_You_Doing@saurdo.com
+    var type = recipe_id[0] == "$" ? "Composition" : "yummly";
+    recipe_id = type == "yummly" ? recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length) : recipe_id.slice(recipe_id.lastIndexOf('/')+2, recipe_id.length); 
+    $http.post("/api/compositions/", {"recipeId" : recipe_id, "type": type}).success(function(data) {
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
+       console.log(recipeData);
+       console.log(ingredients);
      });
   }
   $scope.yieldExists = function() {
@@ -154,6 +160,7 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     var abstractIngredient;
     var tmpIngredient;
     var params;
+    $scope.currentIngredient.name = $scope.ingredientName;
     $scope.locateParentIdByName();
     // true means that you are creating a primitive, false an abstract
     if($scope.currentIngredient.unique == true)
@@ -202,7 +209,6 @@ recipeController.controller('RecipeController', ['$scope','$http', 'Composition'
 $scope.combinedIngredients = [];
 // needs to be done in a callback because find is actually a promise, and completely asynchronous
 Composition.find(function(compResult){
-
   compResult = compResult.map(function(comp){ comp.type = "composition"; return comp;});
   $scope.combinedIngredients = $scope.combinedIngredients.concat(compResult);
   console.log($scope.combinedIngredients[0]);
@@ -407,13 +413,26 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       $scope.displayRecipes();
   }
     $scope.details = function(index){
-      var postObject = {"recipeId" : $scope.dataArray[index].id};
-        $http.post("/api/compositions/", postObject).success(function(data) {
-         if (detailsService.setData(data)){
-          $window.location.href = "/#/details/"+data.id; //redirecting the user to the details partial
+      var theRecipe, postObject;
+      theRecipe = $scope.dataArray[index];
+      postObject = {};
+      // if _id exists, it's from our db
+      if(theRecipe._id){
+        postObject.recipeId = theRecipe._id;
+        postObject.type = theRecipe.__t;
       }
+      else{
+        postObject.recipeId = theRecipe.id;
+        postObject.type = "yummly";
+      }
+
+      $http.post("/api/compositions/", postObject).success(function(data) {
+       if (detailsService.setData(data)){
+          var id = data.__t ? "$"+data._id : data.id;
+          $window.location.href = "/#/details/"+id; //redirecting the user to the details partial
+        }
+      });
         //had to do this here because when it is in the <a href>...the page loads faster than this $http request
-    });
   }
   $scope.load = function() {
     $scope.recipes = [];
@@ -458,32 +477,47 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+<<<<<<< HEAD
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
                 dataService.addRecipe(recipe);
           });
+=======
+      $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
+          data.forEach(function(recipe){
+            $scope.recipes.push(recipe);
+            dataService.addRecipe(recipe);
+           });
+>>>>>>> sourdough
         //reset the topRecipes array
         $scope.topRecipes = [];
+        var r1, r2;
+        r1 = $scope.recipes[0];
+        r2 = $scope.recipes[1];
         //add the top two recipes from the results to the topRecipes array
-        $scope.topRecipes.push($scope.recipes[0]);
-        $scope.topRecipes.push($scope.recipes[1]);
+        $scope.topRecipes.push(r1);
+        $scope.topRecipes.push(r2);
         //remove the top two recipes from the recipes array so we don't see them twice
         $scope.recipes.splice(0,2);
         //get the detailed recipe contents for our top recipes (need the larger image)
-        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[0].id}).success(function(data) {
+        var postObject1, postObject2;
+
+        // construct postObjects
+        postObject1 = r1 && r1._id ? {"recipeId" : r1._id, "type": r1.__t} : {"recipeId" : r1.id, "type": "yummly"};
+        postObject2 = r2 && r2._id ? {"recipeId" : r2._id, "type": r2.__t} : {"recipeId" : r2.id, "type": "yummly"};
+        $http.post("/api/compositions/", postObject1).success(function(data) {
           $scope.topRecipes[0] = data;
           dataService.addTopRecipe0(data);
         });
-        $http.post("/api/compositions/", {"recipeId" : $scope.topRecipes[1].id}).success(function(data) {
+        $http.post("/api/compositions/", postObject2).success(function(data) {
           $scope.topRecipes[1] = data;
            dataService.addTopRecipe1(data);
-        });
-        
-        });
-
-      }
+        });  
+      });
+    }
   }
   $scope.load();
 }]);
@@ -784,13 +818,22 @@ var theRecipeService = angular.module('theRecipeService', ['ngResource', 'theIng
 
 theRecipeService.service('detailsService', function(){
   var recipeData= "";
-  var ingredients = []; 
+  var ingredients = [];
+  var type = "yummly"; 
 
   var setData = function(data) {
       ingredients = [];
-      for (var i =0; i < data.ingredientLines.length; i ++){
-        if (data.ingredientLines[i] != data.ingredientLines[i+1])
-          ingredients.push(data.ingredientLines[i]);
+      if(data.ingredientLines){
+        for (var i =0; i < data.ingredientLines.length; i ++){
+          if (data.ingredientLines[i] != data.ingredientLines[i+1])
+            ingredients.push(data.ingredientLines[i]);
+        }
+      }
+      if(data.recipe){
+        type = data.__t;
+        for (var i =0; i < data.recipe.length; i ++){
+          ingredients.push(data.recipe[i].ingredient);
+        }
       }
       recipeData = data;
       return true;

@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
+var extend = require('mongoose-schema-extend');
+var IngredientSchema = require('./Ingredient');
 
-var PrimitiveIngredientSchema = new mongoose.Schema({
+var PrimitiveIngredientSchema = IngredientSchema.extend({
      //   _id: { type:Number, min:100000000, max:199999999 },
-    name: { type:String, unique:true },
-    AbstractIngredientSchema_id: { type:mongoose.Schema.Types.ObjectId, ref:'AbstractIngredient'},
     brand: { type:String, unique:true},
     instanceValue: { type:Number, default: 0}
 });

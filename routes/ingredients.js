@@ -90,7 +90,7 @@ router.delete('/abstractIngredients/:abstractIngredient_id', function(req, res){
 
 router.post('/primitives', function(req,res) {
     var primitive = new PrimitiveIngredient();
-    primitive.name = req.body.name;
+    primitive.name = req.body.name.toLowerCase();
     primitive.brand = req.body.brand;
     primitive.AbstractIngredientSchema_id = req.body.parent;
     primitive.save(function(err) {
@@ -109,7 +109,8 @@ router.post('/primitives', function(req,res) {
 router.post('/abstracts', function(req,res) {
   var abstract = new AbstractIngredient();
   console.log(req.body)
-  abstract.name = req.body.name;
+  abstract.name = req.body.name.toLowerCase();
+  console.log(abstract);
   //schema doesn't support abstract parents yet? 10/4 EM for Saurdo
   //abstract.parent = req.body.parent;
   abstract.save(function(err) {
@@ -132,7 +133,7 @@ router.post('/abstracts', function(req,res) {
 
 router.post('/tmpIngredient', function(req,res) {
   var tmpIngredient = new TmpIngredient();
-  tmpIngredient.name = req.body.name;
+  tmpIngredient.name = req.body.name.toLowerCase();
   tmpIngredient.save(function(err) {
   if (err)
     res.send(err);
