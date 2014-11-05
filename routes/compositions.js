@@ -33,32 +33,41 @@ var Unit = mongoose.model('Unit');
  * @return {res.json} yummly object API (at the moment)
  */
 router.post('/', function(req, res, next){
+  console.log("Searching for recipe by ID: ");
   console.log(req.body);
-  // TODO: distinguish between yummly fetch and mongodb fetch
+  // TODO: distinguish between yummly fetc: h and mongodb fetch
   // test array of ingredients for now
   var recipeId = req.body.recipeId;
   
-  TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
-    if(recipe === null){
-      Composition.findOne({id: recipeId}), function(err, comp){
-        if(!comp){
-          console.log("calling yummly");
-          callYummly();
-        }
-        else
-        {
-          res.json(comp);
-        }
+  if(req.body.type != "Composition"){
+    TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
+      if(recipe === null){
+        callYummly();
       }
+      else{
+        console.log("found!");
+        res.json(recipe);
+      }
+    });
+  }
+  // it's from our DB!
+  else{
+    Composition.findById(recipeId, function(err, comp){
+      if(err){
+        console.log(err);
+      }
+      if(!comp){
+        console.log("Error: ID not found in db");          
+      }
+      else{
+        console.log(comp);
+        res.json(comp);
+      }
+    });
+  }
 
-    }
-    else{
-      console.log("found!");
-      // console.log(recipe);
-      res.json(recipe);
-    }
-  });
   function callYummly(){
+    console.log("calling yummly")
     // the yummly API key embedded URL
     // suffixed with start of ingredients syntax
     var url = 'http://api.yummly.com/v1/api/recipe/'+recipeId+'?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd';
@@ -163,14 +172,14 @@ router.post('/withIngredients/', function(req, res, next){
 
       // the yummly API key embedded URL
     // suffixed with start of ingredients syntax
-    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredients[]='
+    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
 
     // combine url and ingredients
-    url += ingredients.join('&allowedIngredients[]=');
+    url += ingredients.join('&allowedIngredient[]=');
       // uhh, yeah. gotta get rid of those special characters
       if (excluded.length){
-        url += "&excludedIngredients[]="
-        url += excluded.join('&excludedIngrediens[]=');
+        url += "&excludedIngredient[]="
+        url += excluded.join('&excludedIngredient[]=');
       }
 
     url = encodeURI(url);
@@ -196,7 +205,7 @@ router.post('/withIngredients/', function(req, res, next){
           recipe.ingredients.forEach(function(ingredient){
               // console.log(ingredient)
               var tmpIngredient = new TmpIngredient();
-              tmpIngredient.name = ingredient;
+              tmpIngredient.name = ingredient.toLowerCase();
               tmpIngredient.save();
           });
         })
@@ -228,7 +237,7 @@ router.post('/new/', function(req, res, next){
       recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'ingredient':ingredient._id});
    });
 
-    newComposition.name = req.body.name;
+    newComposition.name = req.body.name.toLowerCase();
     newComposition.recipe = recipeArray;
     newComposition.instruction = req.body.instruction;
     console.log(newComposition);
