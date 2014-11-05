@@ -205,7 +205,7 @@ router.post('/withIngredients/', function(req, res, next){
           recipe.ingredients.forEach(function(ingredient){
               // console.log(ingredient)
               var tmpIngredient = new TmpIngredient();
-              tmpIngredient.name = ingredient;
+              tmpIngredient.name = ingredient.toLowerCase();
               tmpIngredient.save();
           });
         })
@@ -237,7 +237,7 @@ router.post('/new/', function(req, res, next){
       recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'ingredient':ingredient._id});
    });
 
-    newComposition.name = req.body.name;
+    newComposition.name = req.body.name.toLowerCase();
     newComposition.recipe = recipeArray;
     newComposition.instruction = req.body.instruction;
     console.log(newComposition);

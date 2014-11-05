@@ -198,8 +198,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         var postObject1, postObject2;
 
         // construct postObjects
-        postObject1 = r1._id ? {"recipeId" : r1._id, "type": r1.__t} : {"recipeId" : r1.id, "type": "yummly"};
-        postObject2 = r2._id ? {"recipeId" : r2._id, "type": r2.__t} : {"recipeId" : r2.id, "type": "yummly"};
+        postObject1 = r1 && r1._id ? {"recipeId" : r1._id, "type": r1.__t} : {"recipeId" : r1.id, "type": "yummly"};
+        postObject2 = r2 && r2._id ? {"recipeId" : r2._id, "type": r2.__t} : {"recipeId" : r2.id, "type": "yummly"};
         $http.post("/api/compositions/", postObject1).success(function(data) {
           $scope.topRecipes[0] = data;
           dataService.addTopRecipe0(data);

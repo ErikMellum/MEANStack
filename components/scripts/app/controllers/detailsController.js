@@ -24,6 +24,8 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
+       console.log(recipeData);
+       console.log(ingredients);
      });
   }
   $scope.yieldExists = function() {
