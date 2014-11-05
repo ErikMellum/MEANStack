@@ -477,21 +477,12 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
-<<<<<<< HEAD
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
                 dataService.addRecipe(recipe);
           });
-=======
-      $http.post(url, postObject).success(function(data) {
-        $scope.dataArray = data;
-          data.forEach(function(recipe){
-            $scope.recipes.push(recipe);
-            dataService.addRecipe(recipe);
-           });
->>>>>>> sourdough
         //reset the topRecipes array
         $scope.topRecipes = [];
         var r1, r2;

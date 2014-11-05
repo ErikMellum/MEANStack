@@ -52,7 +52,7 @@ router.post('/', function(req, res, next){
   }
   // it's from our DB!
   else{
-    Composition.findById(recipeId, function(err, comp){
+    Composition.findById(recipeId).exec(function(err, comp){
       if(err){
         console.log(err);
       }
@@ -60,8 +60,32 @@ router.post('/', function(req, res, next){
         console.log("Error: ID not found in db");          
       }
       else{
-        console.log(comp);
-        res.json(comp);
+        findNames(comp, 0);
+         // populate our ingredients
+         var recipes = [];
+        function findNames(composition, i, callback){
+          if(!composition.recipe[i])
+          {
+            res.json(composition);
+            return;
+          }
+          var ingredient = composition.recipe[i];
+          AbstractIngredient.findById(ingredient.ingredient, function(err1, abstr){
+            PrimitiveIngredient.findById(ingredient.ingredient, function(err2, prim){
+              Composition.findById(ingredient.ingredient, function(err3, comping){
+                // FUCK THIS
+                var name = abstr ? abstr.name : (prim ? prim.name : comping.name);
+                var type = abstr ? abstr.__t : (prim ? prim.__t : comping.__t);
+                composition.recipe[i] = {
+                  name: name,
+                  type: type,
+                  _id: ingredient._id
+                };
+                findNames(composition, i+1, callback);
+              });
+            });
+          });
+        }
       }
     });
   }
@@ -251,21 +275,6 @@ router.post('/new/', function(req, res, next){
         res.send(savedComposition);
       }
     });
-});
-// https://www.digitalocean.com/community/tutorials/how-to-use-node-js-request-and-cheerio-to-set-up-simple-web-scraping
-
-// This route searches for recipes with specific ingredients
-// Will return a list of recipes
-// route example: http://localhost:3000/api/composition/ingredients/Cheese/Pizza Sauce/Pizza Dough
-router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
-  // our params regex will capture something like "/Cheese/Pizza Sauce/Pizza Dough", so split it
-  var needle = req.params[0].split('/');
-  // uncomment for testing purposes
-  console.log("requested params:");
-  console.log(needle);
-  // let's make a collection of the IDs we'll need to search for
-  // so search our ingredient schema for our list of ingredients
-
 });
 
 router.delete('/:composition_id', function(req, res){
