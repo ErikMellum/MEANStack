@@ -320,13 +320,13 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.uniqueIngredient = function (name) {
     var return_value = true;
     $scope.chosen_ingredients.forEach(function(ingredient) {
-      if (name == ingredient.name) {
+      if (name.toLowerCase() == ingredient.name.toLowerCase()) {
         return_value = false;
         return;
       }
     });
     $scope.excluded_ingredients.forEach(function(ingredient) {
-      if (name == ingredient.name){
+      if (name.toLowerCase() == ingredient.name.toLowerCase()){
         return_value = false;
         return;
       }
@@ -341,12 +341,12 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
    $scope.insert = function(ingredient){
     var display =false;
     if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
-      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length)});
-      $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length)}); 
+      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length).toLowerCase()});
+      $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length.toLowerCase())}); 
       display = true;
     } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
-      dataService.addChosenIngredient({name : ingredient});
-      $scope.chosen_ingredients.push({name : ingredient}); 
+      dataService.addChosenIngredient({name : ingredient.toLowerCase()});
+      $scope.chosen_ingredients.push({name : ingredient.toLowerCase()}); 
       display = true;
     } 
     if(display){
