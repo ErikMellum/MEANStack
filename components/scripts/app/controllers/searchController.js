@@ -147,6 +147,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
           $scope.topRecipes[1] = dataService.getTopRecipe1();
         };
+         $scope.recipes.splice(0,2);
     }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
@@ -169,7 +170,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           $scope.dataArray = data;
             data.forEach(function(recipe){
               $scope.recipes.push(recipe);
-              dataService.addRecipe(recipe);
+                dataService.addRecipe(recipe);
           });
         //reset the topRecipes array
         $scope.topRecipes = [];
