@@ -1,3 +1,3 @@
-recipeasy_production:
-        sudo start  --no-wait -q recipeasyproduction
+recipeasy_production: 
+	sudo start  --no-wait -q recipeasyproduction
 
