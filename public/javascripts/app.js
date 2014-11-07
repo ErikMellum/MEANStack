@@ -24,7 +24,7 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
     return false;
   }
   $scope.ingredientsExist = function() {
-    if ($scope.recipeData.ingredientLines)
+    if (detailsService.getIngredients())
       return true;
     return false;
   }
@@ -39,8 +39,6 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
        detailsService.setData(data);
        $scope.recipeData = detailsService.getData();
        $scope.ingredients = detailsService.getIngredients();
-       console.log(recipeData);
-       console.log(ingredients);
      });
   }
   $scope.yieldExists = function() {
@@ -823,7 +821,7 @@ theRecipeService.service('detailsService', function(){
       if(data.recipe){
         type = data.__t;
         for (var i =0; i < data.recipe.length; i ++){
-          ingredients.push(data.recipe[i].ingredient);
+          ingredients.push(data.recipe[i].name);
         }
       }
       recipeData = data;

@@ -16,7 +16,7 @@ theRecipeService.service('detailsService', function(){
       if(data.recipe){
         type = data.__t;
         for (var i =0; i < data.recipe.length; i ++){
-          ingredients.push(data.recipe[i].ingredient);
+          ingredients.push(data.recipe[i].name);
         }
       }
       recipeData = data;
