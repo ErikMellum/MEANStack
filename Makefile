@@ -1,3 +1,2 @@
-
 start_app :
-	sudo start  --no-wait -q recipestacker
+	sudo start  --no-wait -q recipeasydevelopment
