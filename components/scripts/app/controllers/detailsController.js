@@ -8,6 +8,9 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
       return true;
     return false;
   }
+
+  $scope.isEnhanced = detailsService.isEnhanced;
+
   $scope.ingredientsExist = function() {
     if (detailsService.getIngredients())
       return true;

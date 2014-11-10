@@ -6,8 +6,8 @@
     
       <div class="col-lg-4 main-chart">
         <h2>{{recipeData.name}}</h2>
-        <img ng-src="{{recipeData.images[0].hostedLargeUrl}}"/>
-        <h2><button style="width:350px;">
+        <img width="300" ng-src="{{recipeData.img}}"/>
+        <h2 ng-if="recipeData.source"><button style="width:350px;">
             <a href ={{recipeData.source.sourceRecipeUrl}} target="_blank"> View Recipe Source </a>
         </button></h2>
       </div>
@@ -17,13 +17,21 @@
         <div ng-if="ingredientsExist()">
           <h1 class="titleColor shrink-left move-left" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
           <h1 class="titleColor shrink-left move-left">Ingredients</h1>
-          <ul class="chosen-foodlist">
+          <ul ng-if="!isEnhanced()" class="chosen-foodlist">
             <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
               <div class="info inline">
                 <h2>{{recipe}}</h2>
               </div>
             </li>
-          </ul> 
+          </ul>
+          <!-- CUSTOM RECIPE BULLSHIT -->
+          <ul ng-if="isEnhanced()" class="chosen-foodlist">
+            <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
+              <div class="info inline">
+                <h2>{{recipe}}</h2>
+              </div>
+            </li>
+          </ul>  
         </div>
     
       </div><!-- /col-lg-8 -->
