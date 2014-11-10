@@ -68,7 +68,6 @@ router.post('/', function(req, res, next){
             ingredientIds.push(ingr.ingredient);
             recipeHash[ingr.ingredient] = ingr;
          });
-        console.log(ingredientIds);
         var composition = comp;
         composition.recipe = [];
         AbstractIngredient.find({'_id': {$in: ingredientIds}}, function(err1, abstrs){
@@ -87,29 +86,6 @@ router.post('/', function(req, res, next){
             });
           });
         });
-        // function findNames(composition, i, callback){
-        //   if(!composition.recipe[i])
-        //   {
-        //     res.json(composition);
-        //     return;
-        //   }
-        //   var ingredient = composition.recipe[i];
-        //   AbstractIngredient.findById(ingredient.ingredient, function(err1, abstr){
-        //     PrimitiveIngredient.findById(ingredient.ingredient, function(err2, prim){
-        //       Composition.findById(ingredient.ingredient, function(err3, comping){
-        //         // FUCK THIS
-        //         var name = abstr ? abstr.name : (prim ? prim.name : comping.name);
-        //         var type = abstr ? abstr.__t : (prim ? prim.__t : comping.__t);
-        //         composition.recipe[i] = {
-        //           name: name,
-        //           type: type,
-        //           _id: ingredient._id
-        //         };
-        //         findNames(composition, i+1, callback);
-        //       });
-        //     });
-        //   });
-        // }
       }
     });
   }

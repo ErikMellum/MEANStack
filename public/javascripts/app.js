@@ -827,7 +827,7 @@ theRecipeService.service('detailsService', function(){
       if(data.recipe){
         type = data.__t;
         for (var i =0; i < data.recipe.length; i ++){
-          ingredients.push(data.recipe[i].name);
+          ingredients.push(data.recipe[i]);
           enhancedIngredients.push(data.recipe[i]);
         }
       }
@@ -843,7 +843,6 @@ theRecipeService.service('detailsService', function(){
     return enhancedIngredients;
   }
  var isEnhanced = function(){
-    console.log(type);
     return type != "yummly";
   }
   var getData = function(){

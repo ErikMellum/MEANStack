@@ -28,7 +28,10 @@
           <ul ng-if="isEnhanced()" class="chosen-foodlist">
             <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
               <div class="info inline">
-                <h2>{{recipe}}</h2>
+                <a ng-if="recipe.type == 'Composition'" href="#/details/${{recipe._id}}">
+                  <h2>{{recipe.name}} - {{recipe.quantity}} {{recipe.units}}</h2>
+                </a>
+                <h2 ng-if="recipe.type != 'Composition'">{{recipe.name}} - {{recipe.quantity}} {{recipe.units}}</h2>
               </div>
             </li>
           </ul>  
