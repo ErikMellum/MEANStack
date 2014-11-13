@@ -3,6 +3,7 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   $scope.recipeData = detailsService.getData(); //call to service for the name of recipe
   $scope.text = "Test";
   $scope.url = "";
+  $scope.recipe = []
   $scope.timeExists = function() {
     if ($scope.recipeData.totalTime)
       return true;
@@ -10,7 +11,6 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
   }
 
   $scope.isEnhanced = detailsService.isEnhanced;
-
   $scope.ingredientsExist = function() {
     if (detailsService.getIngredients())
       return true;
@@ -24,10 +24,29 @@ detailsController.controller('DetailsController', ['$scope' , '$http', '$window'
     var type = recipe_id[0] == "$" ? "Composition" : "yummly";
     recipe_id = type == "yummly" ? recipe_id.slice(recipe_id.lastIndexOf('/')+1, recipe_id.length) : recipe_id.slice(recipe_id.lastIndexOf('/')+2, recipe_id.length); 
     $http.post("/api/compositions/", {"recipeId" : recipe_id, "type": type}).success(function(data) {
-       detailsService.setData(data);
-       $scope.recipeData = detailsService.getData();
-       $scope.ingredients = detailsService.getIngredients();
-     });
+      detailsService.setData(data);
+      $scope.recipeData = detailsService.getData();
+      $scope.ingredients = detailsService.getIngredients();
+      $scope.recipe.push({
+        name: $scope.recipeData.name,
+        instructions: $scope.recipeData.instruction,
+        img: $scope.recipeData.img
+      });
+    });
+  };
+
+  $scope.getComposition = function(index, comp){
+    $scope.ingredients.splice(index, 1);
+    var recipe_id = comp._id;
+    var type = comp.type;
+    $http.post("/api/compositions/", {"recipeId" : recipe_id, "type": type}).success(function(data) {
+      $scope.ingredients = $scope.ingredients.concat(data.recipe);
+      $scope.recipe.push({
+        name: data.name,
+        instructions: data.instruction,
+        img: "http://i.imgur.com/Cey1Ud1.jpg"
+      });
+    });
   }
   $scope.yieldExists = function() {
     if ($scope.recipeData.yield)
