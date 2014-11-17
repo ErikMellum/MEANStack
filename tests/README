@@ -1,0 +1,7 @@
+This directory handles the tests related with the project, for different components.
+
+e2e: Adds simple e2e test
+jsons: Merges tests with master controller
+unit: Adds unit tests for project
+karma.conf.js + protractor-conf.jf: Adds tests 
+testing.md: Basically a README, lists how to run various tests
