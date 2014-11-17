@@ -1,0 +1,5 @@
+The components directory controls the recipe development scripts, which pull linked recipes directly into the page. The scripts
+include the parser, and user data handler (controllers). It also includes the frontend related material for recipes, and a library
+of more angular material.
+
+It also contains the CSS and Coffee styling code.
