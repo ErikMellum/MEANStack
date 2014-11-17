@@ -7,7 +7,7 @@ capabilities: {
 'browserName': 'chrome'
 },
 chromeOnly: true,
-baseUrl: 'http://0.0.0.0:3000/',
+baseUrl: 'http://localhost:3001/',
 framework: 'jasmine',
 jasmineNodeOpts: {
 defaultTimeoutInterval: 30000
