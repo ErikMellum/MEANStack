@@ -87,7 +87,7 @@ it ('should not insert ingredients with the same name',
  // });
 //doesnt work becuase browser is not defined
 
-    it ('should make sure the clear data function works', 
+    it ('should make sure the clear data function clears all the ingredients on the page', 
     function(){
       scope.insert("ingredient");
       scope.insert("not pizza");
@@ -95,6 +95,20 @@ it ('should not insert ingredients with the same name',
       scope.clearData();
       expect(scope.chosen_ingredients.length).toBe(0);
       expect(scope.excluded_ingredients.length).toBe(0);
+  });
+
+    it ('should make sure the clear data function doesnt prevent a user from adding new ingredients', 
+    function(){
+      scope.insert("ingredient");
+      scope.insert("not pizza");
+      scope.insert("milk");
+      scope.clearData();
+      expect(scope.chosen_ingredients.length).toBe(0);
+      expect(scope.excluded_ingredients.length).toBe(0);
+      scope.insert("ingredient");
+      scope.insert("not pizza");
+      expect(scope.chosen_ingredients.length).toBe(1);
+      expect(scope.excluded_ingredients.length).toBe(1);
   });
 
 
