@@ -43,6 +43,7 @@
     "karma-htmlfile-reporter": "^0.1.2",
     "karma-ie-launcher": "^0.1.5",
     "karma-jasmine": "^0.1.5",
+    "karma-ng-scenario": "^0.1.0",
     "karma-safari-launcher": "^0.1.1",
     "mongoose-schema-extend": "^0.1.7"
   }
