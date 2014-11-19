@@ -50,8 +50,8 @@ describe('Unit: SearchController', function(){
    it ('should insert an ingredient into the chosen and excluded ingredients', 
     function(){
       expect(scope.chosen_ingredients.length).toBe(0)
-      scope.insert("Ingredient");
-      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("ingredient");
       scope.insert("not cake")
       expect(scope.excluded_ingredients[0].name).toBe("cake");
  });
@@ -99,8 +99,8 @@ it ('should not insert ingredients with the same name',
   it ('should remove an ingredient from the chosen and excluded ingredients', 
     function(){
       expect(scope.chosen_ingredients.length).toBe(0)
-      scope.insert("Ingredient");
-      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("ingredient");
       scope.insert("not pizza");
       expect(scope.excluded_ingredients[0].name).toBe("pizza");
       scope.remove(scope.chosen_ingredients, 0);

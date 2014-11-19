@@ -27,18 +27,18 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
   $scope.uniqueIngredient = function (name) {
     var return_value = true;
-    // $scope.chosen_ingredients.forEach(function(ingredient) {
-    //   if (name.toLowerCase() == ingredient.name.toLowerCase()) {
-    //     return_value = false;
-    //     return;
-    //   }
-    // });
-    // $scope.excluded_ingredients.forEach(function(ingredient) {
-    //   if (name.toLowerCase() == ingredient.name.toLowerCase()){
-    //     return_value = false;
-    //     return;
-    //   }
-    // });
+    $scope.chosen_ingredients.forEach(function(ingredient) {
+      if (name.toLowerCase() == ingredient.name.toLowerCase()) {
+        return_value = false;
+        return;
+      }
+    });
+    $scope.excluded_ingredients.forEach(function(ingredient) {
+      if (name.toLowerCase() == ingredient.name.toLowerCase()){
+        return_value = false;
+        return;
+      }
+    });
     return return_value;
   }
 
