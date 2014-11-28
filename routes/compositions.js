@@ -141,6 +141,7 @@ router.post('/', function(req, res, next){
 router.post('/withIngredients/', function(req, res, next){
   // console.log(req.body)
   // test array of ingredients for now
+  var meal = req.body.meal;
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
   var query = {name: {$in: ingredients}};
@@ -204,8 +205,10 @@ router.post('/withIngredients/', function(req, res, next){
       if (excluded.length){
         url += "&excludedIngredient[]="
         url += excluded.join('&excludedIngredient[]=');
+        
       }
-
+    url += "&requirePictures=true";
+    url += ("&allowedCourse[]=course^course-" + meal)
     url = encodeURI(url);
 
     // for testing

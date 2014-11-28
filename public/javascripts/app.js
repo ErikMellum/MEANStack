@@ -365,6 +365,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
    $scope.insert = function(ingredient){
+    alert("SCOPEMEAL: ");
     var display =false;
     if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
       dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length).toLowerCase()});
@@ -389,6 +390,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
    */
   $scope.queryIngredients = function(match)
   {
+    alert("SCOPEMEAL: " + $scope.meal);
+    alert("SCOPEMEAL: ");
     var postObject = {};
     var url = '/api/ingredients/';
     if (match.toLowerCase().substr(0,3) == "not" && match.length > 4){
@@ -445,7 +448,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         postObject.recipeId = theRecipe.id;
         postObject.type = "yummly";
       }
-
+alert("SCOPEMEAL: " + $scope.meal);
       $http.post("/api/compositions/", postObject).success(function(data) {
        if (detailsService.setData(data)){
           var id = data.__t ? "$"+data._id : data.id;
@@ -456,6 +459,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
   $scope.load = function() {
     $scope.recipes = [];
+    alert("SCOPEMEAL: " + $scope.meal);
     if (dataService.getExcludedIngredients().length > 0  || dataService.getChosenIngredients().length > 0){
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
@@ -468,7 +472,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
           $scope.excluded_ingredients.push({name : ingredient.name});
       });
-      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
           $scope.dataArray = dataService.getRecipes();
           $scope.dataArray.forEach(function(recipe){
               $scope.recipes.push(recipe); 
@@ -484,6 +488,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.recipes = [];
     $scope.topRecipes = []
     dataService.clearRecipes();
+    alert("SCOPEMEAL: " + $scope.meal);
     dataService.clearTopRecipes();
     if ($scope.chosen_ingredients.length) {
       var url = '/api/compositions/withIngredients/'
@@ -496,7 +501,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
-      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients};
+      alert("SCOPEMEAL: " + $scope.meal);
+      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
