@@ -5,11 +5,22 @@
     <div class="row">
     
       <div class="col-lg-4 main-chart">
-        <h2>{{recipeData.name}}</h2>
-        <img ng-src="{{recipeData.images[0].hostedLargeUrl}}"/>
-        <h2><button style="width:350px;">
-            <a href ={{recipeData.source.sourceRecipeUrl}} target="_blank"> View Recipe Source </a>
-        </button></h2>
+        <div ng-repeat="r in recipe">
+          <h2>{{r.name}}</h2>
+          <img width="300" ng-src="{{r.img}}"/>
+          <h2 ng-if="recipeData.source"><button style="width:350px;">
+              <a href ={{recipeData.source.sourceRecipeUrl}} target="_blank"> View Recipe Source </a>
+          </button></h2>
+          <div ng-if="r.instructions" > 
+            <ul class="chosen-foodlist">
+              <li class="food cf" ng-animate="animate" ng-repeat="direction in r.instructions track by $index">
+                <div class="info inline">
+                  <h2>{{direction.name}} - {{direction.details}}</h2>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="col-lg-6 main-chart">
@@ -17,13 +28,24 @@
         <div ng-if="ingredientsExist()">
           <h1 class="titleColor shrink-left move-left" ng-if="yieldExists()">  Yield : {{recipeData.yield}} </h1>
           <h1 class="titleColor shrink-left move-left">Ingredients</h1>
-          <ul class="chosen-foodlist">
-            <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
+          <ul ng-if="!isEnhanced()" class="chosen-foodlist">
+            <li class="food cf" ng-animate="animate" ng-repeat="ing in ingredients track by $index">
               <div class="info inline">
-                <h2>{{recipe}}</h2>
+                <h2>{{ing}}</h2>
               </div>
             </li>
-          </ul> 
+          </ul>
+          <!-- CUSTOM RECIPE BULLSHIT -->
+          <ul ng-if="isEnhanced()" class="chosen-foodlist">
+            <li class="food cf" ng-animate="animate" ng-repeat="recipe in ingredients track by $index">
+              <div class="info inline">
+                <a ng-if="recipe.type == 'Composition'" ng-click="getComposition($index, recipe)">
+                  <h2>{{recipe.name}} - {{recipe.quantity}} {{recipe.units}}</h2>
+                </a>
+                <h2 ng-if="recipe.type != 'Composition'">{{recipe.name}} - {{recipe.quantity}} {{recipe.units}}</h2>
+              </div>
+            </li>
+          </ul>  
         </div>
     
       </div><!-- /col-lg-8 -->

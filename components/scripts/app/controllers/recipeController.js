@@ -21,7 +21,6 @@ AbstractIngredient.find(function(abstResult){
 });
 
 
-
 $scope.test = "Test";
 $scope.count = '0';
 $scope.icount = '0';
@@ -42,6 +41,13 @@ console.log($scope.steps);
 recipe = { "name":$scope.recipeName, "ingredients": $scope.ingredients, "instruction":$scope.steps, "user":$scope.userName};
 postObject = recipe;
 $http.post(url, postObject).success(function(data){
+  alert("Created Successfully!");
+  $scope.ingredients = [];
+  $scope.currentIngredient = "";
+  $scope.steps = [];
+  $scope.currentStep = "";
+  $scope.recipeDescription = "";
+  $scope.recipeName = "";
 });
 }
 

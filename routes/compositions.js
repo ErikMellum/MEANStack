@@ -60,32 +60,32 @@ router.post('/', function(req, res, next){
         console.log("Error: ID not found in db");          
       }
       else{
-        findNames(comp, 0);
+        // findNames(comp, 0);
          // populate our ingredients
-         var recipes = [];
-        function findNames(composition, i, callback){
-          if(!composition.recipe[i])
-          {
-            res.json(composition);
-            return;
-          }
-          var ingredient = composition.recipe[i];
-          AbstractIngredient.findById(ingredient.ingredient, function(err1, abstr){
-            PrimitiveIngredient.findById(ingredient.ingredient, function(err2, prim){
-              Composition.findById(ingredient.ingredient, function(err3, comping){
-                // FUCK THIS
-                var name = abstr ? abstr.name : (prim ? prim.name : comping.name);
-                var type = abstr ? abstr.__t : (prim ? prim.__t : comping.__t);
+         var ingredientIds = [];
+         var recipeHash = {};
+         comp.recipe.forEach(function(ingr){
+            ingredientIds.push(ingr.ingredient);
+            recipeHash[ingr.ingredient] = ingr;
+         });
+        var composition = comp;
+        composition.recipe = [];
+        AbstractIngredient.find({'_id': {$in: ingredientIds}}, function(err1, abstrs){
+          PrimitiveIngredient.find({'_id': {$in: ingredientIds}}, function(err2, prims){
+            Composition.find({'_id': {$in: ingredientIds}}, function(err3, compings){
+              compings.concat(prims).concat(abstrs).forEach(function(ingr, i){
                 composition.recipe[i] = {
-                  name: name,
-                  type: type,
-                  _id: ingredient._id
+                  name: ingr.name,
+                  type: ingr.__t,
+                  quantity: recipeHash[ingr.id].quantity,
+                  units: recipeHash[ingr.id].units,
+                  _id: ingr._id
                 };
-                findNames(composition, i+1, callback);
-              });
+              }); 
+              res.json(composition);
             });
           });
-        }
+        });
       }
     });
   }
@@ -141,6 +141,7 @@ router.post('/', function(req, res, next){
 router.post('/withIngredients/', function(req, res, next){
   // console.log(req.body)
   // test array of ingredients for now
+  var meal = req.body.meal;
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
   var query = {name: {$in: ingredients}};
@@ -204,8 +205,10 @@ router.post('/withIngredients/', function(req, res, next){
       if (excluded.length){
         url += "&excludedIngredient[]="
         url += excluded.join('&excludedIngredient[]=');
+        
       }
-
+    url += "&requirePictures=true";
+    url += ("&allowedCourse[]=course^course-" + meal)
     url = encodeURI(url);
 
     // for testing

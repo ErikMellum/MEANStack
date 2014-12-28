@@ -50,8 +50,8 @@ describe('Unit: SearchController', function(){
    it ('should insert an ingredient into the chosen and excluded ingredients', 
     function(){
       expect(scope.chosen_ingredients.length).toBe(0)
-      scope.insert("Ingredient");
-      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("ingredient");
       scope.insert("not cake")
       expect(scope.excluded_ingredients[0].name).toBe("cake");
  });
@@ -67,40 +67,12 @@ it ('should not insert ingredients with the same name',
       scope.insert("not cake")
        expect(scope.excluded_ingredients.length).toBe(1);
  });
-  
-  // it ('should insert an ingredient into the chosen and excluded ingredients and check to see that the recipes are being loaded', 
-  //   function(){
-  //     expect(scope.chosen_ingredients.length).toBe(0)
-  //     scope.insert("egg");
-  //     expect(scope.chosen_ingredients[0].name).toBe("egg");
-  //     scope.insert("not milk")
-  //     expect(scope.excluded_ingredients[0].name).toBe("milk");
-  //     expect(scope.recipes.length).toBeGreaterThan(0);
-  //     expect(scope.topRecipes.length).toBeGreaterThan(0);
-
-  // });
-  // it ('should insert an ingredient into the chosen and excluded ingredients and check to see that the recipes are being loaded and then clear the data with the button', 
-  //   function(){
-  //     expect(scope.chosen_ingredients.length).toBe(0)
-  //     scope.insert("egg");
-  //     expect(scope.chosen_ingredients[0].name).toBe("egg");
-  //     scope.insert("not milk")
-  //     expect(scope.excluded_ingredients[0].name).toBe("milk");
-  //     expect(scope.recipes.length).toBeGreaterThan(0);
-  //     expect(scope.topRecipes.length).toBeGreaterThan(0);
-  //     element(".btn-warning.shift-down").click();
-  //     expect(scope.excluded_ingredients.length).toBe(0);
-  //     expect(scope.chosen_ingredients.length).toBe(0);
-  //     expect(scope.recipes.length).toBe(0);
-  //     expect(scope.topRecipes.length).toBe(0);
-
-  // });
 
   it ('should remove an ingredient from the chosen and excluded ingredients', 
     function(){
       expect(scope.chosen_ingredients.length).toBe(0)
-      scope.insert("Ingredient");
-      expect(scope.chosen_ingredients[0].name).toBe("Ingredient");
+      scope.insert("ingredient");
+      expect(scope.chosen_ingredients[0].name).toBe("ingredient");
       scope.insert("not pizza");
       expect(scope.excluded_ingredients[0].name).toBe("pizza");
       scope.remove(scope.chosen_ingredients, 0);
@@ -108,4 +80,36 @@ it ('should not insert ingredients with the same name',
       expect(scope.chosen_ingredients.length).toBe(0);
       expect(scope.excluded_ingredients.length).toBe(0);
   });
+
+ //   it('should have a working nav that redirects to teh search controller by default if a bad url is entered', function() {
+ //   browser().navigateTo('#/dsadasdasd');
+ //   expect(browser().location().path()).toBe("#/search");
+ // });
+//doesnt work becuase browser is not defined
+
+    it ('should make sure the clear data function clears all the ingredients on the page', 
+    function(){
+      scope.insert("ingredient");
+      scope.insert("not pizza");
+      scope.insert("milk");
+      scope.clearData();
+      expect(scope.chosen_ingredients.length).toBe(0);
+      expect(scope.excluded_ingredients.length).toBe(0);
+  });
+
+    it ('should make sure the clear data function doesnt prevent a user from adding new ingredients', 
+    function(){
+      scope.insert("ingredient");
+      scope.insert("not pizza");
+      scope.insert("milk");
+      scope.clearData();
+      expect(scope.chosen_ingredients.length).toBe(0);
+      expect(scope.excluded_ingredients.length).toBe(0);
+      scope.insert("ingredient");
+      scope.insert("not pizza");
+      expect(scope.chosen_ingredients.length).toBe(1);
+      expect(scope.excluded_ingredients.length).toBe(1);
+  });
+
+
 });

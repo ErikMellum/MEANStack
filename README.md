@@ -56,5 +56,4 @@ f28b1240c0ab4435b41d6505f0278cfd
 mellum.erik@gmail.com
 
 **Password** 
-meanstack
-
+meanstack 
