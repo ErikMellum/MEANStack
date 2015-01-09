@@ -1,4 +1,4 @@
-# Welcome to Mean Stack.#
+# Welcome to Recipe Stacker.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 
 **To run the app**
