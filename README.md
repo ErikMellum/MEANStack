@@ -42,14 +42,6 @@ Learn about the [Mean Api Backend](/routes/BACKEND.md)
 ## Code Style Guide ##
 [How we do it](STYLE.md)
 
-## Yummly Info ##
-=======
-**App ID**
-af791dca
-
-**App Key**
-f28b1240c0ab4435b41d6505f0278cfd
-
 ## Modulus Info ##
 =======
 **Username**
