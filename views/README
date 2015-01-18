@@ -1,0 +1,5 @@
+The views directory handles all code related to the view of a MVC architecture.
+
+partials: partial, uncomplete code 
+frontend.md: basically README, descripes various view controllers used, and how to use them
+error.ejs + index.ejs: error handling and index for view
