@@ -1,0 +1,9 @@
+This directory links the recipes together, and has controllers to handle the user input, merge it all with the master controller
+and display it to the user. 
+
+BACKEND.md; Lists the API used and how it was used
+API.js; Creates angular factory
+Compositions.js; Adds link between recipes
+Index.js; index page for API
+Ingredients.js; Handles ingredients and merges with master
+Users.js; gets list of users
