@@ -16,7 +16,7 @@
                                 <strong>Ingredient Name:</strong>
                               </label>
                               <div class="col-sm-9">
-                                  <input ng-model="ingredientName" type="text" class="form-control" placeholder="Enter the name of the ingredient" autofocus>
+                                  <input ng-model="ingredientName" type="text" class="form-control" placeholder="Enter the name of the ingredient" ng-enter="setIngredientName(ingredientName)"autofocus>
                                   <button ng-if="ingredientName != undefined && ingredientName != ''" ng-click="clear()" class="btn">Clear</button>
                               </div>
                           </div>
