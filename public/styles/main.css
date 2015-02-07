@@ -1,3 +1,8 @@
+.wrapper{
+  position: relative;
+  min-width: 748px;
+}
+
 input{
   color: black;
 }
@@ -222,7 +227,7 @@ input{
   width: 78%;
 }
 div.grey-panel.pn.donut-chart{
-  height: 68%;
+  height: 90%;
 }
 
 /*
@@ -632,6 +637,7 @@ ul.sidebar-menu li a.active i {
     margin-left: 210px;
 }
 
+
 .header, .footer {
     min-height: 60px;
     padding: 0 15px;
@@ -639,6 +645,7 @@ ul.sidebar-menu li a.active i {
 
 .header {
     position: fixed;
+    min-width: 760px;
     left: 0;
     right: 0;
     z-index: 1002;
@@ -2449,12 +2456,12 @@ label {
 /*footer*/
 .site-footer {
     background: #68dff0;
-    color: #fff;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+color: #fff;
+padding: 10px 0;
+position: fixed;
+bottom: 0;
+right: 0;
+left: 0;
 }
 
 

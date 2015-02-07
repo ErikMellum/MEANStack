@@ -59,3 +59,78 @@
           </div><!-- /col-lg-9 END SECTION MIDDLE -->
             
         </div><!-- /row -->
+
+        <div class="row mt">
+              <div class="col-lg-12">
+                  <div class="form-panel create-form">
+
+                      <h2 class="mb"><i class="fa fa-angle-right"></i> Create Ingredient</h2>
+                      <form id="surveyForm" method="get" class="form-horizontal style-form">
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Ingredient Name:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="ingredientName" type="text" class="form-control" placeholder="Enter the name of the ingredient" autofocus>
+                                  <button ng-if="ingredientName != undefined && ingredientName != ''" ng-click="clear()" class="btn">Clear</button>
+                              </div>
+                          </div>
+                          <table class="table table-hover">
+                            <tr ng-if="ingredientName != undefined && ingredientName != '' && ingredientName != ingredient.name" ng-repeat="ingredient in tmpIngredients | filter: ingredientName | limitTo : 5">
+                              <td ng-click="setIngredient(ingredient)" class="tmpIngredient">{{ingredient.name}}</td>
+                                <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
+                                <td><button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button></td>
+                            </tr>
+                          </table>
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Brand Name:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="currentIngredient.brand" type="text" class="form-control" placeholder="Optional" autofocus>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">
+                                <strong>Abstract Parent:</strong>
+                              </label>
+                              <div class="col-sm-9">
+                                  <input ng-model="currentIngredient.parentName" type="text" class="form-control" placeholder="" autofocus>
+                                  <button ng-if="currentIngredient.parentName != undefined && currentIngredient.parentName != ''" ng-click="clearParent()" class="btn">Clear</button>
+                              </div>
+                              
+                          </div>
+                          <table class="table table-hover">
+                            <tr ng-if="currentIngredient.parentName != '' && currentIngredient.parentName != undefined" ng-repeat="ingredient in abstractIngredients | filter: currentIngredient.parentName | limitTo : 5">
+                              <td ng-click="setIngredientParent(ingredient)" class="abstractIngredient">{{ingredient.name}}</td>
+                                <td><button class="glyphicon glyphicon-plus" ng-click="setIngredientParent(ingredient)"></button></td> 
+                                <td><button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button></td>
+                            </tr>
+                          </table>
+                          <div class="form-group">
+                              <label class="col-sm-offset-1 col-sm-2 checkbox-inline">
+                                <input ng-model="currentIngredient.unique" type="checkbox">
+                                <strong>Unique</strong>
+                              </label>
+                              <label class="col-sm-offset-2 col-sm-2 checkbox-inline">
+                                <input ng-model="currentIngredient.processed" type="checkbox">
+                                <strong>Processed</strong>
+                              </label>
+                          </div>
+
+                          <div class="form-group">
+                              <div class="col-sm-5 col-sm-offset-5">
+                                  <button ng-click="submitNewIngredient()" type="submit" class="btn btn-theme04">
+                                    <i class="fa fa-check"></i>
+                                    Create
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div><!-- col-lg-12-->       
+            </div><!-- /row -->
+    </section>
+</section>

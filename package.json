@@ -30,6 +30,7 @@
     "karma-cli": "0.0.4",
     "karma-jasmine": "^0.1.5",
     "mongoose": "^3.8.15",
+    "mongoose-schema-extend": "^0.1.7",
     "morgan": "~1.2.3",
     "nodemon": "^1.2.1",
     "passport": "^0.2.1",
@@ -42,6 +43,8 @@
     "karma-htmlfile-reporter": "^0.1.2",
     "karma-ie-launcher": "^0.1.5",
     "karma-jasmine": "^0.1.5",
-    "karma-safari-launcher": "^0.1.1"
+    "karma-ng-scenario": "^0.1.0",
+    "karma-safari-launcher": "^0.1.1",
+    "mongoose-schema-extend": "^0.1.7"
   }
 }

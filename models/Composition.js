@@ -1,17 +1,15 @@
 var mongoose = require('mongoose');
-
+var extend = require('mongoose-schema-extend');
+var IngredientSchema = require('./Ingredient');
 //define our composition table
-var CompositionSchema = new mongoose.Schema({
+var CompositionSchema = IngredientSchema.extend({
     // define the name as a string
     //_id: { type:Number, min:300000000, max:399999999 },
-    name: { type:String },
     instanceValue: { type:Number, default:0 },
     recipe: [{ 
         quantity: Number,
         units: String,
-        AbstractIngredient: {type: mongoose.Schema.Types.ObjectId , ref: 'AbstractIngredient'},
-        PrimitiveIngredient: {type: mongoose.Schema.Types.ObjectId , ref: 'PrimitiveIngredient'},
-        Composition: {type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}
+        ingredient: {type: mongoose.Schema.Types.ObjectId}
     }],
     instruction: [ {name:String, details:String} ],
     rating: { type:Number, min:0, max:5, default:0},
@@ -19,8 +17,6 @@ var CompositionSchema = new mongoose.Schema({
     reviewInstance: { type:Number, default:0},
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     date: { type:Date, default: Date.now },
-    AbstractIngredientParents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AbstractIngredient'}],
-    CompositionParents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Composition'}],
     images:[{ type:String, default:''}]
 });
 
@@ -48,7 +44,7 @@ CompositionSchema.methods.incInstanceValueReview = function(AI, rating){
 }
 
 /**
- *  Validates reference ID of our ingredients
+ *  Validates reference ID of our ingredients recursively
  * @param  {ingredient array}   value 
  * @param  {int}   i
  * @param  {Function} next
@@ -61,13 +57,13 @@ function validateIngredients(value, i, next, done){
         next();
         return;
     }
-    mongoose.model('Composition').findOne({_id: value[i].Composition}, function (err1, comp) {
-        mongoose.model('AbstractIngredient').findOne({_id: value[i].AbstractIngredient}, function (err2, abst) {
-            mongoose.model('PrimitiveIngredient').findOne({_id: value[i].PrimitiveIngredient}, function (err3, prim) {
-                if(!(comp || abst || prim)){
-                    done("fuck cakes");
+    mongoose.model('AbstractIngredient').find({_id: value[i].ingredient}, function (err1, abstr) {
+        mongoose.model('Composition').find({_id: value[i].ingredient}, function (err2, comp) {
+            mongoose.model('PrimitiveIngredient').find({_id: value[i].ingredient}, function (err3, prim) {
+                if(!(abstr || comp || prim)){           
+                    done("Error: ID not found in ingredient database.");
                     return;
-                }
+                }   
                 validateIngredients(value, i+1, next, done);
             });
         });

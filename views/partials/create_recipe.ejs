@@ -1,79 +1,101 @@
 <section id="main-content">
   <section class="wrapper">
+    <div class="row mt">
+      <div class="col-lg-12">
+        <div class="form-panel create-form">
+          <h2 class="mb"><i class="fa fa-angle-right"></i> Create Recipe</h2>
+          <form id="surveyForm" method="get" class="form-horizontal style-form">
+            <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">
+                <strong>Recipe Name:</strong>
+              </label>
+              <div class="col-sm-9">
+                  <input ng-model="recipeName" type="text" class="form-control" placeholder="Enter the name of your creation" autofocus>
+              </div>
+            </div>
 
-    <div class="row">
-      
-      <div class="create-form form-vertical createRecipeForm">
-        <h1>Create Recipe</h1>
-        <hr>
-        <div class="form-group">
-          <h2>User Name:</h2>
-          <input class="form-control" ng-model="userName" placeholder="user name" autofocus>
-          <h2>Recipe Name:</h2>
-          <input class="form-control" ng-model="recipeName" placeholder="recipe name" autofocus>
+            <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">
+                  <strong>Description: (optional)</strong>
+                </label>
+                <div class="col-sm-9">
+                <textarea ng-model="recipeDescription" class="form-control" rows="2" placeholder="Describe what makes your recipe great"></textarea>                 
+              </div>
+            </div>
+
+            <h3 class="mb"><i class="fa fa-angle-right"></i> Ingredients </h3>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                <strong>Recipe Ingredients: {{ingredients.length}}</strong>
+              </label>
+              <div class="col-sm-5">
+                <input ng-model="currentIngredient.name" type="text" class="form-control" placeholder="ingredient name" name="option[]">
+              </div>
+              <div class="col-sm-2">
+                <input ng-model="currentIngredient.quantity" type="text" class="form-control" placeholder="quantity">
+              </div>
+              <div class="col-sm-2">
+                <input ng-model="currentIngredient.unit" type="text" class="form-control" placeholder="unit">
+              </div>
+              <div class="col-sm-1">
+                <button ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()" type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+            <table class="table table-hover">
+              <tr ng-if="(currentIngredient != '') && (currentIngredient.name != '') && currentIngredient.name != ingredient.name" ng-repeat="ingredient in combinedIngredients | filter: currentIngredient.name | limitTo : 5" ng-class="ingredient.type">
+                <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
+                  <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
+              </tr>
+            </table> 
+            <div ng-repeat="ingredient in ingredients" class="form-group">
+              <div class="col-sm-2">Ingredient #{{$index+1}}</div>
+              <div class="col-sm-5">
+                  <input ng-model="ingredient.name" type="text" class="form-control" placeholder="ingredient name">
+              </div>
+              <div class="col-sm-2">
+                  <input ng-model="ingredient.quantity" type="text" class="form-control" placeholder="quantity">
+              </div>
+              <div class="col-sm-2">
+                  <input ng-model="ingredient.unit" type="text" class="form-control" placeholder="unit">
+              </div>
+              <button type="button" class="btn btn-default removeButton" ng-click="removeIngredient($index)"><i class="fa fa-minus"></i></button>
+            </div>
+            <h3 class="mb"><i class="fa fa-angle-right"></i> Steps </h3>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                <strong>Recipe Steps: {{steps.length}}</strong>
+              </label>
+              <div class="col-sm-5">
+                <input ng-model="currentStep.name" placeholder="Name of step" type="text" class="form-control" placeholder="step name">
+              </div>
+              <div class="col-sm-2">
+                <textarea class="form-control" cols="50" rows="5" ng-model="currentStep.details" placeholder="Details on how to perform this step"></textarea>
+              </div>
+              <div class="col-sm-1">
+                <button ng-click="addStep()" type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+            <div ng-repeat="step in steps" class="form-group">
+              <div class="col-sm-2">Step #{{$index+1}}</div>
+              <div class="col-sm-5">
+                <input ng-model="step.name" type="text" class="form-control" placeholder="step name">
+              </div>
+              <div class="col-sm-2">
+                <textarea cols="50" rows="5" ng-model="step.details" class="form-control" placeholder="step description"></textarea>
+              </div>
+              <button type="button" class="btn btn-default removeButton" ng-click="removeStep($index)"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-5 col-sm-offset-5">
+                <button ng-click="inputRecipe(recipeName)" type="submit" class="btn btn-theme04">
+                  <i class="fa fa-check"></i>
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        
-        <hr>
-
-        <div class="form-group">
-          <h2>Add Ingredient</h2>
-          <input class="form-inline" ng-model="currentIngredient.name" placeholder="ingredient name"> 
-          <input class="form-inline" ng-model="currentIngredient.quantity" placeholder="quantity">
-          <input class="form-inline"  ng-model="currentIngredient.units" placeholder="units"> 
-          <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addIngredient()">+</button>
-        </div>
-        <table class="table table-hover">
-          <tr ng-repeat="ingredient in combinedIngredients | filter: currentIngredient.name | limitTo : 5" ng-class="ingredient.type">
-            <td ng-click="setIngredient(ingredient)">{{ingredient.name}}</td>
-              <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
-          </tr>
-        </table>
-        <h2>Recipe Ingredients: {{ingredients.length}}</h2>
-        <table class="table table-hover">
-          <tr>
-            <td>Number</td>
-            <td>Name</td>
-            <td>Quantity</td>
-            <td>Units</td>
-            <td>Type</td>
-          </tr>
-          <tr ng-repeat="ingredient in ingredients" ng-class="ingredient.type">
-            <td class="ingredientTableData">Ingredient #{{$index+1}}</td>
-            <td class="ingredientTableData">{{ingredient.name}}</td>
-            <td class="ingredientTableData">{{ingredient.quantity}}</td>
-            <td class="ingredientTableData">{{ingredient.units}}</td>
-            <td class="ingredientTableData">{{ingredient.type}}</td>
-            <td><button class="btn" ng-click="removeIngredient($index)">-</button></td>
-          </tr>
-        </table>
-        <hr>
-        <div class="form-group">
-          <h2>Add Step</h2>
-          <input class="form-inline" ng-model="currentStep.name" placeholder="Name of step"> 
-          <br>
-          <textarea cols="50" rows="5" ng-model="currentStep.details" placeholder="Details on how to perform this step"></textarea>
-          <br>
-          <button class="btn" ng-show="ingredients.length<maxIngredients" ng-click="addStep()">+</button>
-        </div>
-        
-        <h2>Recipe Steps: {{steps.length}}</h2>
-        <table class="table table-hover">
-          <tr>
-            <td>Number</td>
-            <td>Name</td>
-            <td>Instruction</td>
-          </tr>
-          <tr ng-repeat="step in steps">
-            <td class="ingredientTableData">Step #{{$index+1}}</td>
-            <td class="stepTableData"><editable data="somedata"></editable></td>
-            <td class="stepTableData">{{step.details}}</td>
-            <td><button class="btn" ng-click="removeStep($index)">-</button></td>
-          </tr>
-        </table>
-        <hr>
-        <button class="btn btn-submit"ng-click="inputRecipe()">Create</button>
-      </div>
-
-      </div><!-- /col-lg-3 -->
-            </div><!-- /row -->
-
+      </div><!-- col-lg-12-->       
+    </div><!-- /row -->
+  </section>
+</section>

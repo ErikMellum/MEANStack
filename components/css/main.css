@@ -1,3 +1,8 @@
+.wrapper{
+  position: relative;
+  min-width: 748px;
+}
+
 input{
   color: black;
 }
@@ -222,5 +227,5 @@ input{
   width: 78%;
 }
 div.grey-panel.pn.donut-chart{
-  height: 68%;
+  height: 90%;
 }

@@ -1,6 +1,6 @@
 <aside>
     <div id="sidebar"  class="nav-collapse ">
-    <button type="button" class="btn btn-warning shift-down" ng-click="clearData()" ng-confirm="Are you sure you want to clear the data?">Clear Data</button>
+    <button type="button" id="clear-data" class="btn btn-warning shift-down" ng-click="clearData()" ng-confirm="Are you sure you want to clear the data?">Clear Data</button>
 
         <!-- sidebar menu start
 
@@ -49,6 +49,44 @@
                 </a>
             </li>
         </ul>
+        <!--
+        <hr>
+        <h5 class="centered">Ingredient Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >Use only these ingredients </span><input name="onlyOrAll" type="checkbox" ng-model="only" checked>
+        </div>
+        <hr>
+        <div style=" text-align: center; margin: 0 auto;">
+          <h5 class="centered" >You may want to add...</h5>
+          <span ng-repeat="ingredient in suggestedIngredients"></span>
+        </div>
+        <hr>
+        <h5 class="centered">Meal Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >Desserts</span><input name="meal" type="radio" value="all" ng-model="Desserts" checked>
+          <span style="color: white;" >Breakfast</span><input name="meal" type="radio" value="Breakfast and Brunch" ng-model="meal">
+          <span style="color: white;" >Lunch</span><input name="meal" type="radio" value="Lunch and Snacks" ng-model="meal">
+          <span style="color: white;" >Dinner</span><input name="meal" type="radio" value="Main Dishes" ng-model="meal">
+          <span style="color: white;" >Salads</span><input name="meal" type="radio" value="Salads" ng-model="meal">
+        </div>
+        <hr>
+        <h5 class="centered">Diet Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >All</span><input name="diet" type="radio" value="all" ng-model="diet" checked>
+          <span style="color: white;" >Paleo</span><input name="diet" type="radio" value="paleo" ng-model="diet">
+          <span style="color: white;" >Vegetarian</span><input name="diet" type="radio" value="vegetarian" ng-model="diet">
+          <span style="color: white;" >Vegan</span><input name="diet" type="radio" value="vegan" ng-model="diet">
+        </div>
+        <hr>
+        <h5 class="centered">Cuisine Filter</h5>
+        <div style=" text-align: center; margin: 0 auto;">
+          <span style="color: white;" >All</span><input name="cuisine" type="radio" value="all" ng-model="cuisine" checked>
+          <span style="color: white;" >American</span><input name="cuisine" type="radio" value="american" ng-model="cuisine">
+          <span style="color: white;" >Chinese</span><input name="cuisine" type="radio" value="chinese" ng-model="cuisine">
+          <span style="color: white;" >Mexican</span><input name="cuisine" type="radio" value="mexican" ng-model="cuisine">
+          <span style="color: white;" >Indian</span><input name="cuisine" type="radio" value="indian" ng-model="cuisine">
+        </div>
+        -->
         <!-- sidebar menu end-->
     </div>
 </aside>
@@ -62,7 +100,7 @@ MAIN CONTENT
     <section class="wrapper">
 
         <div class="row">
-            <div class="col-lg-8 main-chart">
+            <div class="col-xs-offset-4 col-xs-8 col-sm-offset-0 col-sm-8 col-lg-8 main-chart">
 
               <div class="row mtbox">
                 <div class="col-md-8 col-md-offset-2 box0">
@@ -71,7 +109,7 @@ MAIN CONTENT
                     <h3>Add Ingredients</h3>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' followed by ingredient name" autofocus>
+                    <input type="text" class="form-control" ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name" autofocus>
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="button" ng-click="insert(match)"><strong>+</strong></button>
                     </span>
@@ -99,7 +137,7 @@ MAIN CONTENT
                   <div class="row">
                     <div class="centered">
 
-                      <img class = "shrink-pic" ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
+                      <img class = "shrink-pic" style="max-width: 600px; max-height: 280px;" ng-src="{{recipe.images[0].hostedLargeUrl}}"/>
                     </div>
                     <br>
                     <button type="button" class="btn btn-theme04" ng-click="details($index)">View Recipe</button>
@@ -114,7 +152,7 @@ MAIN CONTENT
 RIGHT SIDEBAR CONTENT
 *********************************************************************************************************************************************************** -->                  
             
-            <div class="col-lg-4 ds rightBarFix2">
+            <div class="col-xs-offset-4 col-xs-8 col-sm-offset-0 col-sm-4 col-lg-4 ds rightBarFix2">
               <h3 class="rightBarFix">Recipes Containing Added Ingredients</h3>
                                   
                 <div ng-animate="'animate'" class="desc animatedRepeat recipeResultContainer" ng-repeat="recipe in recipes" ng-init="recipeHover" ng-mouseover="recipeHover=true" ng-mouseleave="recipeHover=false">

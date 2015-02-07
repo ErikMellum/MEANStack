@@ -5,6 +5,7 @@ var http = require('http');
 
 
 //require our models
+require('../models/Ingredient');
 require('../models/Composition');
 require('../models/AbstractIngredient');
 require('../models/PrimitiveIngredient');
@@ -15,6 +16,7 @@ require('../models/Review');
 require('../models/Unit');
 
 // define our objects
+var Ingredient = mongoose.model('Ingredient');
 var Composition = mongoose.model('Composition');
 var AbstractIngredient = mongoose.model('AbstractIngredient');
 var PrimitiveIngredient = mongoose.model('PrimitiveIngredient');
@@ -31,23 +33,65 @@ var Unit = mongoose.model('Unit');
  * @return {res.json} yummly object API (at the moment)
  */
 router.post('/', function(req, res, next){
+  console.log("Searching for recipe by ID: ");
   console.log(req.body);
-  // TODO: distinguish between yummly fetch and mongodb fetch
+  // TODO: distinguish between yummly fetc: h and mongodb fetch
   // test array of ingredients for now
   var recipeId = req.body.recipeId;
   
-  TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
-    if(recipe === null){
-      console.log("calling yummly");
-      callYummly();
-    }
-    else{
-      console.log("found!");
-      // console.log(recipe);
-      res.json(recipe);
-    }
-  });
+  if(req.body.type != "Composition"){
+    TmpRecipe.findOne({id: recipeId }, function (err, recipe) {
+      if(recipe === null){
+        callYummly();
+      }
+      else{
+        console.log("found!");
+        res.json(recipe);
+      }
+    });
+  }
+  // it's from our DB!
+  else{
+    Composition.findById(recipeId).exec(function(err, comp){
+      if(err){
+        console.log(err);
+      }
+      if(!comp){
+        console.log("Error: ID not found in db");          
+      }
+      else{
+        // findNames(comp, 0);
+         // populate our ingredients
+         var ingredientIds = [];
+         var recipeHash = {};
+         comp.recipe.forEach(function(ingr){
+            ingredientIds.push(ingr.ingredient);
+            recipeHash[ingr.ingredient] = ingr;
+         });
+        var composition = comp;
+        composition.recipe = [];
+        AbstractIngredient.find({'_id': {$in: ingredientIds}}, function(err1, abstrs){
+          PrimitiveIngredient.find({'_id': {$in: ingredientIds}}, function(err2, prims){
+            Composition.find({'_id': {$in: ingredientIds}}, function(err3, compings){
+              compings.concat(prims).concat(abstrs).forEach(function(ingr, i){
+                composition.recipe[i] = {
+                  name: ingr.name,
+                  type: ingr.__t,
+                  quantity: recipeHash[ingr.id].quantity,
+                  units: recipeHash[ingr.id].units,
+                  _id: ingr._id
+                };
+              }); 
+              res.json(composition);
+            });
+          });
+        });
+      }
+    });
+  }
+
   function callYummly(){
+    console.log("calling yummly")
     // the yummly API key embedded URL
     // suffixed with start of ingredients syntax
     var url = 'http://api.yummly.com/v1/api/recipe/'+recipeId+'?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd';
@@ -97,55 +141,110 @@ router.post('/', function(req, res, next){
 router.post('/withIngredients/', function(req, res, next){
   // console.log(req.body)
   // test array of ingredients for now
+  var meal = req.body.meal;
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
+  var query = {name: {$in: ingredients}};
+  var combined = [];
+  AbstractIngredient.find(query, function(err, abstr){
+    combined = combined.concat(abstr);
+    PrimitiveIngredient.find(query, function(err, prim){
+      combined = combined.concat(prim);
+      Composition.find(query, function(err, comp){
+        combined = combined.concat(comp);
+        var ingredientIds = [];
+        //foreach is blocking
+        combined.forEach(function(ingredient){ 
+          ingredientIds.push(ingredient.id)
+          // uncomment for testing
+          console.log("Found this with name:" + ingredient.name);
+          console.log(ingredient);
+        });
+        searchCompositions(ingredientIds);
+      });
+    });
+  });
 
-  // the yummly API key embedded URL
-  // suffixed with start of ingredients syntax
-  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
 
-  // combine url and ingredients
-  url += ingredients.join('&allowedIngredient[]=');
-    // uhh, yeah. gotta get rid of those special characters
-    if (excluded.length){
-      url += "&excludedIngredient[]="
-      url += excluded.join('&excludedIngredient[]=');
+  function searchCompositions(ingredientIds){
+    console.log(ingredientIds);
+    // if one of the ingredients wasn't found in our db, don't even bother searching for compositions
+    if(ingredients.length > ingredientIds.length)
+    {
+      searchYummly([]);
+      return;
     }
 
-  url = encodeURI(url);
+    // now let's make a collection of recipes that contain those IDs
+    var compositionStream = Composition.find({'recipe.ingredient': {$all: ingredientIds}}).stream();
+    // keep those recipes in this array
+    var recipes = [];
+    compositionStream.on('data', function(composition){
+      // uncomment for testing
+      console.log("Pushing this recipe: ");
+      console.log(composition);
 
-  // for testing
-  console.log(url);
-
-  // gets remote data
-  http.get(url, function(remoteRes) {
-    // testing
-     console.log("Got response: " + remoteRes.statusCode);
-    var recipesResponse;
-    var body = ""
-    remoteRes.on('data', function(data) {
-      // collect the data stream
-      body += data;
+      // push this composition to our array
+      recipes.push(composition);
     });
-    remoteRes.on('end', function() {
-      // TODO: maybe this can be made recursive?
-      recipesResponse = JSON.parse(body).matches;
-      // loop through recipes and extract and create ingredients
-      recipesResponse.forEach(function(recipe){
-        recipe.ingredients.forEach(function(ingredient){
-            // console.log(ingredient)
-            var tmpIngredient = new TmpIngredient();
-            tmpIngredient.name = ingredient;
-            tmpIngredient.save();
-        });
-      })
-
-      // send our response
-      res.json(recipesResponse);
+    // done searching
+    compositionStream.on('close', function(){
+      searchYummly(recipes);
     });
-  }).on('error', function(e) {
-      console.log("Got error: " + e.message);
-  });
+  }
+
+  function searchYummly(recipes){
+
+      // the yummly API key embedded URL
+    // suffixed with start of ingredients syntax
+    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
+
+    // combine url and ingredients
+    url += ingredients.join('&allowedIngredient[]=');
+      // uhh, yeah. gotta get rid of those special characters
+      if (excluded.length){
+        url += "&excludedIngredient[]="
+        url += excluded.join('&excludedIngredient[]=');
+        
+      }
+    url += "&requirePictures=true";
+    url += ("&allowedCourse[]=course^course-" + meal)
+    url = encodeURI(url);
+
+    // for testing
+    console.log(url);
+
+    // gets remote data
+    http.get(url, function(remoteRes) {
+      // testing
+       console.log("Got response: " + remoteRes.statusCode);
+      var recipesResponse;
+      var body = ""
+      remoteRes.on('data', function(data) {
+        // collect the data stream
+        body += data;
+      });
+      remoteRes.on('end', function() {
+        // TODO: maybe this can be made recursive?
+        recipesResponse = JSON.parse(body).matches;
+        // loop through recipes and extract and create ingredients
+        recipesResponse.forEach(function(recipe){
+          recipe.ingredients.forEach(function(ingredient){
+              // console.log(ingredient)
+              var tmpIngredient = new TmpIngredient();
+              tmpIngredient.name = ingredient.toLowerCase();
+              tmpIngredient.save();
+          });
+        })
+
+        var combined = recipes.concat(recipesResponse);
+        // send our response
+        res.json(combined);
+      });
+    }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+    });
+  }
 });
 
 /**
@@ -162,21 +261,10 @@ router.post('/new/', function(req, res, next){
  
     var recipeArray = [];
     req.body.ingredients.forEach(function(ingredient){
-        if(ingredient.type == "composition"){
-          var id = ingredient.CompositionSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'Composition':ingredient._id});
-        }
-        else if(ingredient.type == "abstract"){
-          var id = ingredient.AbstractIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'AbstractIngredient':ingredient._id});
-        }
-        else if(ingredient.type == "primitive"){
-          var id = ingredient.PrimativeIngredientSchema_id;
-          recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'PrimativeIngredient':ingredient._id});
-        }
-    });
+      recipeArray.push({'quantity':ingredient.quantity, 'units':ingredient.units, 'ingredient':ingredient._id});
+   });
 
-    newComposition.name = req.body.name;
+    newComposition.name = req.body.name.toLowerCase();
     newComposition.recipe = recipeArray;
     newComposition.instruction = req.body.instruction;
     console.log(newComposition);
@@ -190,76 +278,6 @@ router.post('/new/', function(req, res, next){
         res.send(savedComposition);
       }
     });
-
-
-
-    /* MISSING CODE - NEEDS LOOPS TO POPULATE Children Arrays */
-    //Search DB for ChildID, push onto ChildID array; via sub query//
-    // *** //
-    //Search DB for ParentID, push onto ParentID array; via sub query//
-    // *** //
-    //Save Composition//
-    /*
-    composition.save(function(err, composition){
-      if (err)
-        res.send(err);
-      res.json(composition); //Return Json Object
-    });
-    */
-
-});
-// https://www.digitalocean.com/community/tutorials/how-to-use-node-js-request-and-cheerio-to-set-up-simple-web-scraping
-
-// This route searches for recipes with specific abstract ingredients (can be expanded to composition and primitive)
-// Will return a list of recipes
-// route example: http://localhost:3000/api/composition/ingredients/Cheese/Pizza Sauce/Pizza Dough
-router.get(/^\/ingredients\/(.*)/, function(req, res, next) {
-  // our params regex will capture something like "/Cheese/Pizza Sauce/Pizza Dough", so split it
-  var needle = req.params[0].split('/');
-  // uncomment for testing purposes
-  // console.log("requested params:");
-  // console.log(needle);
-
-  // let's make a collection of the IDs we'll need to search for
-  // so search our ingredient schema for our list of ingredients
-  var ingredientStream = AbstractIngredient.find({name: {$in: needle}}).stream();
-  // keep our found ingredient IDs in this array
-  var ingredientIds = [];
-  ingredientStream.on('data', function (ingredient) {
-    ingredientIds.push(ingredient.id)
-    // uncomment for testing
-    // console.log("Found this with name:" + ingredient.name);
-    // console.log(ingredient);
-  });
-
-  // when the ingredient search is done, the close event is called
-  ingredientStream.on('close', function () {
-    // if one of our ingredients wasn't found, return a message
-    // this causes a headers already sent error for some reason
-    if(needle.length > ingredientIds.length)
-    {
-      res.json("Not all ingredients found in database!");
-      return next();
-    }
-
-    // now let's make a collection of recipes that contain those IDs
-    var compositionStream = Composition.find({'recipe.AbstractIngredient': {$all: ingredientIds}}).stream();
-    // keep those recipes in this array
-    var recipes = [];
-    compositionStream.on('data', function(composition){
-      // uncomment for testing
-      // console.log("Pushing this recipe: ");
-      // console.log(composition);
-
-      // push this composition to our array
-      recipes.push(composition);
-    });
-    // done searching
-    compositionStream.on('close', function(){
-      // output the recipes json
-      res.json(recipes);
-    });
-  });
 });
 
 router.delete('/:composition_id', function(req, res){
