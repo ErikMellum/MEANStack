@@ -324,7 +324,7 @@ aboutController.controller('AboutController', ['$scope','$http', function($scope
 }]);
 var searchController = angular.module('searchController', ['ngEnter', 'theRecipeService', 'theDataService', 'ngAnimate', 'ngConfirm']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
+searchController.controller('SearchController', ['$scope','$http', '$window', '$log', 'detailsService', 'dataService', function($log, $scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -505,6 +505,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
+      $log(postObject);
+      alert($scope.meal);
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
