@@ -372,11 +372,14 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
    $scope.insert = function(ingredient){
     var display =false;
-    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
-      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length).toLowerCase()});
-      $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length).toLowerCase()}); 
+    if ((ingredient.toLowerCase().substr(0,4) == "not" ) || 
+    (ingredient.toLowerCase().substr(0,3) == "no ")
+    && $scope.uniqueIngredient(ingredient.substr(3, ingredient.length).trim())){ 
+      dataService.addExcludedIngredient({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()});
+      $scope.excluded_ingredients.push({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()}); 
       display = true;
-    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
+    } else if ((ingredient.toLowerCase().substr(0,4) != "not ") && 
+    (ingredient.toLowerCase().substr(0,3) != "no ") && $scope.uniqueIngredient(ingredient)){
       dataService.addChosenIngredient({name : ingredient.toLowerCase()});
       $scope.chosen_ingredients.push({name : ingredient.toLowerCase()}); 
       display = true;
