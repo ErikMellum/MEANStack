@@ -2,63 +2,7 @@
 <section id="main-content">
     <section class="wrapper">
 
-        <div class="row">
-        
-          <div class="col-lg-12 main-chart">
-          <form class="form-vertical createIngredientForm" role="form">
-            <h1>Create Ingredients</h1>
-            <hr>
-            <div class="form-group">
-
-              <h2>Enter name</h2>
-              <input ng-model="ingredientName" type="text" id="name_field" name="name" placeholder="Enter name">
-              <button ng-click="ingredientName = ''" class="btn">Clear</button>
-              <table class="table table-hover">
-                <tr ng-repeat="ingredient in tmpIngredients | filter: ingredientName | limitTo : 5">
-                  <td ng-click="setIngredient(ingredient)" class="tmpIngredient">{{ingredient.name}}</td>
-                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredient(ingredient)"></button></td> 
-                    <td><button class="glyphicon glyphicon-remove" ng-click="delete('tempIngredient', ingredient)" class="delete"></button></td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="form-group">
-              <h2>Enter brand</h2>
-              <input ng-model="currentIngredient.brand" class="form-control" type="text" id="brand_field" name="brand" placeholder="Enter brand">
-            </div>
-
-            <div class="form-group">
-              <h2>Enter abstract parent</h2>
-              <input type="text" id="abstract_parent_field" name="abstract-parent" placeholder="Enter abstract parent" ng-model="currentIngredient.parentName">
-              <button ng-click="clearParent()" class="btn">Clear</button>
-              <table class="table table-hover">
-                <tr ng-repeat="ingredient in abstractIngredients | filter: currentIngredient.parentName | limitTo : 5">
-                  <td ng-click="setIngredientParent(ingredient)" class="abstractIngredient">{{ingredient.name}}</td>
-                    <td><button class="glyphicon glyphicon-plus" ng-click="setIngredientParent(ingredient)"></button></td> 
-                    <td><button class="glyphicon glyphicon-remove" ng-click="delete('abstractIngredient', ingredient)" class="delete"></button></td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="form-group">
-              <input type="hidden" name="abstract-parent-id" ng-model="ingredientParentId">
-            </div>
-
-            <div class="form-inline">
-              <label for="unique">Unique: </label>
-              <input ng-model="currentIngredient.unique" class="checkbox" type="checkbox" id="unique_field" name="unique" placeholder="Unique">
-               <label for="processed">Processed:</label>
-              <input ng-model="currentIngredient.processed" class="checkbox" type="checkbox" id="processed_field" name="processed" placeholder="Processed">
-               
-            </div>
-            <hr>
-            <button class="btn btn-default" ng-click="submitNewIngredient()">Add!</button>
-
-           
-          </form>
-          </div><!-- /col-lg-9 END SECTION MIDDLE -->
-            
-        </div><!-- /row -->
+      
 
         <div class="row mt">
               <div class="col-lg-12">
