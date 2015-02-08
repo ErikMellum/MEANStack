@@ -144,6 +144,7 @@ router.post('/withIngredients/', function(req, res, next){
   var meal = req.body.meal;
   var cuisine = req.body.cuisine;
   var diet = req.body.diet;
+  var keywords = req.body.keywords;
   console.log("MEAL: " + meal + "*********************************");
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
@@ -200,7 +201,7 @@ router.post('/withIngredients/', function(req, res, next){
 
       // the yummly API key embedded URL
     // suffixed with start of ingredients syntax
-    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd&allowedIngredient[]='
+    var url = 'http://api.yummly.com/v1/api/recipes?_app_id=af791dca&_app_key=f28b1240c0ab4435b41d6505f0278cfd'
 
     // combine url and ingredients
     url += ingredients.join('&allowedIngredient[]=');
@@ -210,12 +211,14 @@ router.post('/withIngredients/', function(req, res, next){
         url += excluded.join('&excludedIngredient[]=');
         
       }
-    if(meal != "")
+    if(meal != "" && meal != undefined)
       url += "&allowedCourse[]=course^course-" + meal;
-    if(diet != "")
+    if(diet != "" && diet != undefined)
       url += "&allowedDiet[]=390^Pescetarian&allowedDiet[]=388^" + diet;
-    if(cuisine != "")
+    if(cuisine != "" && cuisine != undefined)
       url += "&allowedCuisine[]=cuisine^cuisine-" + cuisine;
+    if(keywords != "" && keywords != undefined)
+      url += "&q=" + keywords;
     url += "&requirePictures=true";
     url = encodeURI(url);
 

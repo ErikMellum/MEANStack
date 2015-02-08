@@ -8,7 +8,7 @@ theDataService.service('dataService', function(){
   var excluded_ingredients = [];
   var topRecipe0 =[];
   var topRecipe1 = [];
-  var meal, cuisine, diet;
+  var meal, cuisine, diet, keywords;
 
   var addTopRecipe0 = function (data) {
     topRecipe0.push(data);
@@ -27,6 +27,12 @@ theDataService.service('dataService', function(){
   }
   var addCuisine = function(data){
     cuisine = data;
+  }
+  var addKeywords = function(data){
+    keywords = data;
+  }
+  var getKeywords = function () {
+    return keywords;
   }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
@@ -81,6 +87,7 @@ theDataService.service('dataService', function(){
       meal="";
       cuisine="";
       diet="";
+      keywords="";
   }
   var clearRecipes = function() {
     recipes = [];
@@ -99,6 +106,8 @@ theDataService.service('dataService', function(){
    addDiet : addDiet,
    addCuisine : addCuisine,
    addMeal : addMeal,
+   addKeywords : addKeywords,
+   getKeywords : getKeywords,
    clearRecipes : clearRecipes,
    removeIngredient : removeIngredient,
    clearData : clearData,
