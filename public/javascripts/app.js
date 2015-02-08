@@ -380,7 +380,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
    $scope.insert = function(ingredient){
     var display =false;
-    if ((ingredient.toLowerCase().substr(0,4) == "not" ) || 
+    if ((ingredient.toLowerCase().substr(0,4) == "not " ) || 
     (ingredient.toLowerCase().substr(0,3) == "no ")
     && $scope.uniqueIngredient(ingredient.substr(3, ingredient.length).trim())){ 
       dataService.addExcludedIngredient({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()});
