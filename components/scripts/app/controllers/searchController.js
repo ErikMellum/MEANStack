@@ -8,7 +8,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.excluded_ingredients = []
   $scope.match="";
   $scope.topRecipes = [];
-  $scope.title = "Add Ingredients";
+  $scope.pageTitle = "Add Ingredients";
   $scope.keywords ="";
   $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
   $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
@@ -25,7 +25,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.topRecipes = []
     setTimeout(function(){
       $scope.recipes = [];
-      $scope.topRecipes = []
+      $scope.topRecipes = [];
+
     }, 1000);
 
   }
@@ -51,7 +52,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
   $scope.insert = function(ingredient){
-    if($scope.title == "Search Recipes"){
+    if($scope.pageTitle == "Search Recipes"){
       $scope.keywords=ingredient;
       $scope.displayRecipes();
     }
@@ -85,7 +86,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.queryIngredients = function(match)
   {
     
-    if($scope.title == "Search Recipes"){
+    if($scope.pageTitle == "Search Recipes"){
       $scope.keywords=match;
       displayRecipes();
     }
@@ -181,13 +182,13 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
          $scope.recipes.splice(0,2);
     }
     $scope.changeTitle= function() {
-      if($scope.title == "Add Ingredients"){
-        $scope.title = "Search Recipes";
+      if($scope.pageTitle == "Add Ingredients"){
+        $scope.pageTitle = "Search Recipes";
         $scope.placeholder = "Enter in the name or keyword of your recipe to search";
         $scope.placeholderAlt = "Find recipes by entering in keywords";
       }
       else {
-        $scope.title = "Add Ingredients";
+        $scope.pageTitle = "Add Ingredients";
         $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
         $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
       }
@@ -221,14 +222,13 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
         "cuisine" : $scope.cuisine,
         "keywords" : $scope.keywords
       };
-      var test = $scope.keywords;
       $http.post(url, postObject).success(function(data) {
         $scope.dataArray = data;
           data.forEach(function(recipe){
             $scope.recipes.push(recipe);
               dataService.addRecipe(recipe);
         });
-        $scope.keywords = test;
+          
         //reset the topRecipes array
         $scope.topRecipes = [];
         var r1, r2;
