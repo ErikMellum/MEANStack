@@ -1,6 +1,6 @@
 var searchController = angular.module('searchController', ['ngEnter', 'theRecipeService', 'theDataService', 'ngAnimate', 'ngConfirm']);
 
-searchController.controller('SearchController', ['$scope','$http', '$window', '$log', 'detailsService', 'dataService', function($log, $scope, $http, $window, detailsService, dataService) {
+searchController.controller('SearchController', ['$scope','$http', '$window','detailsService', 'dataService', function($scope, $http, $window, detailsService, dataService) {
   $scope.chosen_ingredients=[]
   $scope.recipes=[]
   $scope.dataArray=[]
@@ -48,7 +48,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window', '$
   }
    $scope.insert = function(ingredient){
     var display =false;
-    if ((ingredient.toLowerCase().substr(0,4) == "not" ) || 
+    if ((ingredient.toLowerCase().substr(0,4) == "not " ) || 
     (ingredient.toLowerCase().substr(0,3) == "no ")
     && $scope.uniqueIngredient(ingredient.substr(3, ingredient.length).trim())){ 
       dataService.addExcludedIngredient({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()});
@@ -181,8 +181,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window', '$
 
       });
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
-      $log(postObject);
-      alert($scope.meal);
         $http.post(url, postObject).success(function(data) {
           $scope.dataArray = data;
             data.forEach(function(recipe){
