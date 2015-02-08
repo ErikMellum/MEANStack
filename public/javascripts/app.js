@@ -110,6 +110,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     $scope.ingredientName = ingredient.name;
   }
   /**
+   * setIngredientName sets the current ingredients name 
+   * @param {Ingredient} ingredient
+   */
+  $scope.setIngredientName = function(ingredientName){
+    $scope.currentIngredient.name = ingredientName;
+    $scope.ingredientName = ingredientName;
+  }
+  /**
    * setIngredientParent is used to set the parentName and parent (id) of the 
    * currentIngredient being added
    * @param {Ingredient} ingredient
@@ -372,13 +380,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   }
    $scope.insert = function(ingredient){
     var display =false;
-<<<<<<< HEAD
-    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
-      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length).toLowerCase()});
-      $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length).toLowerCase()}); 
-      display = true;
-    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
-=======
     if ((ingredient.toLowerCase().substr(0,4) == "not" ) || 
     (ingredient.toLowerCase().substr(0,3) == "no ")
     && $scope.uniqueIngredient(ingredient.substr(3, ingredient.length).trim())){ 
@@ -387,7 +388,6 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
       display = true;
     } else if ((ingredient.toLowerCase().substr(0,4) != "not ") && 
     (ingredient.toLowerCase().substr(0,3) != "no ") && $scope.uniqueIngredient(ingredient)){
->>>>>>> master
       dataService.addChosenIngredient({name : ingredient.toLowerCase()});
       $scope.chosen_ingredients.push({name : ingredient.toLowerCase()}); 
       display = true;

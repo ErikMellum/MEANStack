@@ -43,7 +43,7 @@ var jsonSources = [
   'components/scripts/json/*.json'
 ];
 
-var styleSources = [
+var sassSources = [
   'components/sass/*.scss'
 ];
 
@@ -131,9 +131,9 @@ gulp.task('css', function(){
   .pipe(livereload());
 });
 
-gulp.task('styles', function(){
+gulp.task('sass', function(){
   // CSS autoprefixer, minify, and livereload
-  gulp.src(styleSources)
+  gulp.src(sassSources)
   .pipe(sass({style: 'expanded', lineNumbers: true}))
     .on('error', gutil.log)
   .pipe(concat('sass.css'))
@@ -156,6 +156,52 @@ gulp.task('launch', function () {
     })
 });
 
+gulp.task('build', function(){
+  gulp.src(cssSources)
+  .pipe(concat('main.css'))
+  .pipe(gulp.dest('public/styles'))
+  .pipe(rename({suffix: '.min'}))
+  .pipe(minifycss())
+  .pipe(gulp.dest('public/styles'))
+
+  gulp.src(jslibSources)
+  .pipe(gulp.dest('public/lib'))
+  gulp.src(csslibSources)
+  .pipe(minifycss())
+  .pipe(gulp.dest('public/lib'))
+
+  gulp.src(appSources)
+  .pipe(concat('app.js'))
+  .pipe(gulp.dest('public/javascripts'))
+
+  gulp.src(coffeeSources)
+  .pipe(coffee({bare: true}))
+    .on('error', gutil.log)
+  .pipe(gulp.dest('components/scripts'));
+
+  gulp.src(jsSources)
+  .pipe(jshint())
+  .pipe(uglify())
+  .pipe(concat('script.js'))
+  .pipe(gulp.dest('public/javascripts'))
+
+  gulp.src(sassSources)
+  .pipe(sass({style: 'expanded', lineNumbers: true}))
+    .on('error', gutil.log)
+  .pipe(concat('sass.css'))
+  .pipe(gulp.dest('public/styles'))
+  .pipe(rename({suffix: '.min'}))
+  .pipe(minifycss())
+  .pipe(gulp.dest('public/styles'))
+
+  gulp.src(cssSources)
+  .pipe(concat('main.css'))
+  .pipe(gulp.dest('public/styles'))
+  .pipe(rename({suffix: '.min'}))
+  .pipe(minifycss())
+  .pipe(gulp.dest('public/styles'))
+});
+
 gulp.task('views', function(){
  gulp.src(viewSources) 
  .pipe(livereload());
@@ -167,7 +213,7 @@ gulp.task('watch', function(){
   //gulp.watch(jsonSources, ['json']);
   gulp.watch(appSources, ['app']);
   //gulp.watch(coffeeSources, ['coffee']);
-  //gulp.watch(styleSources, ['styles']);
+  //gulp.watch(sassSources, ['sass']);
   gulp.watch(cssSources, ['css']);
   gulp.watch(viewSources, ['views']);
 });
