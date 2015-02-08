@@ -400,21 +400,16 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   {
     var postObject = {};
     var url = '/api/ingredients/';
-    if (match.toLowerCase().substr(0,3) == "not" && match.length > 4){
+    if ((match.toLowerCase().substr(0,3) == "not" || match.toLowerCase().substr(0,2) == "no") 
+      && match.length > 4){
       postObject = {"ingredient" : match.substr(4, match.length)};
     } 
     else {
       postObject = {"ingredient" : match};
     }
-    if (match.toLowerCase().substr(0,3) != "not" || (match.toLowerCase().substr(0,3) == "not" && match.length !=3 && match.length !=4)){ 
-    //make API call if the first three letters != "not OR if they do == "not, then make the API call if there are more letters after the "not "
-      $http.post(url, postObject).success(function(data) {
-        $scope.query_result = data;
-      });
-    } else {
-      $scope.query_result = [];
-      //keep the query result empty if the first three letters are "not" and nothing else is after the "not"
-    }
+    $http.post(url, postObject).success(function(data) {
+      $scope.query_result = data;
+    });
   }
   $scope.switchAndDisplay = function(name){
       var display =false;
@@ -504,13 +499,14 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
+      alert("YOUR MEAL IS: " + $scope.meal);
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
-        $http.post(url, postObject).success(function(data) {
-          $scope.dataArray = data;
-            data.forEach(function(recipe){
-              $scope.recipes.push(recipe);
-                dataService.addRecipe(recipe);
-          });
+      $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
+          data.forEach(function(recipe){
+            $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
+        });
         //reset the topRecipes array
         $scope.topRecipes = [];
         var r1, r2;
