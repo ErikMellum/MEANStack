@@ -142,6 +142,7 @@ router.post('/withIngredients/', function(req, res, next){
   // console.log(req.body)
   // test array of ingredients for now
   var meal = req.body.meal;
+  console.log("MEAL: " + meal + "*********************************");
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
   var query = {name: {$in: ingredients}};
