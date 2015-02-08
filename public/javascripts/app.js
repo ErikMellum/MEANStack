@@ -507,7 +507,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
-      alert("YOUR MEAL IS: " + $scope.meal);
+      alert($scope.meal);
       var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
       $http.post(url, postObject).success(function(data) {
         $scope.dataArray = data;
