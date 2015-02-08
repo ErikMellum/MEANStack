@@ -157,6 +157,9 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
           $scope.topRecipes[1] = dataService.getTopRecipe1();
         };
+        $scope.meal = dataService.getMeal();
+        $scope.cuisine = dataService.getCuisine();
+        $scope.diet = dataService.getDiet();
          $scope.recipes.splice(0,2);
     }
   $scope.displayRecipes = function() {
@@ -175,8 +178,16 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
-      alert("YOUR MEAL IS: " + $scope.meal);
-      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
+      dataService.addMeal($scope.meal);
+      dataService.addCuisine($scope.cuisine);
+      dataService.addDiet($scope.diet);
+      var postObject = {
+        "ingredients" : allowedIngredients, 
+        "excluded" : excludedIngredients, 
+        "meal" : $scope.meal, 
+        "diet" : $scope.diet, 
+        "cuisine" : $scope.cuisine
+      };
       $http.post(url, postObject).success(function(data) {
         $scope.dataArray = data;
           data.forEach(function(recipe){

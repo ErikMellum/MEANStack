@@ -481,6 +481,9 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
           $scope.topRecipes[1] = dataService.getTopRecipe1();
         };
+        $scope.meal = dataService.getMeal();
+        $scope.cuisine = dataService.getCuisine();
+        $scope.diet = dataService.getDiet();
          $scope.recipes.splice(0,2);
     }
   $scope.displayRecipes = function() {
@@ -499,8 +502,16 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
-      alert("YOUR MEAL IS: " + $scope.meal);
-      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
+      dataService.addMeal($scope.meal);
+      dataService.addCuisine($scope.cuisine);
+      dataService.addDiet($scope.diet);
+      var postObject = {
+        "ingredients" : allowedIngredients, 
+        "excluded" : excludedIngredients, 
+        "meal" : $scope.meal, 
+        "diet" : $scope.diet, 
+        "cuisine" : $scope.cuisine
+      };
       $http.post(url, postObject).success(function(data) {
         $scope.dataArray = data;
           data.forEach(function(recipe){
@@ -719,11 +730,13 @@ var theDataService = angular.module('theDataService', ['ngResource', 'theIngredi
 
 theDataService.service('dataService', function(){
 	//need to add ability to delete a specific ingredient from the service
-  var chosen_ingredients=[]
-  var recipes=[]
-  var excluded_ingredients = []
+  var chosen_ingredients=[];
+  var recipes=[];
+  var excluded_ingredients = [];
   var topRecipe0 =[];
-  var topRecipe1 = []
+  var topRecipe1 = [];
+  var meal, cuisine, diet;
+
   var addTopRecipe0 = function (data) {
     topRecipe0.push(data);
   }
@@ -732,6 +745,15 @@ theDataService.service('dataService', function(){
   }
   var addRecipe = function(data){
     recipes.push(data);
+  }
+  var addDiet = function(data){
+    diet = data;
+  }
+  var addMeal = function(data){
+    meal = data;
+  }
+  var addCuisine = function(data){
+    cuisine = data;
   }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
@@ -763,6 +785,18 @@ theDataService.service('dataService', function(){
   var getTopRecipe1 = function () {
     return topRecipe1[0]
   }
+
+  var getMeal = function () {
+    return meal;
+  }
+
+  var getCuisine = function () {
+    return cuisine;
+  }
+
+  var getDiet = function () {
+    return diet;
+  }
   var clearTopRecipes = function(){
      topRecipe0 = [];
      topRecipe1 = [];
@@ -771,6 +805,9 @@ theDataService.service('dataService', function(){
       chosen_ingredients=[];
       recipes=[];
       excluded_ingredients = [];
+      meal="";
+      cuisine="";
+      diet="";
   }
   var clearRecipes = function() {
     recipes = [];
@@ -783,6 +820,12 @@ theDataService.service('dataService', function(){
    getExcludedIngredients : getExcludedIngredients,
    getRecipes : getRecipes,
    addRecipe : addRecipe,
+   getDiet : getDiet,
+   getCuisine : getCuisine,
+   getMeal : getMeal,
+   addDiet : addDiet,
+   addCuisine : addCuisine,
+   addMeal : addMeal,
    clearRecipes : clearRecipes,
    removeIngredient : removeIngredient,
    clearData : clearData,

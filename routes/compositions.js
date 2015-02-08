@@ -142,6 +142,8 @@ router.post('/withIngredients/', function(req, res, next){
   // console.log(req.body)
   // test array of ingredients for now
   var meal = req.body.meal;
+  var cuisine = req.body.cuisine;
+  var diet = req.body.diet;
   console.log("MEAL: " + meal + "*********************************");
   var ingredients = req.body.ingredients;
   var excluded = req.body.excluded;
@@ -208,8 +210,13 @@ router.post('/withIngredients/', function(req, res, next){
         url += excluded.join('&excludedIngredient[]=');
         
       }
+    if(meal != "")
+      url += "&allowedCourse[]=course^course-" + meal;
+    if(diet != "")
+      url += "&allowedDiet[]=390^Pescetarian&allowedDiet[]=388^" + diet;
+    if(cuisine != "")
+      url += "&allowedCuisine[]=cuisine^cuisine-" + cuisine;
     url += "&requirePictures=true";
-    url += ("&allowedCourse[]=course^course-" + meal)
     url = encodeURI(url);
 
     // for testing
