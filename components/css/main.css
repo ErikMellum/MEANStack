@@ -6,7 +6,28 @@
 input{
   color: black;
 }
-
+.li_search{
+  cursor: pointer;
+  transition-property: color, transform, display;
+  transition-timing: ease-out;
+  transition-duration: .6s;
+}
+.li_search:hover{
+  display: block;
+  transform: scale(1.1);
+  color: #68DFF0;
+}
+.searchTitle{
+  cursor: pointer;
+  transition-property: transform, color;
+  transition-timing: ease-out;
+  transition-duration: .6s;
+}
+.searchTitle:hover{
+ 
+  transform: scale(1.1);
+  color: #68DFF0;
+}
 #searchIngredientResults{ 
   padding: 10px;
   

@@ -51,40 +51,36 @@
         </ul>
         <!--
         <hr>
-        <h5 class="centered">Ingredient Filter</h5>
-        <div style=" text-align: center; margin: 0 auto;">
-          <span style="color: white;" >Use only these ingredients </span><input name="onlyOrAll" type="checkbox" ng-model="only" checked>
-        </div>
-        <hr>
+        <!--
         <div style=" text-align: center; margin: 0 auto;">
           <h5 class="centered" >You may want to add...</h5>
           <span ng-repeat="ingredient in suggestedIngredients"></span>
         </div>
         <hr>
+        !-->
         <h5 class="centered">Meal Filter</h5>
         <div style=" text-align: center; margin: 0 auto;">
-          <span style="color: white;" >Desserts</span><input name="meal" type="radio" value="all" ng-model="Desserts" checked>
-          <span style="color: white;" >Breakfast</span><input name="meal" type="radio" value="Breakfast and Brunch" ng-model="meal">
-          <span style="color: white;" >Lunch</span><input name="meal" type="radio" value="Lunch and Snacks" ng-model="meal">
-          <span style="color: white;" >Dinner</span><input name="meal" type="radio" value="Main Dishes" ng-model="meal">
-          <span style="color: white;" >Salads</span><input name="meal" type="radio" value="Salads" ng-model="meal">
+          <span style="color: white;" >Desserts</span><input name="meal" type="radio" value="Desserts" ng-model="meal" ng-click="displayRecipes()">
+          <span style="color: white;" >Breakfast</span><input name="meal" type="radio" value="Breakfast and Brunch" ng-model="meal" ng-click="displayRecipes()">
+          <span style="color: white;" >Lunch</span><input name="meal" type="radio" value="Lunch and Snacks" ng-model="meal" ng-click="displayRecipes()">
+          <span style="color: white;" >Dinner</span><input name="meal" type="radio" value="Main Dishes" ng-model="meal" ng-click="displayRecipes()">
+          <span style="color: white;" >Salads</span><input name="meal" type="radio" value="Salads" ng-model="meal" ng-click="displayRecipes()">
         </div>
         <hr>
         <h5 class="centered">Diet Filter</h5>
         <div style=" text-align: center; margin: 0 auto;">
-          <span style="color: white;" >All</span><input name="diet" type="radio" value="all" ng-model="diet" checked>
-          <span style="color: white;" >Paleo</span><input name="diet" type="radio" value="paleo" ng-model="diet">
-          <span style="color: white;" >Vegetarian</span><input name="diet" type="radio" value="vegetarian" ng-model="diet">
-          <span style="color: white;" >Vegan</span><input name="diet" type="radio" value="vegan" ng-model="diet">
+          <span style="color: white;" >All</span><input name="diet" type="radio" value="" ng-model="diet" ng-click="displayRecipes()">
+          <span style="color: white;" >Vegetarian</span><input name="diet" type="radio" value="vegetarian" ng-model="diet" ng-click="displayRecipes()">
+          <span style="color: white;" >Vegan</span><input name="diet" type="radio" value="vegan" ng-model="diet" ng-click="displayRecipes()">
         </div>
         <hr>
         <h5 class="centered">Cuisine Filter</h5>
         <div style=" text-align: center; margin: 0 auto;">
-          <span style="color: white;" >All</span><input name="cuisine" type="radio" value="all" ng-model="cuisine" checked>
-          <span style="color: white;" >American</span><input name="cuisine" type="radio" value="american" ng-model="cuisine">
-          <span style="color: white;" >Chinese</span><input name="cuisine" type="radio" value="chinese" ng-model="cuisine">
-          <span style="color: white;" >Mexican</span><input name="cuisine" type="radio" value="mexican" ng-model="cuisine">
-          <span style="color: white;" >Indian</span><input name="cuisine" type="radio" value="indian" ng-model="cuisine">
+          <span style="color: white;" >All</span><input name="cuisine" type="radio" value="" ng-model="cuisine" ng-click="displayRecipes()">
+          <span style="color: white;" >American</span><input name="cuisine" type="radio" value="american" ng-model="cuisine" ng-click="displayRecipes()">
+          <span style="color: white;" >Chinese</span><input name="cuisine" type="radio" value="chinese" ng-model="cuisine" ng-click="displayRecipes()">
+          <span style="color: white;" >Mexican</span><input name="cuisine" type="radio" value="mexican" ng-model="cuisine" ng-click="displayRecipes()">
+          <span style="color: white;" >Indian</span><input name="cuisine" type="radio" value="indian" ng-model="cuisine" ng-click="displayRecipes()">
         </div>
         -->
         <!-- sidebar menu end-->
@@ -105,16 +101,16 @@ MAIN CONTENT
               <div class="row mtbox">
                 <div class="col-md-8 col-md-offset-2 box0">
                   <div class="box1">
-                    <span class="li_search"></span>
-                    <h3>Add Ingredients</h3>
+                    <span class="li_search" ng-click="changeTitle()"></span>
+                    <h3 class="searchTitle" ng-click="changeTitle()">{{pageTitle}}</h3>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name" autofocus>
+                    <input type="text" class="form-control" ng-model="match" ng-keyup="queryIngredients(match)" ng-enter="insert(match)" placeholder="{{placeholder}}" autofocus>
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="button" ng-click="insert(match)"><strong>+</strong></button>
                     </span>
                   </div>
-                  <ul class="foodlist">
+                  <ul ng-if="(pageTitle!='Search Recipes')"class="foodlist">
                     <li class="searchIngredientResults" ng-if="match.length > 0" class="repeated-item food cf shrink animatedRepeat" ng-animate="'animate'" ng-repeat="ingredient in query_result">
                       <a href="#/search" ng-click="switchAndDisplay(ingredient)">
                       <div class="info inline">
@@ -122,8 +118,19 @@ MAIN CONTENT
                       </div></a>
                     </li>
                   </ul>
+                  <span ng-if="keywords.length > 0 && topRecipes.length > 0">Showing results for: {{keywords}}</span>
+                  <!-- Eventually autocomplete the recipe names as they search
+                  <ul class="recipenamelist">
+                    <li class="searchIngredientResults" ng-if="match.length > 0" class="repeated-item food cf shrink animatedRepeat" ng-animate="'animate'" ng-repeat="ingredient in query_result">
+                      <a href="#/search" ng-click="switchAndDisplay(ingredient)">
+                      <div class="info inline">
+                        <h2>{{ingredient.name}}</h2>
+                      </div></a>
+                    </li>
+                  </ul>
+                  !-->
                   <!-- /input-group -->
-                  <p>Find ingredients you want to be in the recipe</p>
+                  <p>{{placeholderAlt}}</p>
                 </div>
 
               </div><!-- /row mt -->
