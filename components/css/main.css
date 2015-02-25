@@ -172,6 +172,21 @@ input{
   transform: scale(0);
 }
 
+.searchPrompt{
+  transition: all .3s ease-out;
+}
+.searchPrompt.ng-enter.ng-enter-active,
+.searchPrompt.ng-leave{
+  opacity: 1;
+  display: inline;
+}
+
+.searchPrompt.ng-leave.ng-leave-active,
+.searchPrompt.ng-enter{
+  opacity: 0;
+  display: inline;
+}
+
 .recipeResultContainer{
   position: relative;
 }
