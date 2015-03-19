@@ -54,7 +54,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
   $scope.insert = function(ingredient){
-    if($scope.pageTitle == "Search Recipes"){
+    if($scope.pageTitle == "Search by Keywords"){
       $scope.keywords=ingredient;
       $scope.displayRecipes();
     }
