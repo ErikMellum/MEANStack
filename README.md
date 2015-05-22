@@ -1,4 +1,4 @@
-# Welcome to Mean Stack.#
+# Welcome to Recipe Stacker.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 
 **To run the app**
@@ -41,14 +41,6 @@ Learn about the [Mean Api Backend](/routes/BACKEND.md)
 
 ## Code Style Guide ##
 [How we do it](STYLE.md)
-
-## Yummly Info ##
-=======
-**App ID**
-af791dca
-
-**App Key**
-f28b1240c0ab4435b41d6505f0278cfd
 
 ## Modulus Info ##
 =======

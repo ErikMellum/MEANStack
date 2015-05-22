@@ -3,14 +3,12 @@ var aboutController = angular.module('aboutController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "about";
 }]);
-angular.module('TheControllers', 
+angular.module('controllers',
 [
-  'searchController', 
-  'detailsController', 
-  'aboutController', 
-  'recipeController', 
-  'ingredientController',
-  'mainController'
+  'homeController',
+  'aboutController',
+  'blogController', 
+  'contactController'
 ]);
 
 var detailsController = angular.module('detailsController', ['theRecipeService']);
@@ -108,6 +106,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   $scope.setIngredient = function(ingredient){
     $scope.currentIngredient = ingredient;
     $scope.ingredientName = ingredient.name;
+  }
+  /**
+   * setIngredientName sets the current ingredients name 
+   * @param {Ingredient} ingredient
+   */
+  $scope.setIngredientName = function(ingredientName){
+    $scope.currentIngredient.name = ingredientName;
+    $scope.ingredientName = ingredientName;
   }
   /**
    * setIngredientParent is used to set the parentName and parent (id) of the 
@@ -331,7 +337,13 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.query_result = []  
   $scope.excluded_ingredients = []
   $scope.match="";
-  $scope.topRecipes = []
+  $scope.topRecipes = [];
+  $scope.pageTitle = "Add Ingredients";
+  $scope.keywords ="";
+  $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
+  $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+  $scope.hovertest=false;
+  $scope.searchtype="keyword"
 
   $scope.clearData = function(){
     // location.reload();
@@ -345,7 +357,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     $scope.topRecipes = []
     setTimeout(function(){
       $scope.recipes = [];
-      $scope.topRecipes = []
+      $scope.topRecipes = [];
+
     }, 1000);
 
   }
@@ -370,22 +383,31 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.match = "";
        $scope.query_result.length = 0;
   }
-   $scope.insert = function(ingredient){
-    var display =false;
-    if (ingredient.toLowerCase().substr(0,4) == "not " && $scope.uniqueIngredient(ingredient.substr(4, ingredient.length))){ 
-      dataService.addExcludedIngredient({name : ingredient.substr(4, ingredient.length).toLowerCase()});
-      $scope.excluded_ingredients.push({name : ingredient.substr(4, ingredient.length).toLowerCase()}); 
-      display = true;
-    } else if (ingredient.toLowerCase().substr(0,4) != "not " && $scope.uniqueIngredient(ingredient)){
-      dataService.addChosenIngredient({name : ingredient.toLowerCase()});
-      $scope.chosen_ingredients.push({name : ingredient.toLowerCase()}); 
-      display = true;
-    } 
-    if(display){
+  $scope.insert = function(ingredient){
+    if($scope.pageTitle == "Search by Keywords"){
+      $scope.keywords=ingredient;
       $scope.displayRecipes();
-      $scope.reset();
+    }
+    else{
+      var display =false;
+      if ((ingredient.toLowerCase().substr(0,4) == "not " ) || 
+      (ingredient.toLowerCase().substr(0,3) == "no ")
+      && $scope.uniqueIngredient(ingredient.substr(3, ingredient.length).trim())){ 
+        dataService.addExcludedIngredient({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()});
+        $scope.excluded_ingredients.push({name : ingredient.substr(3, ingredient.length).trim().toLowerCase()}); 
+        display = true;
+      } else if ((ingredient.toLowerCase().substr(0,4) != "not ") && 
+      (ingredient.toLowerCase().substr(0,3) != "no ") && $scope.uniqueIngredient(ingredient)){
+        dataService.addChosenIngredient({name : ingredient.toLowerCase()});
+        $scope.chosen_ingredients.push({name : ingredient.toLowerCase()}); 
+        display = true;
+      } 
+      if(display){
+        $scope.displayRecipes();
+        $scope.reset();
       }
-   }
+    }
+  }
 
    /**
    * Queries API for ingredients that begin with match
@@ -395,22 +417,24 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
    */
   $scope.queryIngredients = function(match)
   {
-    var postObject = {};
-    var url = '/api/ingredients/';
-    if (match.toLowerCase().substr(0,3) == "not" && match.length > 4){
-      postObject = {"ingredient" : match.substr(4, match.length)};
-    } 
-    else {
-      postObject = {"ingredient" : match};
+    
+    if($scope.pageTitle == "Search Recipes"){
+      $scope.keywords=match;
+      displayRecipes();
     }
-    if (match.toLowerCase().substr(0,3) != "not" || (match.toLowerCase().substr(0,3) == "not" && match.length !=3 && match.length !=4)){ 
-    //make API call if the first three letters != "not OR if they do == "not, then make the API call if there are more letters after the "not "
+    else{
+      var postObject = {};
+    var url = '/api/ingredients/';
+      if ((match.toLowerCase().substr(0,3) == "not" || match.toLowerCase().substr(0,2) == "no") 
+        && match.length > 4){
+        postObject = {"ingredient" : match.substr(4, match.length)};
+      } 
+      else {
+        postObject = {"ingredient" : match};
+      }
       $http.post(url, postObject).success(function(data) {
         $scope.query_result = data;
       });
-    } else {
-      $scope.query_result = [];
-      //keep the query result empty if the first three letters are "not" and nothing else is after the "not"
     }
   }
   $scope.switchAndDisplay = function(name){
@@ -483,14 +507,34 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
 
           $scope.topRecipes[1] = dataService.getTopRecipe1();
         };
+        $scope.meal = dataService.getMeal();
+        $scope.cuisine = dataService.getCuisine();
+        $scope.diet = dataService.getDiet();
+        $scope.keywords = dataService.getKeywords();
          $scope.recipes.splice(0,2);
+    }
+    $scope.changeTitle= function() {
+      if($scope.pageTitle == "Add Ingredients"){
+        $scope.pageTitle = "Search by Keywords";
+        $scope.placeholder = "Enter keyword, chef name, kitchen equipment, recipe name, etc.";
+        $scope.placeholderAlt = "Find recipes by entering in keywords";
+        $scope.searchtype = "ingredient";
+      }
+      else {
+        $scope.pageTitle = "Add Ingredients";
+        $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
+        $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+        $scope.searchtype = "keyword";
+        
+      }
+      
     }
   $scope.displayRecipes = function() {
     $scope.recipes = [];
     $scope.topRecipes = []
     dataService.clearRecipes();
     dataService.clearTopRecipes();
-    if ($scope.chosen_ingredients.length) {
+    if ($scope.chosen_ingredients.length || $scope.keywords != "") {
       var url = '/api/compositions/withIngredients/'
       var allowedIngredients = new Array();
       dataService.getChosenIngredients().forEach(function(ingredient){
@@ -501,13 +545,25 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
           excludedIngredients.push(ingredient.name);
 
       });
-      var postObject = {"ingredients" : allowedIngredients, "excluded" : excludedIngredients, "meal" : $scope.meal};
-        $http.post(url, postObject).success(function(data) {
-          $scope.dataArray = data;
-            data.forEach(function(recipe){
-              $scope.recipes.push(recipe);
-                dataService.addRecipe(recipe);
-          });
+      dataService.addMeal($scope.meal);
+      dataService.addCuisine($scope.cuisine);
+      dataService.addDiet($scope.diet);
+      dataService.addKeywords($scope.keywords);
+      var postObject = {
+        "ingredients" : allowedIngredients, 
+        "excluded" : excludedIngredients, 
+        "meal" : $scope.meal, 
+        "diet" : $scope.diet, 
+        "cuisine" : $scope.cuisine,
+        "keywords" : $scope.keywords
+      };
+      $http.post(url, postObject).success(function(data) {
+        $scope.dataArray = data;
+          data.forEach(function(recipe){
+            $scope.recipes.push(recipe);
+              dataService.addRecipe(recipe);
+        });
+          
         //reset the topRecipes array
         $scope.topRecipes = [];
         var r1, r2;
@@ -679,7 +735,7 @@ ngEnter.directive('ngEnter', function() {
         });
     };
 });
-var myApp = angular.module('myApp', ['ngRoute','TheControllers', 'TheDirectives']);
+var myApp = angular.module('myApp', ['ngRoute','controllers', 'TheDirectives']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
@@ -720,11 +776,13 @@ var theDataService = angular.module('theDataService', ['ngResource', 'theIngredi
 
 theDataService.service('dataService', function(){
 	//need to add ability to delete a specific ingredient from the service
-  var chosen_ingredients=[]
-  var recipes=[]
-  var excluded_ingredients = []
+  var chosen_ingredients=[];
+  var recipes=[];
+  var excluded_ingredients = [];
   var topRecipe0 =[];
-  var topRecipe1 = []
+  var topRecipe1 = [];
+  var meal, cuisine, diet, keywords;
+
   var addTopRecipe0 = function (data) {
     topRecipe0.push(data);
   }
@@ -733,6 +791,21 @@ theDataService.service('dataService', function(){
   }
   var addRecipe = function(data){
     recipes.push(data);
+  }
+  var addDiet = function(data){
+    diet = data;
+  }
+  var addMeal = function(data){
+    meal = data;
+  }
+  var addCuisine = function(data){
+    cuisine = data;
+  }
+  var addKeywords = function(data){
+    keywords = data;
+  }
+  var getKeywords = function () {
+    return keywords;
   }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
@@ -764,6 +837,18 @@ theDataService.service('dataService', function(){
   var getTopRecipe1 = function () {
     return topRecipe1[0]
   }
+
+  var getMeal = function () {
+    return meal;
+  }
+
+  var getCuisine = function () {
+    return cuisine;
+  }
+
+  var getDiet = function () {
+    return diet;
+  }
   var clearTopRecipes = function(){
      topRecipe0 = [];
      topRecipe1 = [];
@@ -772,6 +857,10 @@ theDataService.service('dataService', function(){
       chosen_ingredients=[];
       recipes=[];
       excluded_ingredients = [];
+      meal="";
+      cuisine="";
+      diet="";
+      keywords="";
   }
   var clearRecipes = function() {
     recipes = [];
@@ -784,6 +873,14 @@ theDataService.service('dataService', function(){
    getExcludedIngredients : getExcludedIngredients,
    getRecipes : getRecipes,
    addRecipe : addRecipe,
+   getDiet : getDiet,
+   getCuisine : getCuisine,
+   getMeal : getMeal,
+   addDiet : addDiet,
+   addCuisine : addCuisine,
+   addMeal : addMeal,
+   addKeywords : addKeywords,
+   getKeywords : getKeywords,
    clearRecipes : clearRecipes,
    removeIngredient : removeIngredient,
    clearData : clearData,

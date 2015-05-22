@@ -1,9 +1,7 @@
-angular.module('TheControllers', 
+angular.module('controllers',
 [
-  'searchController', 
-  'detailsController', 
-  'aboutController', 
-  'recipeController', 
-  'ingredientController',
-  'mainController'
+  'homeController',
+  'aboutController',
+  'blogController', 
+  'contactController'
 ]);

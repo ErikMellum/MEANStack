@@ -1,7 +1,33 @@
+.wrapper{
+  position: relative;
+  min-width: 748px;
+}
+
 input{
   color: black;
 }
-
+.li_search{
+  cursor: pointer;
+  transition-property: color, transform, display;
+  transition-timing: ease-out;
+  transition-duration: .6s;
+}
+.li_search:hover{
+  display: block;
+  transform: scale(1.1);
+  color: #68DFF0;
+}
+.searchTitle{
+  cursor: pointer;
+  transition-property: transform, color;
+  transition-timing: ease-out;
+  transition-duration: .6s;
+}
+.searchTitle:hover{
+ 
+  transform: scale(1.1);
+  color: #68DFF0;
+}
 #searchIngredientResults{ 
   padding: 10px;
   
@@ -146,6 +172,21 @@ input{
   transform: scale(0);
 }
 
+.searchPrompt{
+  transition: all .3s ease-out;
+}
+.searchPrompt.ng-enter.ng-enter-active,
+.searchPrompt.ng-leave{
+  opacity: 1;
+  display: inline;
+}
+
+.searchPrompt.ng-leave.ng-leave-active,
+.searchPrompt.ng-enter{
+  opacity: 0;
+  display: inline;
+}
+
 .recipeResultContainer{
   position: relative;
 }
@@ -222,7 +263,7 @@ input{
   width: 78%;
 }
 div.grey-panel.pn.donut-chart{
-  height: 68%;
+  height: 90%;
 }
 
 /*
@@ -632,6 +673,7 @@ ul.sidebar-menu li a.active i {
     margin-left: 210px;
 }
 
+
 .header, .footer {
     min-height: 60px;
     padding: 0 15px;
@@ -639,6 +681,7 @@ ul.sidebar-menu li a.active i {
 
 .header {
     position: fixed;
+    min-width: 760px;
     left: 0;
     right: 0;
     z-index: 1002;
@@ -2449,9 +2492,12 @@ label {
 /*footer*/
 .site-footer {
     background: #68dff0;
-    color: #fff;
-    padding: 10px 0;
-    position: relative;
+color: #fff;
+padding: 10px 0;
+position: fixed;
+bottom: 0;
+right: 0;
+left: 0;
 }
 
 

@@ -3,11 +3,13 @@ var theDataService = angular.module('theDataService', ['ngResource', 'theIngredi
 
 theDataService.service('dataService', function(){
 	//need to add ability to delete a specific ingredient from the service
-  var chosen_ingredients=[]
-  var recipes=[]
-  var excluded_ingredients = []
+  var chosen_ingredients=[];
+  var recipes=[];
+  var excluded_ingredients = [];
   var topRecipe0 =[];
-  var topRecipe1 = []
+  var topRecipe1 = [];
+  var meal, cuisine, diet, keywords;
+
   var addTopRecipe0 = function (data) {
     topRecipe0.push(data);
   }
@@ -16,6 +18,21 @@ theDataService.service('dataService', function(){
   }
   var addRecipe = function(data){
     recipes.push(data);
+  }
+  var addDiet = function(data){
+    diet = data;
+  }
+  var addMeal = function(data){
+    meal = data;
+  }
+  var addCuisine = function(data){
+    cuisine = data;
+  }
+  var addKeywords = function(data){
+    keywords = data;
+  }
+  var getKeywords = function () {
+    return keywords;
   }
   var removeIngredient = function (container, index) {
     if (container == "chosen_ingredients")
@@ -47,6 +64,18 @@ theDataService.service('dataService', function(){
   var getTopRecipe1 = function () {
     return topRecipe1[0]
   }
+
+  var getMeal = function () {
+    return meal;
+  }
+
+  var getCuisine = function () {
+    return cuisine;
+  }
+
+  var getDiet = function () {
+    return diet;
+  }
   var clearTopRecipes = function(){
      topRecipe0 = [];
      topRecipe1 = [];
@@ -55,6 +84,10 @@ theDataService.service('dataService', function(){
       chosen_ingredients=[];
       recipes=[];
       excluded_ingredients = [];
+      meal="";
+      cuisine="";
+      diet="";
+      keywords="";
   }
   var clearRecipes = function() {
     recipes = [];
@@ -67,6 +100,14 @@ theDataService.service('dataService', function(){
    getExcludedIngredients : getExcludedIngredients,
    getRecipes : getRecipes,
    addRecipe : addRecipe,
+   getDiet : getDiet,
+   getCuisine : getCuisine,
+   getMeal : getMeal,
+   addDiet : addDiet,
+   addCuisine : addCuisine,
+   addMeal : addMeal,
+   addKeywords : addKeywords,
+   getKeywords : getKeywords,
    clearRecipes : clearRecipes,
    removeIngredient : removeIngredient,
    clearData : clearData,
