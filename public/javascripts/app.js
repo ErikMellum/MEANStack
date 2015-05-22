@@ -3,14 +3,12 @@ var aboutController = angular.module('aboutController', []);
 aboutController.controller('AboutController', ['$scope','$http', function($scope, $http) {
   $scope.test = "about";
 }]);
-angular.module('TheControllers', 
+angular.module('controllers',
 [
-  'searchController', 
-  'detailsController', 
-  'aboutController', 
-  'recipeController', 
-  'ingredientController',
-  'mainController'
+  'homeController',
+  'aboutController',
+  'blogController', 
+  'contactController'
 ]);
 
 var detailsController = angular.module('detailsController', ['theRecipeService']);
