@@ -5,10 +5,12 @@ aboutController.controller('AboutController', ['$scope','$http', function($scope
 }]);
 angular.module('controllers',
 [
-  'homeController',
-  'aboutController',
-  'blogController', 
-  'contactController'
+  'searchController', 
+  'detailsController', 
+  'aboutController', 
+  'recipeController', 
+  'ingredientController',
+  'mainController'
 ]);
 
 var detailsController = angular.module('detailsController', ['theRecipeService']);
@@ -384,7 +386,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
   $scope.insert = function(ingredient){
-    if($scope.pageTitle == "Search Recipes"){
+    if($scope.pageTitle == "Search by Keywords"){
       $scope.keywords=ingredient;
       $scope.displayRecipes();
     }
@@ -735,7 +737,7 @@ ngEnter.directive('ngEnter', function() {
         });
     };
 });
-var myApp = angular.module('myApp', ['ngRoute','TheControllers', 'TheDirectives']);
+var myApp = angular.module('myApp', ['ngRoute','controllers', 'TheDirectives']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
