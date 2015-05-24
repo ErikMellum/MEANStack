@@ -5,10 +5,12 @@ aboutController.controller('AboutController', ['$scope','$http', function($scope
 }]);
 angular.module('controllers',
 [
-  'homeController',
-  'aboutController',
-  'blogController', 
-  'contactController'
+  'searchController', 
+  'detailsController', 
+  'aboutController', 
+  'recipeController', 
+  'ingredientController',
+  'mainController'
 ]);
 
 var detailsController = angular.module('detailsController', ['theRecipeService']);
