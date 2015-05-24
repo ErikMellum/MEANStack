@@ -49,6 +49,7 @@
                 </a>
             </li>
         </ul>
+        <!--
         <hr>
         <!--
         <div style=" text-align: center; margin: 0 auto;">
@@ -99,7 +100,8 @@ MAIN CONTENT
               <div class="row mtbox">
                 <div class="col-md-8 col-md-offset-2 box0">
                   <div class="box1">
-                    <span class="li_search" ng-click="changeTitle()"></span>
+                    <span class="li_search" ng-click="changeTitle()" ng-mouseover="hovertest=true" ng-mouseout="hovertest=false" style="display: block;"></span>
+                    <span class="searchPrompt" style="font-size: 100%;" ng-animate ng-if="hovertest==true">Click to change to {{searchtype}} search</span>
                     <h3 class="searchTitle" ng-click="changeTitle()">{{pageTitle}}</h3>
                   </div>
                   <div class="input-group">

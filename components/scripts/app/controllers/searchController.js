@@ -12,6 +12,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.keywords ="";
   $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
   $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+  $scope.hovertest=false;
+  $scope.searchtype="keyword"
 
   $scope.clearData = function(){
     // location.reload();
@@ -52,7 +54,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
   $scope.insert = function(ingredient){
-    if($scope.pageTitle == "Search Recipes"){
+    if($scope.pageTitle == "Search by Keywords"){
       $scope.keywords=ingredient;
       $scope.displayRecipes();
     }
@@ -183,14 +185,17 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
     $scope.changeTitle= function() {
       if($scope.pageTitle == "Add Ingredients"){
-        $scope.pageTitle = "Search Recipes";
-        $scope.placeholder = "Enter in the name or keyword of your recipe to search";
+        $scope.pageTitle = "Search by Keywords";
+        $scope.placeholder = "Enter keyword, chef name, kitchen equipment, recipe name, etc.";
         $scope.placeholderAlt = "Find recipes by entering in keywords";
+        $scope.searchtype = "ingredient";
       }
       else {
         $scope.pageTitle = "Add Ingredients";
         $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
         $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+        $scope.searchtype = "keyword";
+        
       }
       
     }

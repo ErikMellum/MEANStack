@@ -37,6 +37,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
     $scope.ingredientName = ingredient.name;
   }
   /**
+   * setIngredientName sets the current ingredients name 
+   * @param {Ingredient} ingredient
+   */
+  $scope.setIngredientName = function(ingredientName){
+    $scope.currentIngredient.name = ingredientName;
+    $scope.ingredientName = ingredientName;
+  }
+  /**
    * setIngredientParent is used to set the parentName and parent (id) of the 
    * currentIngredient being added
    * @param {Ingredient} ingredient

@@ -1,3 +1,3 @@
 start_app :
-	sudo stop --no-wait -q recipeasydevelopment
+	sudo stop recipeasydevelopment
 	sudo start  --no-wait -q recipeasydevelopment

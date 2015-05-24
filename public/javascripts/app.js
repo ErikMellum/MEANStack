@@ -5,10 +5,12 @@ aboutController.controller('AboutController', ['$scope','$http', function($scope
 }]);
 angular.module('controllers',
 [
-  'homeController',
-  'aboutController',
-  'blogController', 
-  'contactController'
+  'searchController', 
+  'detailsController', 
+  'aboutController', 
+  'recipeController', 
+  'ingredientController',
+  'mainController'
 ]);
 
 var detailsController = angular.module('detailsController', ['theRecipeService']);
@@ -106,6 +108,14 @@ ingredientController.controller('IngredientController', ['$scope','$http', 'TmpI
   $scope.setIngredient = function(ingredient){
     $scope.currentIngredient = ingredient;
     $scope.ingredientName = ingredient.name;
+  }
+  /**
+   * setIngredientName sets the current ingredients name 
+   * @param {Ingredient} ingredient
+   */
+  $scope.setIngredientName = function(ingredientName){
+    $scope.currentIngredient.name = ingredientName;
+    $scope.ingredientName = ingredientName;
   }
   /**
    * setIngredientParent is used to set the parentName and parent (id) of the 
@@ -334,6 +344,8 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
   $scope.keywords ="";
   $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
   $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+  $scope.hovertest=false;
+  $scope.searchtype="keyword"
 
   $scope.clearData = function(){
     // location.reload();
@@ -374,7 +386,7 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
        $scope.query_result.length = 0;
   }
   $scope.insert = function(ingredient){
-    if($scope.pageTitle == "Search Recipes"){
+    if($scope.pageTitle == "Search by Keywords"){
       $scope.keywords=ingredient;
       $scope.displayRecipes();
     }
@@ -505,14 +517,17 @@ searchController.controller('SearchController', ['$scope','$http', '$window','de
     }
     $scope.changeTitle= function() {
       if($scope.pageTitle == "Add Ingredients"){
-        $scope.pageTitle = "Search Recipes";
-        $scope.placeholder = "Enter in the name or keyword of your recipe to search";
+        $scope.pageTitle = "Search by Keywords";
+        $scope.placeholder = "Enter keyword, chef name, kitchen equipment, recipe name, etc.";
         $scope.placeholderAlt = "Find recipes by entering in keywords";
+        $scope.searchtype = "ingredient";
       }
       else {
         $scope.pageTitle = "Add Ingredients";
         $scope.placeholder = "Search Ingredients...To exclude, type 'not' or 'no' followed by ingredient name";
         $scope.placeholderAlt = "Find ingredients you want to be in the recipe";
+        $scope.searchtype = "keyword";
+        
       }
       
     }
@@ -722,7 +737,7 @@ ngEnter.directive('ngEnter', function() {
         });
     };
 });
-var myApp = angular.module('myApp', ['ngRoute','TheControllers', 'TheDirectives']);
+var myApp = angular.module('myApp', ['ngRoute','controllers', 'TheDirectives']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
