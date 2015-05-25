@@ -1,15 +1,13 @@
 # Welcome to Recipe Stacker.#
 The one stop shop for recipes and ingredients before you compose your edible art.
 
+# Dependencies #
+Must have the Sass Gem and Ruby
+Npm install && bower install
+
 **To run the app**
 ```
-gulp launch
-```
-
-**To start development mode with livereload**
-```
 gulp
-gulp launch
 ```
 
 **To conduct unit testing - You should leave this up while developing**
@@ -47,5 +45,5 @@ Learn about the [Mean Api Backend](/routes/BACKEND.md)
 **Username**
 mellum.erik@gmail.com
 
-**Password** 
-meanstack 
+**Password**
+meanstack
