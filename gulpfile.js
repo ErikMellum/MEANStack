@@ -9,72 +9,61 @@ var gulp = require ('gulp'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     karma = require('karma').server,
+    autoprefixer = require('gulp-autoprefixer'),
+    rimraf = require('gulp-rimraf'),
     nodemon = require('gulp-nodemon');
 
 var protractorSources = [
-  'tests/e2e/*.js',
+  'app/tests/e2e/*.js',
 ];
 
-var bowerSources = [
-  'bower_components/**/*.js'
-];
-
-var jsSources = [
-  'components/scripts/*.js'
+var libraries = [
+  'bower_components/**/*.*',
+  'bower_components/bootstrap/dist/**/*.*',
+  'bower_components/font-awesome/css/*.*',
+  'bower_components/font-awesome/fonts/*.*',
+  'bower_components/jquery/dist/*.*',
+  'app/components/lib/**/*.*'
 ];
 
 var appSources = [
-  'components/scripts/app/controllers/*.js',
-  'components/scripts/app/directives/*.js',
-  'components/scripts/app/routing/*.js',
-  'components/scripts/app/services/*.js'
+  'app/components/scripts/app/**/*.js',
 ];
 
-var jslibSources = [
-  'components/scripts/lib/*.js',
-  'components/scripts/lib/**/*.js'
-];
-
-var csslibSources = [
-  'components/css/lib/*.css'
-];
-
-var jsonSources = [
-  'components/scripts/json/*.json'
+var jsSources = [
+  'app/components/scripts/*.js'
 ];
 
 var sassSources = [
-  'components/sass/*.scss'
+  'app/components/sass/*.scss'
 ];
 
 var cssSources = [
-  'components/css/*.css'
+  'app/components/css/main.css',
+  'app/components/css/sass.css',
+  'app/components/css/style.css'
+
 ];
 
 var coffeeSources = [
-  'components/coffee/*.coffee'
+  'app/components/coffee/*.coffee'
 ];
 
-var viewSources = [ 
-  'views/**/*.ejs'
+var viewSources = [
+  'app/views/**/*.ejs'
 ];
 
 gulp.task('lib', function(){
 // Javascript libs livereload
-  gulp.src(jslibSources)
-  .pipe(gulp.dest('public/lib'))
-  .pipe(livereload());
-// CSS libs livereload
-  gulp.src(csslibSources)
-  .pipe(minifycss())
-  .pipe(gulp.dest('public/lib'))
+  gulp.src(libraries)
+  .pipe(gulp.dest('app/public/lib'))
   .pipe(livereload());
 });
 
 gulp.task('protractor', function(){
   return gulp.src(protractorSources)
   .pipe(karma({
-    configFile: 'tests/protractor-conf.js',
+    configFile: 'app/tests/protractor-conf.js',
     action: 'run'
   }))
   .on('error', function(err) {
@@ -85,22 +74,15 @@ gulp.task('protractor', function(){
 
 gulp.task('karma', function(done){
   karma.start({
-    configFile: __dirname + '/tests/karma.conf.js'
+    configFile: __dirname + 'app/tests/karma.conf.js'
   }, done);
-});
-
-gulp.task('json', function(){
-// JSON livereload
-  gulp.src(jsonSources)
-  .pipe(gulp.dest('public/javascripts/json'))
-  .pipe(livereload());
 });
 
 gulp.task('app', function(){
 // App livereload
   gulp.src(appSources)
   .pipe(concat('app.js'))
-  .pipe(gulp.dest('public/javascripts'))
+  .pipe(gulp.dest('app/public/javascripts'))
   .pipe(livereload());
 });
 
@@ -110,7 +92,7 @@ gulp.task('js', function() {
   .pipe(jshint())
   .pipe(uglify())
   .pipe(concat('script.js'))
-  .pipe(gulp.dest('public/javascripts'))
+  .pipe(gulp.dest('app/public/javascripts'))
   .pipe(livereload());
 });
 
@@ -118,16 +100,17 @@ gulp.task('coffee', function() {
   gulp.src(coffeeSources)
   .pipe(coffee({bare: true}))
     .on('error', gutil.log)
-  .pipe(gulp.dest('components/scripts'));
+  .pipe(gulp.dest('app/components/scripts'));
 });
 
 gulp.task('css', function(){
   gulp.src(cssSources)
   .pipe(concat('main.css'))
-  .pipe(gulp.dest('public/styles'))
+  .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 10']}))
+  .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
+  .pipe(gulp.dest('app/public/styles'))
   .pipe(livereload());
 });
 
@@ -137,11 +120,7 @@ gulp.task('sass', function(){
   .pipe(sass({style: 'expanded', lineNumbers: true}))
     .on('error', gutil.log)
   .pipe(concat('sass.css'))
-  .pipe(gulp.dest('public/styles'))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
-  .pipe(livereload());
+  .pipe(gulp.dest('app/components/css'));
 });
 
 gulp.task('bower', function(){
@@ -150,60 +129,51 @@ gulp.task('bower', function(){
 });
 
 gulp.task('launch', function () {
-  nodemon({ script: './bin/www', ext: 'html js', ignore: ['components', 'public', 'design'] })
+  nodemon({ script: './app/bin/www', ext: 'html js', ignore: ['components', 'public', 'design'] })
     .on('restart', function () {
       console.log('restarted!')
     })
 });
 
-gulp.task('build', function(){
-  gulp.src(cssSources)
-  .pipe(concat('main.css'))
-  .pipe(gulp.dest('public/styles'))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
+gulp.task('clean', function(cb) {
+  rimraf('./app/public', cb);
+});
 
-  gulp.src(jslibSources)
-  .pipe(gulp.dest('public/lib'))
-  gulp.src(csslibSources)
-  .pipe(minifycss())
-  .pipe(gulp.dest('public/lib'))
+gulp.task('build', function(){
+  gulp.src(libraries)
+  .pipe(gulp.dest('app/public/lib'))
 
   gulp.src(appSources)
   .pipe(concat('app.js'))
-  .pipe(gulp.dest('public/javascripts'))
+  .pipe(gulp.dest('app/public/javascripts'))
 
   gulp.src(coffeeSources)
   .pipe(coffee({bare: true}))
     .on('error', gutil.log)
-  .pipe(gulp.dest('components/scripts'));
+  .pipe(gulp.dest('app/components/scripts'));
 
   gulp.src(jsSources)
   .pipe(jshint())
   .pipe(uglify())
   .pipe(concat('script.js'))
-  .pipe(gulp.dest('public/javascripts'))
+  .pipe(gulp.dest('app/public/javascripts'))
 
   gulp.src(sassSources)
   .pipe(sass({style: 'expanded', lineNumbers: true}))
     .on('error', gutil.log)
   .pipe(concat('sass.css'))
-  .pipe(gulp.dest('public/styles'))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
+  .pipe(gulp.dest('app/components/css'));
 
   gulp.src(cssSources)
   .pipe(concat('main.css'))
-  .pipe(gulp.dest('public/styles'))
+  .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
-  .pipe(gulp.dest('public/styles'))
+  .pipe(gulp.dest('app/public/styles'))
 });
 
 gulp.task('views', function(){
- gulp.src(viewSources) 
+ gulp.src(viewSources)
  .pipe(livereload());
 });
 
@@ -212,17 +182,16 @@ gulp.task('watch', function(){
   gulp.watch(jsSources, ['js']);
   //gulp.watch(jsonSources, ['json']);
   gulp.watch(appSources, ['app']);
-  //gulp.watch(coffeeSources, ['coffee']);
-  //gulp.watch(sassSources, ['sass']);
+  gulp.watch(coffeeSources, ['coffee']);
+  gulp.watch(sassSources, ['sass']);
   gulp.watch(cssSources, ['css']);
   gulp.watch(viewSources, ['views']);
+  gulp.watch(libraries, ['lib']);
 });
 
 
-gulp.task('default', ['js', 'app', 'css', 'watch', 'launch']);
+gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'watch', 'launch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())
 });
-
-
