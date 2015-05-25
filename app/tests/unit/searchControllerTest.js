@@ -63,9 +63,9 @@ it ('should not insert ingredients with the same name',
       scope.insert("Ingredient");
       expect(scope.chosen_ingredients.length).toBe(1);
       scope.insert("not cake")
-      expect(scope.excluded_ingredients.length).toBe(1);
+      expect(scope.excluded_ingredients.length).toBe(2);
       scope.insert("not cake")
-       expect(scope.excluded_ingredients.length).toBe(1);
+       expect(scope.excluded_ingredients.length).toBe(2);
  });
   it ('should remove an ingredient from the chosen and excluded ingredients', 
     function(){

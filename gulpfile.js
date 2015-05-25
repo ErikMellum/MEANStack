@@ -3,13 +3,15 @@ var gulp = require ('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     livereload = require('gulp-livereload'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
     coffee = require('gulp-coffee'),
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     karma = require('karma').server,
+    protractor = require('gulp-protractor').protractor,
     autoprefixer = require('gulp-autoprefixer'),
+    sourcemaps = require('gulp-sourcemaps'),
     rimraf = require('gulp-rimraf'),
     nodemon = require('gulp-nodemon');
 
@@ -61,10 +63,10 @@ gulp.task('lib', function(){
 });
 
 gulp.task('protractor', function(){
-  return gulp.src(protractorSources)
-  .pipe(karma({
+   gulp.src(protractorSources)
+  .pipe(protractor({
     configFile: 'app/tests/protractor-conf.js',
-    action: 'run'
+    args: ['--baseUrl', 'http://127.0.0.1:8000']
   }))
   .on('error', function(err) {
     // Make sure failed tests cause gulp to exit non-zero
@@ -74,7 +76,7 @@ gulp.task('protractor', function(){
 
 gulp.task('karma', function(done){
   karma.start({
-    configFile: __dirname + 'app/tests/karma.conf.js'
+    configFile: __dirname + '/app/tests/karma.conf.js'
   }, done);
 });
 
@@ -105,8 +107,10 @@ gulp.task('coffee', function() {
 
 gulp.task('css', function(){
   gulp.src(cssSources)
-  .pipe(concat('main.css'))
+  .pipe(sourcemaps.init())
   .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 10']}))
+  .pipe(concat('main.css'))
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
@@ -117,9 +121,10 @@ gulp.task('css', function(){
 gulp.task('sass', function(){
   // CSS autoprefixer, minify, and livereload
   gulp.src(sassSources)
-  .pipe(sass({style: 'expanded', lineNumbers: true}))
-    .on('error', gutil.log)
   .pipe(concat('sass.css'))
+  //.pipe(sourcemaps.init())
+  .pipe(sass())
+  //.pipe(sourcemaps.write('app/components/css'))
   .pipe(gulp.dest('app/components/css'));
 });
 
@@ -172,11 +177,6 @@ gulp.task('build', function(){
   .pipe(gulp.dest('app/public/styles'))
 });
 
-gulp.task('views', function(){
- gulp.src(viewSources)
- .pipe(livereload());
-});
-
 gulp.task('watch', function(){
   livereload.listen();
   gulp.watch(jsSources, ['js']);
@@ -190,7 +190,7 @@ gulp.task('watch', function(){
 });
 
 
-gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'watch', 'launch']);
+gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'launch', 'watch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())
