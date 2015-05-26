@@ -172,11 +172,6 @@ gulp.task('build', function(){
   .pipe(gulp.dest('app/public/styles'))
 });
 
-gulp.task('views', function(){
- gulp.src(viewSources)
- .pipe(livereload());
-});
-
 gulp.task('watch', function(){
   livereload.listen();
   gulp.watch(jsSources, ['js']);
