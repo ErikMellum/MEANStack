@@ -3,13 +3,14 @@ var gulp = require ('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     livereload = require('gulp-livereload'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
     coffee = require('gulp-coffee'),
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     karma = require('karma').server,
     autoprefixer = require('gulp-autoprefixer'),
+    sourcemaps = require('gulp-sourcemaps'),
     rimraf = require('gulp-rimraf'),
     nodemon = require('gulp-nodemon');
 
@@ -105,8 +106,10 @@ gulp.task('coffee', function() {
 
 gulp.task('css', function(){
   gulp.src(cssSources)
-  .pipe(concat('main.css'))
+  .pipe(sourcemaps.init())
   .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 10']}))
+  .pipe(concat('main.css'))
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
@@ -117,9 +120,10 @@ gulp.task('css', function(){
 gulp.task('sass', function(){
   // CSS autoprefixer, minify, and livereload
   gulp.src(sassSources)
-  .pipe(sass({style: 'expanded', lineNumbers: true}))
-    .on('error', gutil.log)
   .pipe(concat('sass.css'))
+  //.pipe(sourcemaps.init())
+  .pipe(sass())
+  //.pipe(sourcemaps.write('app/components/css'))
   .pipe(gulp.dest('app/components/css'));
 });
 
@@ -185,7 +189,7 @@ gulp.task('watch', function(){
 });
 
 
-gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'watch', 'launch']);
+gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'launch', 'watch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())

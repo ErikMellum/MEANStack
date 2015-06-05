@@ -1,14 +1,2 @@
-/* line 3, ../sass.scss */
 body {
-  background: #000 !important;
-}
-
-/*# sourceMappingURL=sass.css.map */
-
-{
-"version": 3,
-"mappings": ";AAEA,IAAK;EACD,UAAU,EAAE,eAAwB",
-"sources": ["../sass.scss"],
-"names": [],
-"file": "sass.css"
-}
+  /* background: $primaryColor !important; */ }
