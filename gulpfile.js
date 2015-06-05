@@ -9,6 +9,7 @@ var gulp = require ('gulp'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     karma = require('karma').server,
+    protractor = require('gulp-protractor').protractor,
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
     rimraf = require('gulp-rimraf'),
@@ -62,10 +63,10 @@ gulp.task('lib', function(){
 });
 
 gulp.task('protractor', function(){
-  return gulp.src(protractorSources)
-  .pipe(karma({
+   gulp.src(protractorSources)
+  .pipe(protractor({
     configFile: 'app/tests/protractor-conf.js',
-    action: 'run'
+    args: ['--baseUrl', 'http://127.0.0.1:8000']
   }))
   .on('error', function(err) {
     // Make sure failed tests cause gulp to exit non-zero
@@ -75,7 +76,7 @@ gulp.task('protractor', function(){
 
 gulp.task('karma', function(done){
   karma.start({
-    configFile: __dirname + 'app/tests/karma.conf.js'
+    configFile: __dirname + '/app/tests/karma.conf.js'
   }, done);
 });
 

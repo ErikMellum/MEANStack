@@ -13,12 +13,12 @@ module.exports = function(config) {
 
   // list of files / patterns to load in the browser
   files: [
-    '../components/scripts/lib/angular/angular.js',
-    '../components/scripts/lib/angular-route/angular-route.js',
-    '../components/scripts/lib/angular-mocks/angular-mocks.js',
-    '../components/scripts/lib/angular-resource/angular-resource.js',
-    '../components/scripts/lib/angular-animate/angular-animate.js',
-    '../components/scripts/lib/angular-cookies/angular-cookies.js',
+    '../public/lib/angular/angular.js',
+    '../public/lib/angular-route/angular-route.js',
+    '../public/lib/angular-mocks/angular-mocks.js',
+    '../public/lib/angular-resource/angular-resource.js',
+    '../public/lib/angular-animate/angular-animate.js',
+    '../public/lib/angular-cookies/angular-cookies.js',
     '../components/scripts/app/**/*.js',
     'unit/*.js'
   ],
