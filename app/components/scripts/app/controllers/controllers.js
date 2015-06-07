@@ -5,5 +5,6 @@ angular.module('controllers',
   'aboutController', 
   'recipeController', 
   'ingredientController',
-  'mainController'
+  'mainController',
+  'signupController'
 ]);
