@@ -107,7 +107,6 @@ gulp.task('coffee', function() {
 
 gulp.task('css', function(){
   gulp.src(cssSources)
-  .pipe(livereload())
   .pipe(sourcemaps.init())
   .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 10']}))
   .pipe(concat('main.css'))
@@ -115,7 +114,9 @@ gulp.task('css', function(){
   .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
-  .pipe(gulp.dest('app/public/styles'));
+  .pipe(gulp.dest('app/public/styles'))
+  .pipe(livereload());
+
   
 });
 
@@ -157,7 +158,7 @@ gulp.task('watch', function(){
   gulp.watch(libraries, ['lib']);
 });
 
-gulp.task('default', [ 'watch', 'launch']);
+gulp.task('default', ['build', 'watch', 'launch']);
 
 gulp.task('lint', function () {
   gulp.src(jsSources)

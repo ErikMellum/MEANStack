@@ -276,7 +276,10 @@ div.grey-panel.pn.donut-chart{
   border-radius: 50px;
   position: relative;
   height: 26px;
-  width: 208px;
+  width: 308px;
+}
+.meal_group{
+  width: 368px;
 }
 .toggle_radio > * {
   float: left;
@@ -290,7 +293,7 @@ div.grey-panel.pn.donut-chart{
   color: rgba(255,255,255,.9);
   z-index: 0;
   display: block;
-  width: 35px;
+  width: 55px;
   height: 20px;
   margin: 3px 3px;
   -webkit-border-radius: 15px;
@@ -308,7 +311,7 @@ div.grey-panel.pn.donut-chart{
   color: rgba(255,255,255,.9);
   z-index: 0;
   display: block;
-  width: 35px;
+  width: 55px;
   height: 20px;
   margin: 3px 3px;
   -webkit-border-radius: 50px;
@@ -326,7 +329,7 @@ div.grey-panel.pn.donut-chart{
   color: rgba(255,255,255,.9);
   z-index: 0;
   display: block;
-  width: 60px;
+  width: 90px;
   height: 20px;
   margin: 3px 3px;
   -webkit-border-radius: 50px;
@@ -342,7 +345,7 @@ div.grey-panel.pn.donut-chart{
 .cuisine_toggle_option_slider{
   /*display: none;*/
   /*background: red;*/
-  width: 35px;
+  width: 55px;
   height: 20px;
   position: absolute;
   top: 3px;
@@ -358,7 +361,7 @@ div.grey-panel.pn.donut-chart{
 .diet_toggle_option_slider{
   /*display: none;*/
   /*background: red;*/
-  width: 60px;
+  width: 90px;
   height: 20px;
   position: absolute;
   top: 3px;
@@ -374,7 +377,7 @@ div.grey-panel.pn.donut-chart{
 .meal_toggle_option_slider{
   /*display: none;*/
   /*background: red;*/
-  width: 35px;
+  width: 55px;
   height: 20px;
   position: absolute;
   top: 3px;
@@ -387,38 +390,41 @@ div.grey-panel.pn.donut-chart{
   -ms-transition: all .4s ease;
   transition: all .4s ease;
 }
-
-#dessert_toggle:checked ~ .meal_toggle_option_slider{
+#allmeals_toggle:checked ~ .meal_toggle_option_slider{
   background: rgba(255,255,255,.3);
   left: 3px;
 }
+#dessert_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 63px;
+}
 #breakfast_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 43px;
-}
-#lunch_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 83px;
-}
-#dinner_toggle:checked ~ .meal_toggle_option_slider{
   background: rgba(255,255,255,.3);
   left: 123px;
 }
+#lunch_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 183px;
+}
+#dinner_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 243px;
+}
 #salads_toggle:checked ~ .meal_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 178px;
+  left: 303px;
 }
-#alldiet_toggle:checked ~ .diet_toggle_option_slider{
+#alldiets_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
   left: 3px;
 }
 #vegetarian_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 73px;
+  left: 93px;
 }
 #vegan_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 143px;
+  left: 183px;
 }
 #allcuisine_toggle:checked ~ .cuisine_toggle_option_slider{
   background: rgba(255,255,255,.3);
@@ -426,18 +432,25 @@ div.grey-panel.pn.donut-chart{
 }
 #american_toggle:checked ~ .cuisine_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 43px;
+  left: 63px;
 }
 #chinese_toggle:checked ~ .cuisine_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 83px;
+  left: 123px;
 }
 #mexican_toggle:checked ~ .cuisine_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 123px;
+  left: 183px;
 }
 #indian_toggle:checked ~ .cuisine_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 168px;
+  left: 243px;
 }
 
+.inline{
+  display: inline;
+}
+
+.gray{
+  background: #424a5d;
+}
