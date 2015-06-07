@@ -8,7 +8,6 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
-var port = process.env.PORT || 3001;
 var routes = require('./routes/index') ;
 var users = require('./routes/users');
 
@@ -44,7 +43,7 @@ app.use(flash());
 
 app.use('/', routes);
 
-console.log('Magic happens on port ' + port);
+//console.log('Magic happens on port ' + port);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

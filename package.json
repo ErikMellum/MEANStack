@@ -56,7 +56,6 @@
     "mongoose-schema-extend": "^0.1.7",
     "passport-local": "^1.0.0",
     "protractor": "^1.8.0",
-    "rimraf": "^2.3.4",
-    "run-sequence": "^1.1.0"
+    "rimraf": "^2.3.4"
   }
 }
