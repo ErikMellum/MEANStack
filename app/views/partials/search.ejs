@@ -1,6 +1,6 @@
 <aside>
     <div id="sidebar"  class="nav-collapse ">
-    <button type="button" id="clear-data" class="btn btn-warning shift-down" ng-click="clearData()" ng-confirm="Are you sure you want to clear the data?">Clear Data</button>
+    
 
         <!-- sidebar menu start
 
@@ -36,6 +36,7 @@
         -->
 
        <ul class="sidebar-menu" id="nav-accordion">
+       <button type="button" id="clear-data" class="btn btn-warning shift-down" ng-click="clearData()" ng-confirm="Are you sure you want to clear the data?">Clear Data</button>
             <h5 class="centered">Ingredients Added</h5>
 
             <li ng-animate="'animate'"class="animatedRepeat"  ng-repeat="ingredient in chosen_ingredients">
@@ -48,6 +49,7 @@
                     <span><i class="fa fa-ban"></i>{{ingredient.name}}</span><i class="fa fa-close" style="float: right; margin-right: 10px; margin-top: 5px" ng-click="remove(excluded_ingredients, $index)"></i>
                 </a>
             </li>
+            
         </ul>
         <!--
         <hr>
@@ -58,48 +60,7 @@
         </div>
         <hr>
         !-->
-        <h5 class="centered">Meal</h5> 
-          
-        <div class="toggle_radio" >    
-          <input class="meal_toggle_option" id="dessert_toggle" name="meal" type="radio" value="Desserts" ng-model="meal" ng-click="displayRecipes()">
-          <input class="meal_toggle_option" id="breakfast_toggle" name="meal" type="radio" value="Breakfast and Brunch" ng-model="meal" ng-click="displayRecipes()">
-          <input class="meal_toggle_option" id="lunch_toggle" name="meal" type="radio" checked value="Lunch and Snacks" ng-model="meal" ng-click="displayRecipes()">
-          <input class="meal_toggle_option" id="dinner_toggle" name="meal" type="radio" value="Main Dishes" ng-model="meal" ng-click="displayRecipes()">
-          <input class="meal_toggle_option" id="salads_toggle" name="meal" type="radio" value="Salads" ng-model="meal" ng-click="displayRecipes()">
-          <label class="meal_label" for="dessert_toggle" style="color: white;" >Dessert</label>
-          <label class="meal_label" for="breakfast_toggle" style="color: white;" >Morning</label>
-          <label class="meal_label" for="lunch_toggle" style="color: white;" >Lunch</label>
-          <label class="meal_label" for="dinner_toggle" style="color: white;" >Dinner</label>
-          <label class="meal_label" for="salads_toggle" style="color: white;" >Salad</label>
-          <div class="meal_toggle_option_slider">
-          </div>
-        </div>
-        <h5 class="centered">Diet</h5>
-        <div class="toggle_radio" >
-          <input checked class="diet_toggle_option" id="alldiets_toggle" name="diet" type="radio" value="" ng-model="diet" ng-click="displayRecipes()">
-          <input class="diet_toggle_option" id="vegetarian_toggle" name="diet" type="radio" value="vegetarian" ng-model="diet" ng-click="displayRecipes()">
-          <input class="diet_toggle_option" id="vegan_toggle" name="diet" type="radio" value="vegan" ng-model="diet" ng-click="displayRecipes()">
-          <label class="diet_label" for="alldiets_toggle" style="color: white;" >All</label>
-          <label class="diet_label" for="vegetarian_toggle" style="color: white;" >Vegetarian</label>
-          <label class="diet_label" for="vegan_toggle" style="color: white;" >Vegan</label>
-          <div class="diet_toggle_option_slider">
-          </div>
-        </div>
-        <h5 class="centered">Cuisine</h5>
-        <div class="toggle_radio" >
-          <input checked class="cuisine_toggle_option" id="allcuisine_toggle" name="cuisine" type="radio" ng-model="cuisine" ng-click="displayRecipes()">
-          <input class="cuisine_toggle_option" id="american_toggle" name="cuisine" type="radio" value="american" ng-model="cuisine" ng-click="displayRecipes()">
-          <input class="cuisine_toggle_option" id="chinese_toggle" name="cuisine" type="radio" value="chinese" ng-model="cuisine" ng-click="displayRecipes()">
-          <input class="cuisine_toggle_option" id="mexican_toggle" name="cuisine" type="radio" value="mexican" ng-model="cuisine" ng-click="displayRecipes()">
-          <input class="cuisine_toggle_option" id="indian_toggle" name="cuisine" type="radio" value="indian" ng-model="cuisine" ng-click="displayRecipes()">
-          <label class="cuisine_label" for="allcuisine_toggle" style="color: white;" >All</label>
-          <label class="cuisine_label" for="american_toggle" style="color: white;" >Asian</label>
-          <label class="cuisine_label" for="chinese_toggle" style="color: white;" >Indian</label>
-          <label class="cuisine_label" for="mexican_toggle" style="color: white;" >Mexican</label>
-          <label class="cuisine_label" for="indian_toggle" style="color: white;" >USA</label>
-          <div class="cuisine_toggle_option_slider">
-          </div>
-        </div>
+        
         
         <!-- sidebar menu end-->
     </div>
@@ -112,7 +73,57 @@ MAIN CONTENT
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper">
-
+        <div class="row">
+          <div class="col-lg-2 col-lg-offset-1">
+            <h5 class="centered">Meal</h5> 
+            <div class="toggle_radio gray meal_group" >    
+              <input class="meal_toggle_option" id="allmeals_toggle" name="meal" type="radio" ng-model="meal" ng-click="displayRecipes()">
+              <input class="meal_toggle_option" id="dessert_toggle" name="meal" type="radio" value="Desserts" ng-model="meal" ng-click="displayRecipes()">
+              <input class="meal_toggle_option" id="breakfast_toggle" name="meal" type="radio" value="Breakfast and Brunch" ng-model="meal" ng-click="displayRecipes()">
+              <input class="meal_toggle_option" id="lunch_toggle" name="meal" type="radio" checked value="Lunch and Snacks" ng-model="meal" ng-click="displayRecipes()">
+              <input class="meal_toggle_option" id="dinner_toggle" name="meal" type="radio" value="Main Dishes" ng-model="meal" ng-click="displayRecipes()">
+              <input class="meal_toggle_option" id="salads_toggle" name="meal" type="radio" value="Salads" ng-model="meal" ng-click="displayRecipes()">
+              <label class="meal_label" for="allmeals_toggle" style="color: white;" >All</label>
+              <label class="meal_label" for="dessert_toggle" style="color: white;" >Dessert</label>
+              <label class="meal_label" for="breakfast_toggle" style="color: white;" >Breakfast</label>
+              <label class="meal_label" for="lunch_toggle" style="color: white;" >Lunch</label>
+              <label class="meal_label" for="dinner_toggle" style="color: white;" >Dinner</label>
+              <label class="meal_label" for="salads_toggle" style="color: white;" >Salad</label>
+              <div class="meal_toggle_option_slider">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <h5 class="centered">Diet</h5>
+            <div class="toggle_radio gray" >
+              <input class="diet_toggle_option" id="alldiets_toggle" name="diet" type="radio" ng-model="diet" ng-click="displayRecipes()">
+              <input class="diet_toggle_option" id="vegetarian_toggle" name="diet" type="radio" value="vegetarian" ng-model="diet" ng-click="displayRecipes()">
+              <input class="diet_toggle_option" id="vegan_toggle" name="diet" type="radio" value="vegan" ng-model="diet" ng-click="displayRecipes()">
+              <label class="diet_label" for="alldiets_toggle" style="color: white;" >All</label>
+              <label class="diet_label" for="vegetarian_toggle" style="color: white;" >Vegetarian</label>
+              <label class="diet_label" for="vegan_toggle" style="color: white;" >Vegan</label>
+              <div class="diet_toggle_option_slider">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <h5 class="centered">Cuisine</h5>
+              <div class="toggle_radio gray" >
+                <input checked class="cuisine_toggle_option" id="allcuisine_toggle" name="cuisine" type="radio" ng-model="cuisine" ng-click="displayRecipes()">
+                <input class="cuisine_toggle_option" id="american_toggle" name="cuisine" type="radio" value="american" ng-model="cuisine" ng-click="displayRecipes()">
+                <input class="cuisine_toggle_option" id="chinese_toggle" name="cuisine" type="radio" value="chinese" ng-model="cuisine" ng-click="displayRecipes()">
+                <input class="cuisine_toggle_option" id="mexican_toggle" name="cuisine" type="radio" value="mexican" ng-model="cuisine" ng-click="displayRecipes()">
+                <input class="cuisine_toggle_option" id="indian_toggle" name="cuisine" type="radio" value="indian" ng-model="cuisine" ng-click="displayRecipes()">
+                <label class="cuisine_label" for="allcuisine_toggle" style="color: white;" >All</label>
+                <label class="cuisine_label" for="american_toggle" style="color: white;" >Asian</label>
+                <label class="cuisine_label" for="chinese_toggle" style="color: white;" >Indian</label>
+                <label class="cuisine_label" for="mexican_toggle" style="color: white;" >Mexican</label>
+                <label class="cuisine_label" for="indian_toggle" style="color: white;" >USA</label>
+                <div class="cuisine_toggle_option_slider">
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
             <div class="col-xs-offset-4 col-xs-8 col-sm-offset-0 col-sm-12 col-lg-8 main-chart">
 
