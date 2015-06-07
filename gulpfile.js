@@ -19,6 +19,8 @@ var protractorSources = [
   'app/tests/e2e/*.js',
 ];
 
+
+
 var libraries = [
   'bower_components/**/*.*',
   'bower_components/bootstrap/dist/**/*.*',
@@ -41,9 +43,7 @@ var sassSources = [
 ];
 
 var cssSources = [
-  'app/components/css/main.css',
-  'app/components/css/sass.css',
-  'app/components/css/style.css'
+  'app/components/css/*.css'
 
 ];
 
@@ -107,6 +107,7 @@ gulp.task('coffee', function() {
 
 gulp.task('css', function(){
   gulp.src(cssSources)
+  .pipe(livereload())
   .pipe(sourcemaps.init())
   .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 10']}))
   .pipe(concat('main.css'))
@@ -114,27 +115,20 @@ gulp.task('css', function(){
   .pipe(gulp.dest('app/public/styles'))
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
-  .pipe(gulp.dest('app/public/styles'))
-  .pipe(livereload());
+  .pipe(gulp.dest('app/public/styles'));
+  
 });
 
 gulp.task('sass', function(){
   // CSS autoprefixer, minify, and livereload
   gulp.src(sassSources)
   .pipe(concat('sass.css'))
-  //.pipe(sourcemaps.init())
   .pipe(sass())
-  //.pipe(sourcemaps.write('app/components/css'))
   .pipe(gulp.dest('app/components/css'));
 });
 
-gulp.task('bower', function(){
-  gulp.src(bowerSources)
-  .pipe(gulp.dest('components/scripts/lib'));
-});
-
 gulp.task('launch', function () {
-  nodemon({ script: './app/bin/www', ext: 'html js', ignore: ['components', 'public', 'design'] })
+  nodemon({ script: './app/bin/www', ext: 'html js', ignore: ['app/components', 'app/public'] })
     .on('restart', function () {
       console.log('restarted!')
     })
@@ -144,38 +138,12 @@ gulp.task('clean', function(cb) {
   rimraf('./app/public', cb);
 });
 
-gulp.task('build', function(){
-  gulp.src(libraries)
-  .pipe(gulp.dest('app/public/lib'))
-
-  gulp.src(appSources)
-  .pipe(concat('app.js'))
-  .pipe(gulp.dest('app/public/javascripts'))
-
-  gulp.src(coffeeSources)
-  .pipe(coffee({bare: true}))
-    .on('error', gutil.log)
-  .pipe(gulp.dest('app/components/scripts'));
-
-  gulp.src(jsSources)
-  .pipe(jshint())
-  .pipe(uglify())
-  .pipe(concat('script.js'))
-  .pipe(gulp.dest('app/public/javascripts'))
-
-  gulp.src(sassSources)
-  .pipe(sass({style: 'expanded', lineNumbers: true}))
-    .on('error', gutil.log)
-  .pipe(concat('sass.css'))
-  .pipe(gulp.dest('app/components/css'));
-
-  gulp.src(cssSources)
-  .pipe(concat('main.css'))
-  .pipe(gulp.dest('app/public/styles'))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('app/public/styles'))
+gulp.task('views', function(){
+ gulp.src(viewSources) 
+ .pipe(livereload());
 });
+
+gulp.task('build', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css']);
 
 gulp.task('watch', function(){
   livereload.listen();
@@ -189,8 +157,8 @@ gulp.task('watch', function(){
   gulp.watch(libraries, ['lib']);
 });
 
+gulp.task('default', [ 'watch', 'launch']);
 
-gulp.task('default', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css', 'launch', 'watch']);
 gulp.task('lint', function () {
   gulp.src(jsSources)
     .pipe(jshint())

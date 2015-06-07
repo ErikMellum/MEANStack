@@ -265,3 +265,179 @@ input{
 div.grey-panel.pn.donut-chart{
   height: 90%;
 }
+.toggle_radio{
+  position: relative;
+  background: rgba(255,255,255,.1);
+  margin: 4px auto;
+  overflow: hidden;
+  padding: 0 !important;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  position: relative;
+  height: 26px;
+  width: 208px;
+}
+.toggle_radio > * {
+  float: left;
+}
+.toggle_radio input[type=radio]{
+  display: none;
+  /*position: fixed;*/
+}
+.meal_label{
+  font: 90%/1.618 "Source Sans Pro";
+  color: rgba(255,255,255,.9);
+  z-index: 0;
+  display: block;
+  width: 35px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
+.cuisine_label{
+  font: 90%/1.618 "Source Sans Pro";
+  color: rgba(255,255,255,.9);
+  z-index: 0;
+  display: block;
+  width: 35px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
+.diet_label{
+  font: 90%/1.618 "Source Sans Pro";
+  color: rgba(255,255,255,.9);
+  z-index: 0;
+  display: block;
+  width: 60px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
+.cuisine_toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 35px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+.diet_toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 60px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+.meal_toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 35px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+#dessert_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 3px;
+}
+#breakfast_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 43px;
+}
+#lunch_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 83px;
+}
+#dinner_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 123px;
+}
+#salads_toggle:checked ~ .meal_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 178px;
+}
+#alldiet_toggle:checked ~ .diet_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 3px;
+}
+#vegetarian_toggle:checked ~ .diet_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 73px;
+}
+#vegan_toggle:checked ~ .diet_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 143px;
+}
+#allcuisine_toggle:checked ~ .cuisine_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 3px;
+}
+#american_toggle:checked ~ .cuisine_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 43px;
+}
+#chinese_toggle:checked ~ .cuisine_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 83px;
+}
+#mexican_toggle:checked ~ .cuisine_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 123px;
+}
+#indian_toggle:checked ~ .cuisine_toggle_option_slider{
+  background: rgba(255,255,255,.3);
+  left: 168px;
+}
+
