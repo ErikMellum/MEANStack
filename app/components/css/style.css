@@ -233,6 +233,8 @@ ul.top-menu > li > .logout {
     height: 100%;
     position: fixed;
     background: #424a5d;
+    bottom: 40px;
+    height: calc(100% - 40px);
 }
 
 #sidebar h5 {
@@ -280,6 +282,10 @@ ul.top-menu > li > .logout {
 ul.sidebar-menu , ul.sidebar-menu li ul.sub{
     margin: -2px 0 0;
     padding: 0;
+}
+
+ul.sidebar-menu {
+    margin-top: 75px;
 }
 
 #sidebar > ul > li > ul.sub {
@@ -402,6 +408,7 @@ ul.sidebar-menu li a.active i {
 }
 
 .header {
+    min-width: 760px;
     position: fixed;
     left: 0;
     right: 0;
@@ -827,7 +834,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 /* LINE ICONS CONFIGURATION */
 
 .mtbox {
-	
+    margin: 0px 10px;
 	margin-bottom: 40px;
 }
 
@@ -993,6 +1000,7 @@ PANELS CONFIGURATIONS
 /*Grey Panel*/
 
 .grey-panel {
+    height: 450px;
 	text-align: center;
 	background: #dfdfe1;
 }
@@ -1310,7 +1318,9 @@ PANELS CONFIGURATIONS
 	text-align: center;
 	border-radius: 100%;
 }
-
+#main-content{
+    margin-left: 210px;
+}
 /* Soptify Panel */
 #spotify {
 	background: url(../img/lorde.jpg) no-repeat center top;
@@ -1327,6 +1337,9 @@ PANELS CONFIGURATIONS
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+.btn-warning{
+    background-color: #ff865c;
 }
 #spotify .btn-clear-g {
 	top: 15%;
@@ -2215,6 +2228,10 @@ label {
     background: #68dff0;
     color: #fff;
     padding: 10px 0;
+    position: fixed;
+bottom: 0;
+right: 0;
+left: 0;
 }
 
 
@@ -2235,3 +2252,5 @@ label {
 .site-min-height {
     min-height: 900px;
 }
+
+
