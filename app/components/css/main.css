@@ -55,7 +55,6 @@ input{
   background-color: #ffd777;
 }
 .shift-down{
-  margin-top: 70px;
   margin-left: 30%;
 }
 .center{
@@ -267,7 +266,7 @@ div.grey-panel.pn.donut-chart{
 }
 .toggle_radio{
   position: relative;
-  background: rgba(255,255,255,.1);
+  background: #eee;
   margin: 4px auto;
   overflow: hidden;
   padding: 0 !important;
@@ -281,6 +280,10 @@ div.grey-panel.pn.donut-chart{
 .meal_group{
   width: 368px;
 }
+.diet_group{
+  background: rgba(255,255,255,.1);
+  width: 185px;
+}
 .toggle_radio > * {
   float: left;
 }
@@ -290,7 +293,7 @@ div.grey-panel.pn.donut-chart{
 }
 .meal_label{
   font: 90%/1.618 "Source Sans Pro";
-  color: rgba(255,255,255,.9);
+  color: #000;
   z-index: 0;
   display: block;
   width: 55px;
@@ -308,7 +311,7 @@ div.grey-panel.pn.donut-chart{
 }
 .cuisine_label{
   font: 90%/1.618 "Source Sans Pro";
-  color: rgba(255,255,255,.9);
+  color: #000;
   z-index: 0;
   display: block;
   width: 55px;
@@ -329,7 +332,7 @@ div.grey-panel.pn.donut-chart{
   color: rgba(255,255,255,.9);
   z-index: 0;
   display: block;
-  width: 90px;
+  width: 55px;
   height: 20px;
   margin: 3px 3px;
   -webkit-border-radius: 50px;
@@ -357,11 +360,12 @@ div.grey-panel.pn.donut-chart{
   -o-transition: all .4s ease;
   -ms-transition: all .4s ease;
   transition: all .4s ease;
+    opacity: .3;
 }
 .diet_toggle_option_slider{
   /*display: none;*/
   /*background: red;*/
-  width: 90px;
+  width: 55px;
   height: 20px;
   position: absolute;
   top: 3px;
@@ -383,6 +387,7 @@ div.grey-panel.pn.donut-chart{
   top: 3px;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
+    opacity: .3;
   border-radius: 15px;
   -webkit-transition: all .4s ease;
   -moz-transition: all .4s ease;
@@ -391,28 +396,28 @@ div.grey-panel.pn.donut-chart{
   transition: all .4s ease;
 }
 #allmeals_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 3px;
 }
 #dessert_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 63px;
+  background: #424a5d;
+  left: 64px;
 }
 #breakfast_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 123px;
+  background: #424a5d;
+  left: 125px;
 }
 #lunch_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 183px;
+  background: #424a5d;
+  left: 185px;
 }
 #dinner_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 243px;
+  background: #424a5d;
+  left: 245px;
 }
 #salads_toggle:checked ~ .meal_toggle_option_slider{
-  background: rgba(255,255,255,.3);
-  left: 303px;
+  background: #424a5d;
+  left: 308px;
 }
 #alldiets_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
@@ -420,30 +425,30 @@ div.grey-panel.pn.donut-chart{
 }
 #vegetarian_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 93px;
+  left: 63px;
 }
 #vegan_toggle:checked ~ .diet_toggle_option_slider{
   background: rgba(255,255,255,.3);
-  left: 183px;
+  left: 123px;
 }
 #allcuisine_toggle:checked ~ .cuisine_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 3px;
 }
 #american_toggle:checked ~ .cuisine_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 63px;
 }
 #chinese_toggle:checked ~ .cuisine_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 123px;
 }
 #mexican_toggle:checked ~ .cuisine_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 183px;
 }
 #indian_toggle:checked ~ .cuisine_toggle_option_slider{
-  background: rgba(255,255,255,.3);
+  background: #424a5d;
   left: 243px;
 }
 
@@ -451,6 +456,24 @@ div.grey-panel.pn.donut-chart{
   display: inline;
 }
 
+.inline-block{
+  display: inline-block;
+}
+
+.facet-block{
+}
+
+.searchFacetHeader{
+  margin-top: 10px;
+  position: relative;
+}
+
 .gray{
   background: #424a5d;
+}
+
+.facets{
+  margin: 0px 10px;
+  margin-top: 15px;
+  background: #fff;
 }
