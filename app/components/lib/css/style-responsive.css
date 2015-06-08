@@ -37,7 +37,7 @@
 
     /* body container */
     #main-content {
-        margin: 0px!important;
+        margin: 0px;
         position: none !important;
     }
 
@@ -81,7 +81,6 @@
 
     /* sidebar */
     #sidebar {
-        margin: 0px !important;
     }
 
     /* sidebar collabler */

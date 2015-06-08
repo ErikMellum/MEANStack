@@ -1,10 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var api = require('./api');
+var mongoose = require('mongoose');
+var users = require('./users')
+var login = require('./login');
 var compositionRoutes = require('./compositions');
 var ingredientRoutes = require('./ingredients');
 
 /* GET home page. */
+router.use('/', login)
+router.use('/users', users);
 router.use('/api', api);
 router.use('/api/compositions', compositionRoutes);
 router.use('/api/ingredients', ingredientRoutes);

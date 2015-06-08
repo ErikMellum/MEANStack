@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
-
-var routes = require('./routes/index');
+var flash    = require('connect-flash');
+var session      = require('express-session');
+var routes = require('./routes/index') ;
 var users = require('./routes/users');
 
 var app = express();
@@ -25,6 +26,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function callback () {
   console.log("Connected to DB!")
 });
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -33,9 +35,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
 
+app.use(session({secret: '<mysecret>', saveUninitialized: true,resave: true})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash());
+
+app.use('/', routes);
+
+//console.log('Magic happens on port ' + port);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

@@ -28,6 +28,22 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'tmpIngredient',
     controller: 'IngredientController'
   }).
+  when('/login', {
+    templateUrl: 'login',
+    controller: 'LoginCtrl'
+  }).
+  when('/signup', {
+    templateUrl: 'signup',
+    controller: 'SignupCtrl'
+  }).
+  when('/user', {
+    templateUrl: 'user',
+    controller: 'UserCtrl'
+  }).
+  when('/profile', {
+    templateUrl: 'profile',
+    controller: 'ProfileCtrl'
+  }).
   otherwise({
     redirectTo: '/search'
   });
