@@ -280,6 +280,9 @@ div.grey-panel.pn.donut-chart{
 .meal_group{
   width: 368px;
 }
+.only_group{
+  width: 124px;
+}
 .diet_group{
   background: rgba(255,255,255,.1);
   width: 185px;
@@ -327,6 +330,24 @@ div.grey-panel.pn.donut-chart{
   /*margin: 0 2px;*/
   /*background: blue;*/ /*make it blue*/
 }
+.only_label{
+  font: 90%/1.618 "Source Sans Pro";
+  color: #000;
+  z-index: 0;
+  display: block;
+  width: 55px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
 .diet_label{
   font: 90%/1.618 "Source Sans Pro";
   color: rgba(255,255,255,.9);
@@ -344,6 +365,24 @@ div.grey-panel.pn.donut-chart{
   text-align: center;
   /*margin: 0 2px;*/
   /*background: blue;*/ /*make it blue*/
+}
+
+.only_toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 55px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+    opacity: .3;
+  border-radius: 15px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
 }
 .cuisine_toggle_option_slider{
   /*display: none;*/
@@ -451,7 +490,14 @@ div.grey-panel.pn.donut-chart{
   background: #424a5d;
   left: 243px;
 }
-
+#allonly_toggle:checked ~ .only_toggle_option_slider{
+  background: #424a5d;
+  left: 3px;
+}
+#only_toggle:checked ~ .only_toggle_option_slider{
+  background: #424a5d;
+  left: 63px;
+}
 .inline{
   display: inline;
 }

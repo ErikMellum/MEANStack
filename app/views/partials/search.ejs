@@ -122,7 +122,18 @@ MAIN CONTENT
               </div>
             </div>
             </div>
-            
+            <div class="inline-block">
+              <h5 class="centered  searchFacetHeader">Only?</h5>
+              <div class="toggle_radio inline-block facet-block only_group" >
+                <input checked class="only_toggle_option" id="only_toggle" name="only" type="radio" ng-model="only" ng-click="displayRecipes()">
+                <input class="only_toggle_option" id="allonly_toggle" name="only" type="radio" ng-model="only" ng-click="displayRecipes()">
+                <label class="only_label" for="allonly_toggle" >All</label>
+                <label class="only_label" for="only_toggle" >Only</label>
+                
+                <div class="only_toggle_option_slider">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
