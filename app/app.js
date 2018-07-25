@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //NOTICE: MUST CHANGE FOLLOWING LINE TO CONNECT TO A DIFFERENT DB
-mongoose.connect('mongodb://sandwich:delicious@ds039000.mongolab.com:39000/testschema'); 
+mongoose.connect('mongodb://localhost:27017/testschema'); 
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

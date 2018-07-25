@@ -13,6 +13,7 @@ var gulp = require ('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
     rimraf = require('gulp-rimraf'),
+    gulpif = require('gulp-if'),
     nodemon = require('gulp-nodemon');
 
 var protractorSources = [
@@ -59,7 +60,7 @@ gulp.task('lib', function(){
 // Javascript libs livereload
   gulp.src(libraries)
   .pipe(gulp.dest('app/public/lib'))
-  .pipe(livereload());
+  .pipe(gulpif(process.env.dev, livereload()));
 });
 
 gulp.task('protractor', function(){
@@ -85,7 +86,7 @@ gulp.task('app', function(){
   gulp.src(appSources)
   .pipe(concat('app.js'))
   .pipe(gulp.dest('app/public/javascripts'))
-  .pipe(livereload());
+  .pipe(gulpif(process.env.dev, livereload()));
 });
 
 gulp.task('js', function() {
@@ -95,7 +96,7 @@ gulp.task('js', function() {
   .pipe(uglify())
   .pipe(concat('script.js'))
   .pipe(gulp.dest('app/public/javascripts'))
-  .pipe(livereload());
+  .pipe(gulpif(process.env.dev, livereload()));
 });
 
 gulp.task('coffee', function() {
@@ -115,7 +116,7 @@ gulp.task('css', function(){
   .pipe(rename({suffix: '.min'}))
   .pipe(minifycss())
   .pipe(gulp.dest('app/public/styles'))
-  .pipe(livereload());
+  .pipe(gulpif(process.env.dev, livereload()));
 
   
 });
@@ -141,7 +142,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task('views', function(){
  gulp.src(viewSources) 
- .pipe(livereload());
+ .pipe(gulpif(process.env.dev, livereload()));
 });
 
 gulp.task('build', ['clean', 'lib', 'sass', 'coffee', 'js', 'app', 'css']);
